@@ -1,5 +1,5 @@
 /* سرویس‌ورکر: کش کامل برای کار بدون اینترنت. با تغییر فایل‌ها عدد VERSION را افزایش دهید. */
-const VERSION = 'roadstake-v1.11.2';
+const VERSION = 'roadstake-v1.12.0';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', (e) => {
