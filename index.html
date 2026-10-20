@@ -323,29 +323,46 @@ tr.auto-row td { background: var(--axis-soft); }
   #printArea.pt .pt-tbl thead { display: table-header-group; }
   #printArea.pt .pt-tbl tr { break-inside: avoid; }
   .pt .pt-foot { margin-top: 8pt; font-size: 7.5pt; color: #6a7783; text-align: center; }
-  .rp .rp-cover { background: #0b2a40; color: #fff; border-radius: 6pt; padding: 14pt 16pt; border-bottom: 4pt solid #c9962b; margin-bottom: 10pt; position: relative; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .rp .rp-brand { display: flex; justify-content: space-between; align-items: baseline; font-size: 9pt; color: #e3c27a; direction: ltr; }
-  .rp .rp-brand b { font-size: 13pt; letter-spacing: .04em; color: #fff; }
-  .rp .rp-title { font-size: 23pt; font-weight: 700; line-height: 1.4; margin-top: 8pt; }
-  .rp .rp-title small { display: block; font-size: 11.5pt; font-weight: 400; color: #cfe0ec; }
-  .rp .rp-date { font-size: 8.5pt; color: #cfe0ec; margin-top: 4pt; }
-  .rp .rp-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6pt; margin-bottom: 8pt; }
-  .rp .rp-card { border: .7pt solid #c4ced6; border-top: 2.5pt solid #c9962b; border-radius: 3pt; padding: 5pt 7pt; break-inside: avoid; }
-  .rp .rp-card span { display: block; font-size: 7.5pt; color: #5a6875; }
-  .rp .rp-card b { font-size: 11.5pt; font-weight: 700; color: #0b2a40; }
-  .rp .rp-card small { display: block; font-size: 7.5pt; color: #5a6875; }
-  .rp .rp-warn { border: .7pt solid #d9a93a; background: #fff6df; border-radius: 3pt; padding: 5pt 8pt; font-size: 8.5pt; margin-bottom: 8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .rp .rp-warn ul { margin: 2pt 0 0; padding-inline-start: 14pt; }
-  .rp .rp-sec { margin-bottom: 10pt; break-inside: avoid; }
-  .rp .rp-sec.rp-break { break-before: page; }
-  .rp .rp-sec h3 { font-size: 11.5pt; color: #0b2a40; border-inline-start: 3.5pt solid #c9962b; padding-inline-start: 6pt; margin: 0 0 5pt; }
-  .rp .rp-note { font-size: 8pt; color: #5a6875; margin-top: 3pt; }
-  .rp .rp-none { color: #5a6875; font-size: 9pt; }
-  .rp .rp-xs { display: grid; grid-template-columns: 1fr 1fr; gap: 8pt; }
-  .rp .rp-xc { border: .7pt solid #c4ced6; border-radius: 3pt; padding: 5pt; break-inside: avoid; }
-  .rp .rp-xh { display: flex; justify-content: space-between; font-size: 8.5pt; margin-bottom: 3pt; }
-  .rp .rp-xh span { color: #5a6875; font-size: 7.5pt; }
+  .rp .rp-page { break-after: page; }
+  .rp .rp-page .pt-foot { margin-top: 2pt; }
+  .rp .rp-page:last-child { break-after: auto; }
+  .rp .rp-cover { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10pt; background: #0b2a40; color: #fff; border-radius: 5pt; padding: 8pt 12pt; border-bottom: 3pt solid #c9962b; margin-bottom: 6pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rp .rp-brand { font-size: 14pt; font-weight: 700; letter-spacing: .04em; direction: ltr; }
+  .rp .rp-sub { font-size: 8.5pt; color: #e3c27a; }
+  .rp .rp-title { font-size: 16pt; font-weight: 700; line-height: 1.35; text-align: center; }
+  .rp .rp-title small { display: block; font-size: 9.5pt; font-weight: 400; color: #cfe0ec; }
+  .rp .rp-r { font-size: 8pt; color: #cfe0ec; text-align: left; line-height: 1.6; }
+  .rp .rp-cards { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4pt; margin-bottom: 6pt; }
+  .rp .rp-card { border: .6pt solid #c4ced6; border-top: 2pt solid #c9962b; border-radius: 3pt; padding: 3pt 5pt; break-inside: avoid; }
+  .rp .rp-card span { display: block; font-size: 6.5pt; color: #5a6875; }
+  .rp .rp-card b { font-size: 9pt; font-weight: 700; color: #0b2a40; }
+  .rp .rp-card small { display: block; font-size: 6.5pt; color: #5a6875; }
+  .rp .rp-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 6pt; margin-bottom: 6pt; }
+  .rp .rp-row.rp-eq { grid-template-columns: 1fr 1fr; }
+  .rp .rp-box { border: .6pt solid #c4ced6; border-radius: 3pt; padding: 4pt 6pt; margin-bottom: 6pt; min-width: 0; break-inside: avoid; }
+  .rp .rp-row .rp-box { margin-bottom: 0; }
+  .rp .rp-box h3 { font-size: 9pt; color: #0b2a40; border-inline-start: 3pt solid #c9962b; padding-inline-start: 5pt; margin: 0 0 3pt; }
+  .rp .rp-box h3 small { font-size: 6.8pt; font-weight: 400; color: #5a6875; }
+  .rp .rp-note { font-size: 6.8pt; color: #5a6875; margin-top: 2pt; }
+  .rp .rp-none { color: #5a6875; font-size: 8pt; padding: 4pt 0; }
+  .rp .rp-xsb { display: flex; flex-direction: column; gap: 3pt; }
+  .rp .rp-xc { border: .5pt solid #dde3e8; border-radius: 3pt; padding: 2pt 4pt; }
+  .rp .rp-xh { display: flex; justify-content: space-between; font-size: 7pt; }
+  .rp .rp-xh span { color: #5a6875; font-size: 6.3pt; }
+  .rp .rp-xc svg { max-height: 62pt; }
+  .rp .rp-2c { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt; }
+  .rp .rp-warn { border: .6pt solid #d9a93a; background: #fff6df; border-radius: 3pt; padding: 3pt 6pt; font-size: 7pt; margin-bottom: 4pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rp .pt-tbl { font-size: 7.3pt !important; }
+  #printArea.rp .pt-tbl th { padding: 2pt 3pt; font-size: 7pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #printArea.rp .pt-tbl td { padding: 1.3pt 3pt; }
+  #printArea.rp .pt-tbl td:last-child { text-align: center; }
   .rp svg { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #printArea.rp .rp-page:not(.rp-more) .pt-tbl thead { display: table-row-group; }
+  .rp .rp-g { display: grid; font-size: 7.3pt; text-align: center; border: .5pt solid #c4ced6; }
+  .rp .rp-g .gh { background: #0b5a7a; color: #fff; font-weight: 700; padding: 2pt 3pt; font-size: 7pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rp .rp-g .gc { padding: 1.5pt 3pt; border-top: .4pt solid #dde3e8; }
+  .rp .rp-g .gc.alt { background: #eef3f6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rp .rp-more .pt-tbl { font-size: 8.3pt !important; }
   #printArea.pt table, #printArea.pt th, #printArea.pt td { font-family: inherit; }
 }
 
@@ -1204,6 +1221,23 @@ tr.auto-row td { background: var(--axis-soft); }
    *  شیب طولی (فقط نمایش؛ از Z نقاط محور)
    * ------------------------------------------------------------------ */
   /** برای هر دو نقطه‌ی متوالی (مرتب بر اساس کیلومتراژ): ΔZ و شیب درصد. نقاط نامعتبر کنار گذاشته می‌شوند. */
+
+  /** تبدیل UTM (WGS84) به طول و عرض جغرافیایی (درجه) — برای نقشه‌ی پس‌زمینه‌ی گزارش */
+  function utmToLatLon(E, N, zone, south) {
+    const a = 6378137, f = 1 / 298.257223563, k0 = 0.9996, e2 = f * (2 - f), ep2 = e2 / (1 - e2);
+    const x = E - 500000, y = south ? N - 10000000 : N;
+    const M = y / k0, mu = M / (a * (1 - e2 / 4 - 3 * e2 * e2 / 64 - 5 * e2 * e2 * e2 / 256));
+    const e1 = (1 - Math.sqrt(1 - e2)) / (1 + Math.sqrt(1 - e2));
+    const phi1 = mu + (3 * e1 / 2 - 27 * Math.pow(e1, 3) / 32) * Math.sin(2 * mu) + (21 * e1 * e1 / 16 - 55 * Math.pow(e1, 4) / 32) * Math.sin(4 * mu) +
+      (151 * Math.pow(e1, 3) / 96) * Math.sin(6 * mu) + (1097 * Math.pow(e1, 4) / 512) * Math.sin(8 * mu);
+    const s1 = Math.sin(phi1), c1 = Math.cos(phi1), t1 = Math.tan(phi1);
+    const N1 = a / Math.sqrt(1 - e2 * s1 * s1), T1 = t1 * t1, C1 = ep2 * c1 * c1, R1 = a * (1 - e2) / Math.pow(1 - e2 * s1 * s1, 1.5), D = x / (N1 * k0);
+    const lat = phi1 - (N1 * t1 / R1) * (D * D / 2 - (5 + 3 * T1 + 10 * C1 - 4 * C1 * C1 - 9 * ep2) * Math.pow(D, 4) / 24 + (61 + 90 * T1 + 298 * C1 + 45 * T1 * T1 - 252 * ep2 - 3 * C1 * C1) * Math.pow(D, 6) / 720);
+    const lon0 = ((zone - 1) * 6 - 180 + 3) * Math.PI / 180;
+    const lon = lon0 + (D - (1 + 2 * T1 + C1) * Math.pow(D, 3) / 6 + (5 - 2 * C1 + 28 * T1 - 3 * C1 * C1 + 8 * ep2 + 24 * T1 * T1) * Math.pow(D, 5) / 120) / c1;
+    return { lat: lat * 180 / Math.PI, lon: lon * 180 / Math.PI };
+  }
+
   function longitudinalProfile(points) {
     const pts = (points || []).map(function (p, i) { return { i: i, id: p.id, station: toNumber(p.station), z: toNumber(p.z) }; })
       .filter(function (p) { return Number.isFinite(p.station) && Number.isFinite(p.z); })
@@ -1513,7 +1547,7 @@ tr.auto-row td { background: var(--axis-soft); }
     computeSetup: computeSetup, staffReading: staffReading, setupCovers: setupCovers, buildReadings: buildReadings,
     buildPointRows: buildPointRows, buildNewoRows: buildNewoRows,
     sortSetups: sortSetups, analyzeSetups: analyzeSetups, surveyPoint: surveyPoint, surveyStats: surveyStats,
-    groupCrossModels: groupCrossModels, mergeGroupsByMode: mergeGroupsByMode, migrateSlopeRows: migrateSlopeRows,
+    utmToLatLon: utmToLatLon, groupCrossModels: groupCrossModels, mergeGroupsByMode: mergeGroupsByMode, migrateSlopeRows: migrateSlopeRows,
     modelFromFalls: modelFromFalls, modeDirs: modeDirs, autoSections: autoSections, interpolateAxisPoint: interpolateAxisPoint, generatePegs: generatePegs, normalizeMids: normalizeMids, midCovers: midCovers, sideKeys: sideKeys,
     MODES: MODES, MODE_FA: MODE_FA
   };
@@ -2403,7 +2437,7 @@ tr.auto-row td { background: var(--axis-soft); }
     project: null, dirty: false, rev: 0, calc: null, calcRev: -1,
     page: 'projects', imp: null, ptPage: 0, tPage: 0, stakeIdx: 0, rawBad: {},
     pvSt: '', wake: null, dt: null, lySel: null, lyPage: 0, slPage: 0, lnPage: 0, stakeLayer: '', bmImp: null, bmImpErr: '',
-    tx: { open: false, type: 'txt', dec: null }, exp: { delim: ',', share: false, split: false, newoSel: null, fmt: {}, fmtSel: {}, layer: 'all', svLayer: 'all' },
+    tx: { open: false, type: (function () { try { return localStorage.getItem('roadstake:txType') === 'pdf' ? 'pdf' : 'txt'; } catch (_) { return 'txt'; } })(), dec: null }, exp: { delim: ',', share: false, split: false, newoSel: null, fmt: {}, fmtSel: {}, layer: 'all', svLayer: 'all' },
     sv: { idx: 0, bmId: '', bs: '', layer: '', reads: { left: '', axis: '', right: '' }, all: false, page: 0, st: -1 },
     crossAll: false, tplName: '', svPage: 0
   };
@@ -3006,7 +3040,8 @@ tr.auto-row td { background: var(--axis-soft); }
 
   function slopesPage() {
     let h = streetBar(false) + '<div id="secMsgs"></div>' + quickAddCard() + midsCard();
-    h += '<section class="card"><div class="row"><div class="grow"><h3 style="margin:0">گزارش مسیر</h3><div class="muted small">PDF با نیمرخ، پلان، نمودار عرض و شیب و مقطع‌های نمونه</div></div><button class="btn primary" data-act="routeReport">ساخت گزارش</button></div></section>';
+    h += '<section class="card"><div class="row"><div class="grow"><h3 style="margin:0">گزارش مسیر</h3><div class="muted small">PDF یک‌صفحه‌ای: پلان، مقطع‌ها، نیمرخ طولی، لایه‌ها و جدول بازه‌ها</div></div><button class="btn primary" data-act="routeReport">ساخت گزارش</button></div>' +
+      (P().settings.coordSystem === 'UTM' ? '<label class="row small" style="margin-top:8px"><input type="checkbox" data-rp="map"' + (S.rpMap !== false ? ' checked' : '') + '> نقشه‌ی ماهواره‌ای زیر پلان (نیاز به اینترنت هنگام ساخت)</label>' : '<div class="muted small" style="margin-top:6px">نقشه‌ی پس‌زمینه فقط برای سیستم مختصات UTM ممکن است.</div>') + '</section>';
     h += '<section class="card"><div class="sec-title"><h2>جدول عرض و شیب عرضی — همه‌ی کیلومتراژها</h2></div>' +
       '<p class="muted small">پس از «افزودن»، مقدار اعمال‌شده‌ی عرض و شیب برای تک‌تک کیلومتراژهای محور این خیابان اینجا نمایش داده می‌شود. شیب‌ها <b>بدون علامت</b> نوشته می‌شوند و جهت (پایین یا بالاتر از محور) از «مدل» همان ردیف می‌آید. با تغییر مدل یا عدد هر ردیف، همه‌ی بخش‌ها به‌روز می‌شوند.</p>' +
       '<div id="secNotes"></div><div id="secAll"></div></section>';
@@ -3706,7 +3741,7 @@ tr.auto-row td { background: var(--axis-soft); }
   function txDownload() {
     const t = txTable(), cx = txCtx();
     if (!t || t.length < 1 || !t[0].length) { toast('ستونی برای خروجی انتخاب نشده است.', 'err'); return; }
-    const name = slugFa(P().name) + '_' + slugFa(cx.lname) + '.txt';
+    const name = slugFa(P().name) + '_' + slugFa(activeStreet().name) + '_' + slugFa(cx.lname) + '.txt';
     deliver(name, txText(t), MIME.txt);
     toast('فایل ' + name + ' آماده شد.');
   }
@@ -3736,165 +3771,219 @@ tr.auto-row td { background: var(--axis-soft); }
     h += '</tbody></table><div class="pt-foot">' + esc(p.name) + ' • ' + esc(lname) + '</div>';
     const pa = $('#printArea'), oldTitle = document.title;
     pa.className = 'pt'; pa.innerHTML = h;
-    document.title = 'جدول مختصات - ' + p.name + ' - ' + lname;
+    document.title = slugFa(p.name) + '_' + slugFa(activeStreet().name) + '_' + slugFa(lname);
     window.print();
     setTimeout(function () { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; }, 1000);
   }
 
-  /* ============================== گزارش مسیر (PDF) ============================== */
+  /* ============================== گزارش مسیر (PDF، یک صفحه) ============================== */
   function rpNice(range, n) {
     const raw = Math.max(range, 1e-9) / n, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag;
     return (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * mag;
   }
-  const RP = { navy: '#0b2a40', gold: '#c9962b', left: '#1565c0', right: '#2e7d32', axis: '#0b2a40', up: '#1b7a3d', dn: '#c62828', grid: '#d5dde3', ink: '#1d2733', mut: '#5a6875' };
-  /** نمودار خطی چاپی: series = [{pts:[[x,y]], color, w}] ؛ محور x کیلومتراژ */
-  function rpLine(series, o) {
-    const W = 700, H = o.h || 230, L = 60, R = 16, T = 14, B = 36;
-    let xs = [], ys = [];
-    series.forEach(function (s) { s.pts.forEach(function (q) { xs.push(q[0]); ys.push(q[1]); }); });
-    if (!xs.length) return '<div class="rp-none">داده‌ای برای رسم نیست.</div>';
-    let x0 = Math.min.apply(null, xs), x1 = Math.max.apply(null, xs), y0 = Math.min.apply(null, ys), y1 = Math.max.apply(null, ys);
-    if (o.zero) { y0 = Math.min(y0, 0); y1 = Math.max(y1, 0); }
+  const RP = { navy: '#0b2a40', gold: '#c9962b', left: '#1565c0', right: '#2e7d32', up: '#1b7a3d', dn: '#c62828', grid: '#d5dde3', mut: '#5a6875' };
+  const RP_FONT = 'font-family:Vazirmatn,Tahoma,sans-serif;direction:ltr;display:block';
+
+  /** نیمرخ طولی چاپی با شیب نوشته‌شده روی بازه‌ها (مثل تب شیب) */
+  function rpProfile(prof, W, H) {
+    const pts = prof.points, segs = prof.segments;
+    if (pts.length < 2) return '<div class="rp-none">برای نیمرخ طولی دست‌کم دو نقطه‌ی محور با Z لازم است.</div>';
+    const L = 52, R = 12, T = 16, B = 28;
+    let x0 = pts[0].station, x1 = pts[pts.length - 1].station, y0 = Infinity, y1 = -Infinity;
+    pts.forEach(function (q) { y0 = Math.min(y0, q.z); y1 = Math.max(y1, q.z); });
     if (y1 - y0 < 1e-9) { y0 -= 1; y1 += 1; }
-    const pad = (y1 - y0) * 0.08; y0 -= pad; y1 += pad;
-    if (x1 - x0 < 1e-9) x1 = x0 + 1;
-    const sx = function (v) { return L + (v - x0) / (x1 - x0) * (W - L - R); }, sy = function (v) { return T + (1 - (v - y0) / (y1 - y0)) * (H - T - B); };
+    const pad = (y1 - y0) * 0.22; y0 -= pad * 0.5; y1 += pad;
+    const sx = function (v) { return L + (v - x0) / Math.max(x1 - x0, 1e-9) * (W - L - R); }, sy = function (v) { return T + (1 - (v - y0) / (y1 - y0)) * (H - T - B); };
     let g = '';
-    const ys_ = rpNice(y1 - y0, 5), xsStep = rpNice(x1 - x0, 6);
-    for (let v = Math.ceil(y0 / ys_) * ys_; v <= y1 + 1e-9; v += ys_) {
-      g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + sy(v).toFixed(1) + '" y2="' + sy(v).toFixed(1) + '" stroke="' + RP.grid + '" stroke-width=".7"/>' +
-        '<text x="' + (L - 6) + '" y="' + (sy(v) + 3).toFixed(1) + '" text-anchor="end" font-size="9" fill="' + RP.mut + '">' + C.fmt(v, o.yd === undefined ? 2 : o.yd) + '</text>';
-    }
-    for (let v = Math.ceil(x0 / xsStep) * xsStep; v <= x1 + 1e-9; v += xsStep) {
-      g += '<line x1="' + sx(v).toFixed(1) + '" x2="' + sx(v).toFixed(1) + '" y1="' + T + '" y2="' + (H - B) + '" stroke="' + RP.grid + '" stroke-width=".5" stroke-dasharray="2 3"/>' +
-        '<text x="' + sx(v).toFixed(1) + '" y="' + (H - B + 14) + '" text-anchor="middle" font-size="9" fill="' + RP.mut + '">' + esc(stLabel(v)) + '</text>';
-    }
-    if (o.zero && y0 < 0 && y1 > 0) g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + sy(0).toFixed(1) + '" y2="' + sy(0).toFixed(1) + '" stroke="' + RP.mut + '" stroke-width="1"/>';
-    series.forEach(function (s) {
-      const d = s.pts.map(function (q, i) { return (i ? 'L' : 'M') + sx(q[0]).toFixed(1) + ' ' + sy(q[1]).toFixed(1); }).join('');
-      if (s.area) g += '<path d="' + d + 'L' + sx(s.pts[s.pts.length - 1][0]).toFixed(1) + ' ' + (H - B) + 'L' + sx(s.pts[0][0]).toFixed(1) + ' ' + (H - B) + 'Z" fill="' + s.color + '" opacity=".10"/>';
-      g += '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="' + (s.w || 1.8) + '" stroke-linejoin="round" stroke-linecap="round"/>';
+    const ys = rpNice(y1 - y0, 4), xs = rpNice(x1 - x0, 7);
+    for (let v = Math.ceil(y0 / ys) * ys; v <= y1 + 1e-9; v += ys)
+      g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + sy(v).toFixed(1) + '" y2="' + sy(v).toFixed(1) + '" stroke="' + RP.grid + '" stroke-width=".6"/><text x="' + (L - 5) + '" y="' + (sy(v) + 3).toFixed(1) + '" text-anchor="end" font-size="8.5" fill="' + RP.mut + '">' + C.fmt(v, 2) + '</text>';
+    for (let v = Math.ceil(x0 / xs) * xs; v <= x1 + 1e-9; v += xs)
+      g += '<line x1="' + sx(v).toFixed(1) + '" x2="' + sx(v).toFixed(1) + '" y1="' + T + '" y2="' + (H - B) + '" stroke="' + RP.grid + '" stroke-width=".5" stroke-dasharray="2 3"/><text x="' + sx(v).toFixed(1) + '" y="' + (H - B + 12) + '" text-anchor="middle" font-size="8.5" fill="' + RP.mut + '">' + esc(stLabel(v)) + '</text>';
+    const poly = pts.map(function (q, i) { return (i ? 'L' : 'M') + sx(q.station).toFixed(1) + ' ' + sy(q.z).toFixed(1); }).join('');
+    g += '<path d="' + poly + 'L' + sx(x1).toFixed(1) + ' ' + (H - B) + 'L' + sx(x0).toFixed(1) + ' ' + (H - B) + 'Z" fill="' + RP.navy + '" opacity=".07"/>';
+    thin(segs, 300).forEach(function (q) {
+      g += '<line x1="' + sx(q.from).toFixed(1) + '" y1="' + sy(q.zFrom).toFixed(1) + '" x2="' + sx(q.to).toFixed(1) + '" y2="' + sy(q.zTo).toFixed(1) + '" stroke="' + (q.dZ > 0 ? RP.up : q.dZ < 0 ? RP.dn : RP.mut) + '" stroke-width="2.2" stroke-linecap="round"/>';
     });
-    g += '<rect x="' + L + '" y="' + T + '" width="' + (W - L - R) + '" height="' + (H - T - B) + '" fill="none" stroke="#9aa8b3" stroke-width=".8"/>';
-    if (o.ylabel) g += '<text x="' + L + '" y="9" font-size="9" fill="' + RP.mut + '">' + esc(o.ylabel) + '</text>';
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="display:block;direction:ltr;font-family:Vazirmatn,Tahoma,sans-serif">' + g + '</svg>';
+    if (pts.length <= 60) pts.forEach(function (q) { g += '<circle cx="' + sx(q.station).toFixed(1) + '" cy="' + sy(q.z).toFixed(1) + '" r="1.8" fill="' + RP.navy + '"/>'; });
+    // برچسب شیب: بازه‌های پرشیب‌تر اولویت دارند، بدون هم‌پوشانی
+    const placed = [], cand = segs.filter(function (q) { return fin(q.slopePct); }).sort(function (a, b) { return Math.abs(b.slopePct) - Math.abs(a.slopePct); });
+    cand.forEach(function (q) {
+      if (placed.length >= 16) return;
+      const cx = sx((q.from + q.to) / 2), cy = sy((q.zFrom + q.zTo) / 2), w = 34;
+      if (sx(q.to) - sx(q.from) < 18) return;
+      if (placed.some(function (p) { return Math.abs(p.x - cx) < w && Math.abs(p.y - cy) < 12; })) return;
+      placed.push({ x: cx, y: cy });
+      g += '<text x="' + cx.toFixed(1) + '" y="' + (cy - 5).toFixed(1) + '" text-anchor="middle" font-size="8.5" font-weight="700" fill="' + (q.slopePct > 0 ? RP.up : RP.dn) + '" stroke="#fff" stroke-width="2.6" paint-order="stroke">' + (q.slopePct > 0 ? '+' : '') + C.fmt(q.slopePct, 2) + '٪</text>';
+    });
+    g += '<rect x="' + L + '" y="' + T + '" width="' + (W - L - R) + '" height="' + (H - T - B) + '" fill="none" stroke="#9aa8b3" stroke-width=".7"/><text x="' + L + '" y="10" font-size="8.5" fill="' + RP.mut + '">Z (' + unitL() + ')</text>';
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="' + RP_FONT + '">' + g + '</svg>';
   }
 
-  /** پلان: محور و لبه‌های چپ و راست با مقیاس یکسان در دو جهت، علامت کیلومتراژ، جهت شمال و مقیاس */
-  function rpPlan(secs) {
-    const W = 700, H = 400, M = 40;
-    const sel = thin(secs, 700);
-    let X0 = Infinity, X1 = -Infinity, Y0 = Infinity, Y1 = -Infinity;
-    sel.forEach(function (s) { ['left', 'right', 'axis'].forEach(function (k) { const q = s[k]; if (!fin(q.x) || !fin(q.y)) return; X0 = Math.min(X0, q.x); X1 = Math.max(X1, q.x); Y0 = Math.min(Y0, q.y); Y1 = Math.max(Y1, q.y); }); });
-    if (!isFinite(X0)) return '<div class="rp-none">مختصاتی برای رسم نیست.</div>';
-    const dx = Math.max(X1 - X0, 1), dy = Math.max(Y1 - Y0, 1);
-    const k = Math.min((W - 2 * M) / dx, (H - 2 * M) / dy);
-    const ox = (W - dx * k) / 2, oy = (H - dy * k) / 2;
-    const px = function (x) { return ox + (x - X0) * k; }, py = function (y) { return H - (oy + (y - Y0) * k); };
-    const path = function (key) { return sel.map(function (s, i) { return (i ? 'L' : 'M') + px(s[key].x).toFixed(1) + ' ' + py(s[key].y).toFixed(1); }).join(''); };
-    let g = '<rect width="' + W + '" height="' + H + '" fill="#f6f9fb" stroke="#c4ced6" stroke-width=".8" rx="4"/>';
-    g += '<path d="' + path('left') + '" fill="none" stroke="' + RP.left + '" stroke-width="1.3"/><path d="' + path('right') + '" fill="none" stroke="' + RP.right + '" stroke-width="1.3"/>' +
-      '<path d="' + path('axis') + '" fill="none" stroke="' + RP.axis + '" stroke-width="2.2" stroke-linejoin="round"/>';
-    // علامت کیلومتراژ
-    const len = secs[secs.length - 1].station - secs[0].station, step = rpNice(len, 8);
+  /** انتخاب بزرگ‌نمایی و کاشی‌های نقشه برای محدوده‌ی مسیر (Web Mercator) */
+  function rpMapSetup(secs, W, H) {
+    const st = P().settings;
+    if (st.coordSystem !== 'UTM') return null;
+    const zone = parseInt(st.utmZone, 10), south = st.hemisphere === 'S';
+    const sel = thin(secs, 200).map(function (s) { return C.utmToLatLon(s.axis.x, s.axis.y, zone, south); });
+    sel.push.apply(sel, [secs[0].left, secs[0].right, secs[secs.length - 1].left, secs[secs.length - 1].right].map(function (q) { return C.utmToLatLon(q.x, q.y, zone, south); }));
+    if (sel.some(function (q) { return !fin(q.lat) || !fin(q.lon) || Math.abs(q.lat) > 84; })) return null;
+    const mx = function (lon, z) { return (lon + 180) / 360 * 256 * Math.pow(2, z); };
+    const my = function (lat, z) { const r = lat * Math.PI / 180; return (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * 256 * Math.pow(2, z); };
+    let z = 17;
+    for (; z > 2; z--) {
+      const xs = sel.map(function (q) { return mx(q.lon, z); }), ys = sel.map(function (q) { return my(q.lat, z); });
+      if (Math.max.apply(null, xs) - Math.min.apply(null, xs) <= W * 0.8 && Math.max.apply(null, ys) - Math.min.apply(null, ys) <= H * 0.8) break;
+    }
+    const xs = sel.map(function (q) { return mx(q.lon, z); }), ys = sel.map(function (q) { return my(q.lat, z); });
+    const cx = (Math.min.apply(null, xs) + Math.max.apply(null, xs)) / 2, cy = (Math.min.apply(null, ys) + Math.max.apply(null, ys)) / 2;
+    const left = cx - W / 2, top = cy - H / 2, tiles = [];
+    for (let tx = Math.floor(left / 256); tx <= Math.floor((left + W) / 256); tx++)
+      for (let ty = Math.floor(top / 256); ty <= Math.floor((top + H) / 256); ty++)
+        tiles.push({ x: tx * 256 - left, y: ty * 256 - top, url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/' + z + '/' + ty + '/' + tx });
+    const midLat = sel[0].lat;
+    return { z: z, zone: zone, south: south, tiles: tiles, left: left, top: top, mx: mx, my: my, mpp: 40075016.686 * Math.cos(midLat * Math.PI / 180) / (256 * Math.pow(2, z)) };
+  }
+  function rpLoadTiles(tiles) {
+    return Promise.all(tiles.map(function (t) {
+      return new Promise(function (res) {
+        const im = new Image(); let done = false;
+        const fin_ = function (ok) { if (!done) { done = true; t.ok = ok; res(ok); } };
+        im.onload = function () { fin_(true); }; im.onerror = function () { fin_(false); };
+        setTimeout(function () { fin_(false); }, 6000); im.src = t.url;
+      });
+    })).then(function (r) { return r.some(Boolean); });
+  }
+
+  /** پلان مسیر؛ با نقشه‌ی ماهواره‌ای (mp) یا بدون آن */
+  function rpPlan(secs, W, H, mp) {
+    const sel = thin(secs, 400);
+    let mpp, pt;
+    if (mp) { pt = function (q) { const ll = C.utmToLatLon(q.x, q.y, mp.zone, mp.south); return [mp.mx(ll.lon, mp.z) - mp.left, mp.my(ll.lat, mp.z) - mp.top]; }; mpp = mp.mpp; }
+    else {
+      let X0 = Infinity, X1 = -Infinity, Y0 = Infinity, Y1 = -Infinity;
+      sel.forEach(function (s) { ['left', 'right', 'axis'].forEach(function (k) { const q = s[k]; if (!fin(q.x) || !fin(q.y)) return; X0 = Math.min(X0, q.x); X1 = Math.max(X1, q.x); Y0 = Math.min(Y0, q.y); Y1 = Math.max(Y1, q.y); }); });
+      if (!isFinite(X0)) return '<div class="rp-none">مختصاتی برای رسم نیست.</div>';
+      const M = 36, dx = Math.max(X1 - X0, 1), dy = Math.max(Y1 - Y0, 1), k = Math.min((W - 2 * M) / dx, (H - 2 * M) / dy), ox = (W - dx * k) / 2, oy = (H - dy * k) / 2;
+      pt = function (q) { return [ox + (q.x - X0) * k, H - (oy + (q.y - Y0) * k)]; }; mpp = 1 / k;
+    }
+    const col = mp ? { l: '#6cb8ff', r: '#74e884', a: '#ffd400', t: '#fff', halo: '#000' } : { l: RP.left, r: RP.right, a: RP.navy, t: RP.navy, halo: '#fff' };
+    const path = function (key) { return sel.map(function (s, i) { const p = pt(s[key]); return (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(''); };
+    let g = '<defs><clipPath id="rpc"><rect width="' + W + '" height="' + H + '" rx="4"/></clipPath></defs><g clip-path="url(#rpc)">';
+    if (mp) {
+      mp.tiles.forEach(function (t) { if (t.ok) g += '<image href="' + t.url + '" x="' + t.x.toFixed(1) + '" y="' + t.y.toFixed(1) + '" width="256.6" height="256.6"/>'; });
+      g += '<rect width="' + W + '" height="' + H + '" fill="#000" opacity=".12"/>';
+    } else g += '<rect width="' + W + '" height="' + H + '" fill="#f3f7fa"/>';
+    ['left', 'right', 'axis'].forEach(function (k) { g += '<path d="' + path(k) + '" fill="none" stroke="' + col.halo + '" stroke-width="' + (k === 'axis' ? 5 : 3.6) + '" opacity="' + (mp ? .55 : 0) + '" stroke-linejoin="round"/>'; });
+    g += '<path d="' + path('left') + '" fill="none" stroke="' + col.l + '" stroke-width="1.6"/><path d="' + path('right') + '" fill="none" stroke="' + col.r + '" stroke-width="1.6"/><path d="' + path('axis') + '" fill="none" stroke="' + col.a + '" stroke-width="2.4" stroke-linejoin="round"/>';
+    const len = secs[secs.length - 1].station - secs[0].station, step = rpNice(len, 7);
     let prev = Math.floor(secs[0].station / step + 1e-9), n = 0;
     secs.forEach(function (s, i) {
       const f = Math.floor(s.station / step + 1e-9);
-      if (i > 0 && f > prev && n < 14) {
-        n++; const x = px(s.axis.x), y = py(s.axis.y);
-        g += '<circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="3" fill="' + RP.gold + '" stroke="#fff" stroke-width="1"/>' +
-          '<text x="' + (x + 6).toFixed(1) + '" y="' + (y - 6).toFixed(1) + '" font-size="9" font-weight="700" fill="' + RP.navy + '" stroke="#f6f9fb" stroke-width="3" paint-order="stroke">' + esc(stLabel(s.station)) + '</text>';
+      const pp = pt(s.axis), nearEnd = Math.hypot(pp[0] - pt(secs[0].axis)[0], pp[1] - pt(secs[0].axis)[1]) < 30 || Math.hypot(pp[0] - pt(secs[secs.length - 1].axis)[0], pp[1] - pt(secs[secs.length - 1].axis)[1]) < 30;
+      if (i > 0 && f > prev && n < 12 && !nearEnd) {
+        n++; const p = pp;
+        g += '<circle cx="' + p[0].toFixed(1) + '" cy="' + p[1].toFixed(1) + '" r="3" fill="' + RP.gold + '" stroke="#fff" stroke-width="1"/><text x="' + (p[0] + 5).toFixed(1) + '" y="' + (p[1] - 5).toFixed(1) + '" font-size="8.5" font-weight="700" fill="' + col.t + '" stroke="' + col.halo + '" stroke-width="2.6" paint-order="stroke">' + esc(stLabel(s.station)) + '</text>';
       }
       prev = Math.max(prev, f);
     });
-    const a = secs[0].axis, b = secs[secs.length - 1].axis;
-    g += '<circle cx="' + px(a.x).toFixed(1) + '" cy="' + py(a.y).toFixed(1) + '" r="5" fill="' + RP.up + '" stroke="#fff" stroke-width="1.5"/><text x="' + (px(a.x) + 8).toFixed(1) + '" y="' + (py(a.y) + 14).toFixed(1) + '" font-size="10" font-weight="700" fill="' + RP.up + '">ابتدا</text>' +
-      '<circle cx="' + px(b.x).toFixed(1) + '" cy="' + py(b.y).toFixed(1) + '" r="5" fill="' + RP.dn + '" stroke="#fff" stroke-width="1.5"/><text x="' + (px(b.x) + 8).toFixed(1) + '" y="' + (py(b.y) + 14).toFixed(1) + '" font-size="10" font-weight="700" fill="' + RP.dn + '">انتها</text>';
-    // شمال
-    g += '<g transform="translate(' + (W - 34) + ',44)"><circle r="19" fill="#fff" stroke="#9aa8b3"/><path d="M0 -15 L6 8 L0 4 L-6 8 Z" fill="' + RP.navy + '"/><text y="-21" text-anchor="middle" font-size="11" font-weight="700" fill="' + RP.navy + '">N</text></g>';
-    // مقیاس
-    const sc = rpNice(dx * 0.22, 1), sw = sc * k;
-    g += '<g transform="translate(' + M + ',' + (H - 20) + ')"><rect width="' + sw.toFixed(1) + '" height="5" fill="' + RP.navy + '"/><rect x="' + (sw / 2).toFixed(1) + '" width="' + (sw / 2).toFixed(1) + '" height="5" fill="#fff" stroke="' + RP.navy + '" stroke-width=".8"/>' +
-      '<text y="-4" font-size="9" fill="' + RP.mut + '">' + C.fmt(sc, 0) + ' ' + unitL() + '</text></g>';
-    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="display:block;direction:ltr;font-family:Vazirmatn,Tahoma,sans-serif">' + g + '</svg>';
+    const a = pt(secs[0].axis), b = pt(secs[secs.length - 1].axis);
+    g += '<circle cx="' + a[0].toFixed(1) + '" cy="' + a[1].toFixed(1) + '" r="4.5" fill="' + RP.up + '" stroke="#fff" stroke-width="1.4"/><text x="' + (a[0] + 7).toFixed(1) + '" y="' + (a[1] + 12).toFixed(1) + '" font-size="9" font-weight="700" fill="' + (mp ? '#9dffae' : RP.up) + '" stroke="' + col.halo + '" stroke-width="2.4" paint-order="stroke">ابتدا</text>' +
+      '<circle cx="' + b[0].toFixed(1) + '" cy="' + b[1].toFixed(1) + '" r="4.5" fill="' + RP.dn + '" stroke="#fff" stroke-width="1.4"/><text x="' + (b[0] + 7).toFixed(1) + '" y="' + (b[1] + 12).toFixed(1) + '" font-size="9" font-weight="700" fill="' + (mp ? '#ffb3ad' : RP.dn) + '" stroke="' + col.halo + '" stroke-width="2.4" paint-order="stroke">انتها</text>';
+    g += '<g transform="translate(' + (W - 28) + ',34)"><circle r="16" fill="#fff" stroke="#9aa8b3" opacity=".92"/><path d="M0 -12 L5 7 L0 3 L-5 7 Z" fill="' + RP.navy + '"/><text y="-19" text-anchor="middle" font-size="10" font-weight="700" fill="' + col.t + '" stroke="' + col.halo + '" stroke-width="2.4" paint-order="stroke">N</text></g>';
+    const sc = rpNice(W * 0.2 * mpp, 1), sw = sc / mpp;
+    g += '<g transform="translate(12,' + (H - 16) + ')"><rect x="-3" y="-13" width="' + (sw + 40).toFixed(1) + '" height="21" fill="#fff" opacity="' + (mp ? .8 : 0) + '" rx="3"/><rect width="' + sw.toFixed(1) + '" height="4" fill="' + RP.navy + '"/><text x="' + (sw + 4).toFixed(1) + '" y="4" font-size="8.5" fill="' + RP.navy + '">' + C.fmt(sc, 0) + ' m</text></g>';
+    g += '</g><rect width="' + W + '" height="' + H + '" fill="none" stroke="#9aa8b3" stroke-width=".8" rx="4"/>';
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="' + RP_FONT + '">' + g + '</svg>';
   }
 
-  function printRouteReport() {
+  async function printRouteReport() {
     const p = P(), r = calc(), st = p.settings;
     if (!r.sections || !r.sections.length) { toast('ابتدا خطاهای محور و شیب را رفع کنید.', 'err'); return; }
     const secs = r.sections, n = secs.length, first = secs[0], last = secs[n - 1];
-    const kU = st.slopeUnit === 'ratio' ? 'm/m' : '٪', kdisp = function (v) { return C.fmt(v, st.slopeUnit === 'ratio' ? 4 : 2); };
-    const lonAt = secs.map(function (s, i) { if (!i) return NaN; const d = s.station - secs[i - 1].station; return d > 0 ? (s.axis.z - secs[i - 1].axis.z) / d * 100 : NaN; });
-    let zmin = Infinity, zmax = -Infinity, cfMax = 0, upI = -1, dnI = -1;
-    secs.forEach(function (s, i) {
-      zmin = Math.min(zmin, s.axis.z, s.left.z, s.right.z); zmax = Math.max(zmax, s.axis.z, s.left.z, s.right.z);
-      cfMax = Math.max(cfMax, Math.abs(s.left.crossfall || 0), Math.abs(s.right.crossfall || 0));
-      if (fin(lonAt[i])) { if (upI < 0 || lonAt[i] > lonAt[upI]) upI = i; if (dnI < 0 || lonAt[i] < lonAt[dnI]) dnI = i; }
-    });
-    const len = last.station - first.station;
-    const pc = function (v) { return (v > 0 ? '+' : '') + C.fmt(v, 2) + '٪'; };
+    const kU = st.slopeUnit === 'ratio' ? 'm/m' : '٪';
+    const kdisp = function (v) { return C.fmt(v, st.slopeUnit === 'ratio' ? 4 : 2); };
     const bd = function (t) { return '<bdi dir="ltr">' + esc(t) + '</bdi>'; };
-    const cs = st.coordSystem === 'UTM' ? 'UTM زون ' + st.utmZone + (st.hemisphere === 'S' ? 'S' : 'N') + ' — ' + st.datum : 'محلی';
-    const card = function (lab, val, sub) { return '<div class="rp-card"><span>' + lab + '</span><b>' + val + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; };
-    const warns = (r.axisV.warnings || []).concat((r.secV.warnings || []).filter(function (w) { return w.index !== null; }));
+    const pc = function (v) { return (v > 0 ? '+' : '') + C.fmt(v, 2) + '٪'; };
+    const prof = C.longitudinalProfile(p.points), segs = prof.segments, valid = segs.filter(function (q) { return fin(q.slopePct); });
+    const up = valid.reduce(function (a, q) { return !a || q.slopePct > a.slopePct ? q : a; }, null), dn = valid.reduce(function (a, q) { return !a || q.slopePct < a.slopePct ? q : a; }, null);
+    let zmin = Infinity, zmax = -Infinity, cfMax = 0;
+    secs.forEach(function (s) { ['axis', 'left', 'right'].forEach(function (k) { zmin = Math.min(zmin, s[k].z); zmax = Math.max(zmax, s[k].z); }); cfMax = Math.max(cfMax, Math.abs(s.left.crossfall || 0), Math.abs(s.right.crossfall || 0)); });
+    const len = last.station - first.station;
+    const cs = st.coordSystem === 'UTM' ? 'UTM ' + st.utmZone + (st.hemisphere === 'S' ? 'S' : 'N') + ' / ' + st.datum : 'محلی';
 
-    let h = '<div class="rp-cover"><div class="rp-brand"><b>RoadStake</b><span>گزارش مسیر</span></div>' +
-      '<div class="rp-title">' + esc(p.name) + '<small>' + esc(activeStreet().name) + '</small></div>' +
-      '<div class="rp-date">' + esc(new Date().toLocaleDateString('fa-IR')) + '</div></div>';
-    h += '<div class="rp-cards">' +
-      card('طول مسیر', bd(C.fmt(len, 2)) + ' ' + unitL(), bd(stLabel(first.station)) + ' تا ' + bd(stLabel(last.station))) +
-      card('تعداد مقاطع', bd(String(n)), '') +
-      card('کمترین Z', bd(fx(zmin)), '') + card('بیشترین Z', bd(fx(zmax)), '') +
-      card('بیشترین شیب بالارو', upI >= 0 ? bd(pc(lonAt[upI])) : '—', upI >= 0 ? bd(stLabel(secs[upI].station)) : '') +
-      card('بیشترین شیب سرازیر', dnI >= 0 ? bd(pc(lonAt[dnI])) : '—', dnI >= 0 ? bd(stLabel(secs[dnI].station)) : '') +
-      card('بیشترین شیب عرضی', bd(kdisp(cfMax) + ' ' + kU), '') + card('سیستم مختصات', esc(cs), '') + '</div>';
-    if (warns.length) h += '<div class="rp-warn"><b>هشدارها (' + warns.length + ')</b><ul>' + warns.slice(0, 6).map(function (w) { return '<li>' + esc(w.msg) + '</li>'; }).join('') + '</ul></div>';
-
-    // نیمرخ طولی
-    const prof = C.longitudinalProfile(p.points);
-    h += '<div class="rp-sec"><h3>نیمرخ طولی</h3>' + rpLine([{ pts: thin(secs, 500).map(function (s) { return [s.station, s.axis.z]; }), color: RP.navy, w: 2, area: true }], { yd: 2, ylabel: 'Z (' + unitL() + ')', h: 250 }) +
-      '<div class="rp-note">شیب طولی: ' + (prof.segments.length ? prof.segments.length + ' بازه' : '—') + (upI >= 0 ? ' • بیشترین بالارو ' + bd(pc(lonAt[upI])) + ' • بیشترین سرازیر ' + bd(pc(lonAt[dnI])) : '') + '</div></div>';
-
-    // پلان
-    h += '<div class="rp-sec rp-break"><h3>پلان مسیر</h3>' + rpPlan(secs) +
-      '<div class="rp-note"><span style="color:' + RP.left + '">■</span> لبه‌ی چپ &nbsp; <span style="color:' + RP.navy + '">■</span> محور &nbsp; <span style="color:' + RP.right + '">■</span> لبه‌ی راست &nbsp; <span style="color:' + RP.gold + '">●</span> علامت کیلومتراژ</div></div>';
-
-    // عرض‌ها و شیب عرضی
-    const ts = thin(secs, 400);
-    h += '<div class="rp-sec"><h3>عرض‌ها در طول مسیر (' + unitL() + ')</h3>' + rpLine([
-      { pts: ts.map(function (s) { return [s.station, s.left.width]; }), color: RP.left, w: 2 },
-      { pts: ts.map(function (s) { return [s.station, s.right.width]; }), color: RP.right, w: 2 }], { yd: 2, h: 190 }) +
-      '<div class="rp-note"><span style="color:' + RP.left + '">■</span> عرض چپ &nbsp; <span style="color:' + RP.right + '">■</span> عرض راست</div></div>' +
-      '<div class="rp-sec"><h3>شیب عرضی در طول مسیر (' + kU + ')</h3>' + rpLine([
-        { pts: ts.map(function (s) { return [s.station, s.left.crossfall || 0]; }), color: RP.left, w: 2 },
-        { pts: ts.map(function (s) { return [s.station, s.right.crossfall || 0]; }), color: RP.right, w: 2 }], { yd: st.slopeUnit === 'ratio' ? 3 : 2, h: 190, zero: true }) +
-      '<div class="rp-note"><span style="color:' + RP.left + '">■</span> سمت چپ &nbsp; <span style="color:' + RP.right + '">■</span> سمت راست</div></div>';
-
-    // مقطع‌های نمونه
-    let groups = C.groupCrossModels(secs, st.slopeUnit);
-    if (groups.length > 8) groups = C.mergeGroupsByMode(groups);
-    if (groups.length) {
-      h += '<div class="rp-sec rp-break"><h3>مقطع‌های عرضی نمونه</h3><div class="rp-xs">';
-      groups.slice(0, 6).forEach(function (g) {
-        const title = C.MODE_FA[g.mode] || g.mode;
-        h += '<div class="rp-xc"><div class="rp-xh"><b>' + esc(title) + '</b><span>' + bd(stLabel(g.from)) + ' تا ' + bd(stLabel(g.to)) + ' • ' + g.count + ' مقطع</span></div>' +
-          crossSectionSVG({ mode: g.mode, wL: g.wL, wR: g.wR, sL: g.sL, sR: g.sR, unit: st.slopeUnit, title: title, mids: g.rep ? C.sideKeys(g.rep).filter(function (k) { return g.rep[k].kind === 'mid'; }).map(function (k) { const q = g.rep[k]; return { side: q.edge, offset: q.width, dz: q.dz, name: q.midName || q.tag }; }) : [] }) + '</div>';
-      });
-      h += '</div></div>';
+    // نقشه‌ی پس‌زمینه (اختیاری)
+    const PW = 430, PH = 232;
+    let mp = null, mapNote = '';
+    if (S.rpMap !== false && st.coordSystem === 'UTM') {
+      mp = rpMapSetup(secs, PW, PH);
+      if (mp) {
+        toast('در حال دریافت نقشه…');
+        const okMap = await rpLoadTiles(mp.tiles);
+        if (!okMap) { mp = null; toast('نقشه بارگذاری نشد (اینترنت؟)؛ پلان بدون نقشه ساخته شد.', 'err'); }
+        else mapNote = 'تصویر ماهواره‌ای: Esri, Maxar, Earthstar Geographics' + (/ED50|LOCAL/i.test(st.datum || '') ? ' — موقعیت تقریبی (دیتوم ' + esc(st.datum) + ')' : '');
+      }
     }
 
-    // جدول خلاصه
-    const rows = thin(secs.map(function (s, i) { return i; }), 40);
-    h += '<div class="rp-sec rp-break"><h3>جدول خلاصه' + (rows.length < n ? ' (' + rows.length + ' مقطع از ' + n + ')' : '') + '</h3><table class="pt-tbl"><thead><tr><th>کیلومتراژ</th><th>Z محور</th><th>عرض چپ</th><th>عرض راست</th><th>شیب عرضی چپ (' + kU + ')</th><th>شیب عرضی راست (' + kU + ')</th><th>شیب طولی (٪)</th></tr></thead><tbody>';
-    rows.forEach(function (i, k) {
-      const s = secs[i];
-      h += '<tr class="' + (k % 2 ? 'alt' : '') + '"><td dir="ltr">' + esc(stn(s.station)) + '</td><td dir="ltr">' + fx(s.axis.z) + '</td><td dir="ltr">' + C.fmt(s.left.width, 2) + '</td><td dir="ltr">' + C.fmt(s.right.width, 2) + '</td><td dir="ltr">' + kdisp(s.left.crossfall || 0) + '</td><td dir="ltr">' + kdisp(s.right.crossfall || 0) + '</td><td dir="ltr">' + (fin(lonAt[i]) ? (lonAt[i] > 0 ? '+' : '') + C.fmt(lonAt[i], 2) : '—') + '</td></tr>';
-    });
-    h += '</tbody></table><div class="pt-foot">RoadStake • ' + esc(p.name) + ' • ' + esc(activeStreet().name) + '</div></div>';
+    const card = function (lab, val, sub) { return '<div class="rp-card"><span>' + lab + '</span><b>' + val + '</b>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; };
+    let h = '<div class="rp-page"><div class="rp-cover"><div class="rp-l"><div class="rp-brand">RoadStake</div><div class="rp-sub">گزارش مسیر</div></div>' +
+      '<div class="rp-title">' + esc(p.name) + '<small>خیابان: <b>' + esc(activeStreet().name) + '</b></small></div>' +
+      '<div class="rp-r"><div>' + esc(new Date().toLocaleDateString('fa-IR')) + '</div><div dir="ltr">' + esc(cs) + '</div></div></div>';
+    h += '<div class="rp-cards">' +
+      card('طول مسیر', bd(C.fmt(len, 1)) + ' ' + unitL(), bd(stLabel(first.station)) + ' تا ' + bd(stLabel(last.station))) +
+      card('تعداد مقاطع', bd(String(n)), 'نقاط محور: ' + bd(String(prof.points.length))) +
+      card('Z کمترین تا بیشترین', '<span style="font-size:7.6pt">' + bd(fx(zmin)) + ' – ' + bd(fx(zmax)) + '</span>', 'اختلاف ' + bd(C.fmt(zmax - zmin, 2))) +
+      card('بیشترین شیب بالارو', up ? bd(pc(up.slopePct)) : '—', up ? bd(stLabel(up.from)) + ' تا ' + bd(stLabel(up.to)) : '') +
+      card('بیشترین شیب سرازیر', dn ? bd(pc(dn.slopePct)) : '—', dn ? bd(stLabel(dn.from)) + ' تا ' + bd(stLabel(dn.to)) : '') +
+      card('بیشترین شیب عرضی', bd(kdisp(cfMax) + ' ' + kU), '') + '</div>';
+
+    // پلان + مقطع‌های عرضی
+    let groups = C.groupCrossModels(secs, st.slopeUnit);
+    if (groups.length > 6) groups = C.mergeGroupsByMode(groups);
+    const xsHtml = groups.slice(0, 4).map(function (g) {
+      const title = C.MODE_FA[g.mode] || g.mode;
+      return '<div class="rp-xc"><div class="rp-xh"><b>' + esc(title) + '</b><span>' + bd(stLabel(g.from)) + ' تا ' + bd(stLabel(g.to)) + ' • ' + g.count + ' مقطع</span></div>' +
+        crossSectionSVG({ mode: g.mode, wL: g.wL, wR: g.wR, sL: g.sL, sR: g.sR, unit: st.slopeUnit, title: '', compact: true, mids: g.rep ? C.sideKeys(g.rep).filter(function (k) { return g.rep[k].kind === 'mid'; }).map(function (k) { const q = g.rep[k]; return { side: q.edge, offset: q.width, dz: q.dz, name: q.midName || q.tag }; }) : [] }) + '</div>';
+    }).join('') + (groups.length > 4 ? '<div class="rp-note">+ ' + (groups.length - 4) + ' مدل دیگر</div>' : '');
+    h += '<div class="rp-row"><div class="rp-box rp-plan"><h3>پلان مسیر</h3>' + rpPlan(secs, PW, PH, mp) +
+      '<div class="rp-note"><span style="color:' + RP.left + '">■</span> لبه‌ی چپ &nbsp;<span style="color:' + RP.navy + '">■</span> محور &nbsp;<span style="color:' + RP.right + '">■</span> لبه‌ی راست &nbsp;<span style="color:' + RP.gold + '">●</span> کیلومتراژ' + (mapNote ? '<br>' + mapNote : '') + '</div></div>' +
+      '<div class="rp-box rp-xsb"><h3>مقطع‌های عرضی مورد استفاده</h3>' + (xsHtml || '<div class="rp-none">شیب عرضی اعمال نشده است.</div>') + '</div></div>';
+
+    // نیمرخ طولی
+    h += '<div class="rp-box"><h3>نیمرخ طولی <small>(عدد روی هر بازه = شیب طولی؛ <span style="color:' + RP.up + '">■</span> بالارو <span style="color:' + RP.dn + '">■</span> سرازیر)</small></h3>' + rpProfile(prof, 720, 138) + '</div>';
+
+    // لایه‌ها و بنچ‌مارک‌ها
+    const ll = C.normalizeLayers(p.layers).layers;
+    const mini = function (heads, rows) {
+      let t = '<div class="rp-g" style="grid-template-columns:repeat(' + heads.length + ',1fr)">' + heads.map(function (x) { return '<div class="gh">' + x + '</div>'; }).join('');
+      rows.forEach(function (r, i) { r.forEach(function (c) { t += '<div class="gc' + (i % 2 ? ' alt' : '') + '">' + c + '</div>'; }); });
+      return t + '</div>';
+    };
+    const layTbl = ll.length ? mini(['نام لایه', 'جابه‌جایی', 'از تا'], ll.map(function (l) { return [esc(l.name), '<bdi dir="ltr">' + (l.offset > 0 ? '+' : '') + C.fmt(l.offset * 100, 1) + ' cm</bdi>', rangeText(l.from, l.to)]; })) : '<div class="rp-none">لایه‌ای تعریف نشده است (فقط خط پروژه).</div>';
+    const bms = p.benchmarks.slice(0, 5);
+    const bmTbl = bms.length ? mini(['بنچ‌مارک', 'Z', 'توضیح'], bms.map(function (bm) { return [esc(bm.name), '<bdi dir="ltr">' + fx(C.toNumber(bm.z)) + '</bdi>', esc(bm.desc || '')]; })) : '<div class="rp-none">بنچ‌مارکی ثبت نشده است.</div>';
+    h += '<div class="rp-row rp-eq"><div class="rp-box"><h3>لایه‌ها</h3>' + layTbl + '</div><div class="rp-box"><h3>بنچ‌مارک‌ها' + (p.benchmarks.length > 5 ? ' (۵ مورد از ' + p.benchmarks.length + ')' : '') + '</h3>' + bmTbl + '</div></div>';
+
+    // جدول بازه‌های کیلومتراژ
+    const segRow = function (q, i) {
+      return '<tr class="' + (i % 2 ? 'alt' : '') + '"><td dir="ltr">' + esc(stLabel(q.from)) + '</td><td dir="ltr">' + esc(stLabel(q.to)) + '</td><td dir="ltr">' + C.fmt(q.dS, 2) + '</td><td dir="ltr" style="color:' + (q.dZ > 0 ? RP.up : q.dZ < 0 ? RP.dn : RP.mut) + '">' + sgn(q.dZ) + '</td><td dir="ltr" style="color:' + (q.slopePct > 0 ? RP.up : q.slopePct < 0 ? RP.dn : RP.mut) + '">' + (fin(q.slopePct) ? (q.slopePct > 0 ? '+' : '') + C.fmt(q.slopePct, 2) : '—') + '</td></tr>';
+    };
+    const segHead = '<table class="pt-tbl"><thead><tr><th>از</th><th>تا</th><th>فاصله</th><th>ΔZ</th><th>شیب ٪</th></tr></thead><tbody>';
+    const LIM = 14, shown = segs.slice(0, LIM), half = Math.ceil(shown.length / 2);
+    h += '<div class="rp-box"><h3>جدول بازه‌های کیلومتراژ (' + segs.length + ' بازه)' + (segs.length > LIM ? ' <small>— فهرست کامل در صفحه‌ی بعد</small>' : '') + '</h3><div class="rp-2c">' +
+      '<div>' + segHead + shown.slice(0, half).map(segRow).join('') + '</tbody></table></div>' +
+      '<div>' + (shown.length > half ? segHead + shown.slice(half).map(function (q, i) { return segRow(q, i + half); }).join('') + '</tbody></table>' : '') + '</div></div></div>';
+    const warns = (r.axisV.warnings || []).concat((r.secV.warnings || []).filter(function (w) { return w.index !== null; }));
+    if (warns.length) h += '<div class="rp-warn"><b>هشدار (' + warns.length + '):</b> ' + warns.slice(0, 2).map(function (w) { return esc(w.msg); }).join(' • ') + (warns.length > 2 ? ' …' : '') + '</div>';
+    h += '<div class="pt-foot">RoadStake • ' + esc(p.name) + ' • ' + esc(activeStreet().name) + ' • ' + esc(new Date().toLocaleDateString('fa-IR')) + '</div></div>';
+    if (segs.length > LIM) {
+      h += '<div class="rp-page rp-more"><div class="rp-box"><h3>فهرست کامل بازه‌های کیلومتراژ — ' + esc(activeStreet().name) + '</h3>' + segHead + segs.map(segRow).join('') + '</tbody></table></div></div>';
+    }
 
     const pa = $('#printArea'), oldTitle = document.title;
     pa.className = 'pt rp'; pa.innerHTML = h;
-    document.title = 'گزارش مسیر - ' + p.name + ' - ' + activeStreet().name;
+    document.title = slugFa(p.name) + '_' + slugFa(activeStreet().name) + '_report';
+    await new Promise(function (res) { setTimeout(res, 250); });
     window.print();
     setTimeout(function () { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; }, 1000);
   }
@@ -4274,6 +4363,7 @@ tr.auto-row td { background: var(--axis-soft); }
       if (k === 'label') f.cols[i].label = el.value;
       if (k === 'text') f.cols[i].text = el.value;
     }
+    if (S.tx && S.tx.open) txPreview();
     exportLive();
   }
 
@@ -4812,6 +4902,14 @@ tr.auto-row td { background: var(--axis-soft); }
 
   function onChange(e) {
     const el = e.target;
+    if (el.dataset.rp === 'map') { S.rpMap = el.checked; return; }
+    if (el.dataset.tx) {
+      const k = el.dataset.tx;
+      if (k === 'type') { S.tx.type = el.value === 'pdf' ? 'pdf' : 'txt'; try { localStorage.setItem('roadstake:txType', S.tx.type); } catch (_) {} txModal(); }
+      else if (k === 'delim') { S.exp.delim = el.value === 'tab' ? '\t' : el.value; txPreview(); }
+      else if (k === 'dec') { S.tx.dec = parseInt(el.value, 10); txPreview(); }
+      return;
+    }
     if (el.id === 'actSetup') { P().activeSetupId = el.value; markDirty(); render(); return; }
     if (el.id === 'impFile') { const f = el.files && el.files[0]; el.value = ''; if (f) loadImportFile(f); else toast('فایلی انتخاب نشد.', 'err'); return; }
     if (el.id === 'restoreFile') { const f = el.files && el.files[0]; if (f) restoreBackup(f); return; }
