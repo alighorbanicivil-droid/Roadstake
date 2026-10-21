@@ -311,6 +311,7 @@ tr.auto-row td { background: var(--axis-soft); }
   .pt .pt-title small { display: block; font-size: 10.5pt; font-weight: 400; color: #4a5866; }
   .pt .pt-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: .6pt solid #b8c3cc; border-radius: 3pt; margin-bottom: 10pt; break-inside: avoid; }
   .pt .pt-meta div { padding: 4pt 7pt; border-bottom: .6pt solid #dde3e8; border-inline-start: .6pt solid #dde3e8; }
+  .pt .pt-meta div.wide { grid-column: span 2; }
   .pt .pt-meta span { display: block; font-size: 7.5pt; color: #5a6875; }
   .pt .pt-meta b { font-size: 9.5pt; font-weight: 700; }
   #printArea.pt table.pt-tbl { width: 100%; border-collapse: collapse; font-size: 8.8pt; }
@@ -320,8 +321,15 @@ tr.auto-row td { background: var(--axis-soft); }
   #printArea.pt .pt-tbl tr.alt td { background: #eef3f6; }
   #printArea.pt .pt-tbl tr.ax td { font-weight: 700; }
   #printArea.pt .pt-tbl td.stn { font-weight: 700; background: #fff; }
+  #printArea.pt .pt-chunk td.stn { border-top-color: transparent; border-bottom-color: transparent; }
+  #printArea.pt .pt-chunk td.stn.f { border-top-color: #c4ced6; }
+  #printArea.pt .pt-chunk td.stn.l { border-bottom-color: #c4ced6; }
+  #printArea.pt .pt-chunk tr.hd th { position: static; }
   #printArea.pt .pt-tbl thead { display: table-header-group; }
   #printArea.pt .pt-tbl tr { break-inside: avoid; }
+  #printArea.pt table.pt-chunk { break-after: page; }
+  #printArea.pt table.pt-chunk:last-of-type { break-after: auto; }
+  #printArea.pt table.pt-chunk thead { display: table-row-group; }
   .pt .pt-foot { margin-top: 8pt; font-size: 7.5pt; color: #6a7783; text-align: center; }
   .rp .rp-page { break-after: page; }
   .rp .rp-page .pt-foot { margin-top: 2pt; }
@@ -348,6 +356,7 @@ tr.auto-row td { background: var(--axis-soft); }
   .rp .rp-xsb { display: flex; flex-direction: column; gap: 3pt; }
   .rp .rp-xc { border: .5pt solid #dde3e8; border-radius: 3pt; padding: 2pt 4pt; }
   .rp .rp-xh { display: flex; justify-content: space-between; font-size: 7pt; }
+  .rp .rp-cap { font-size: 6.8pt; color: #1d2733; text-align: center; line-height: 1.5; margin-top: 1pt; }
   .rp .rp-xh span { color: #5a6875; font-size: 6.3pt; }
   .rp .rp-xc svg { max-height: 62pt; }
   .rp .rp-2c { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt; }
@@ -3657,6 +3666,26 @@ tr.auto-row td { background: var(--axis-soft); }
   }
 
   /** گزارش PDF جدول مختصات لایه‌ی انتخاب‌شده (از «ذخیره به‌صورت PDF» دستگاه) */
+  /** مشخصات عرضی و شیب عرضی مقاطع (دامنه‌ی اعداد؛ اگر یکسان باشد یک عدد) */
+  function crossProps(secs) {
+    const st = P().settings, ratio = st.slopeUnit === 'ratio', d = ratio ? 4 : 2, kU = ratio ? 'm/m' : '٪';
+    const rng = function (vals, dd) {
+      let a = Infinity, b = -Infinity; vals.forEach(function (v) { if (fin(v)) { a = Math.min(a, v); b = Math.max(b, v); } });
+      if (!isFinite(a)) return '—';
+      return Math.abs(b - a) < 1e-9 ? C.fmt(a, dd) : C.fmt(a, dd) + ' تا ' + C.fmt(b, dd);
+    };
+    const bdi = function (t) { return '<bdi dir="ltr">' + esc(t) + '</bdi>'; };
+    const wl = secs.map(function (x) { return x.left.width; }), wr = secs.map(function (x) { return x.right.width; });
+    const tot = secs.map(function (x) { return x.left.width + x.right.width; });
+    const sl = secs.map(function (x) { return Math.abs(x.left.crossfall || 0); }), sr = secs.map(function (x) { return Math.abs(x.right.crossfall || 0); });
+    const models = [];
+    C.groupCrossModels(secs, st.slopeUnit).forEach(function (g) { const n = C.MODE_FA[g.mode] || g.mode; if (models.indexOf(n) < 0) models.push(n); });
+    return {
+      widths: 'عرض چپ ' + bdi(rng(wl, 2)) + ' • عرض راست ' + bdi(rng(wr, 2)) + ' • مجموع ' + bdi(rng(tot, 2)) + ' ' + unitL(),
+      slopes: 'شیب چپ ' + bdi(rng(sl, d)) + ' • شیب راست ' + bdi(rng(sr, d)) + ' ' + kU + (models.length ? ' — ' + esc(models.length > 2 ? models.slice(0, 2).join('، ') + '،…' : models.join('، ')) : '')
+    };
+  }
+
   /* ---------- خروجی جدول (پنجره‌ی کوچک: PDF یا متن) ---------- */
   function slugFa(s) { return slug(s).replace(/_+/g, '-'); }
 
@@ -3756,19 +3785,29 @@ tr.auto-row td { background: var(--axis-soft); }
     const bd = function (t) { return { h: '<bdi dir="ltr">' + esc(t) + '</bdi>' }; };
     const off = layer ? bd((layer.offset > 0 ? '+' : '') + C.fmt(layer.offset * 100, 1) + ' cm') : '۰';
     const range = { h: rangeText(layer ? layer.from : null, layer ? layer.to : null) };
+    const cp = crossProps(secs);
     const meta = [['پروژه', p.name], ['خیابان', activeStreet().name], ['لایه', lname], ['جابه‌جایی نسبت به خط پروژه', off], ['محدوده‌ی لایه', range],
-      ['بازه‌ی کیلومتراژ', { h: '<bdi dir="ltr">' + esc(stLabel(secs[0].station)) + '</bdi> تا <bdi dir="ltr">' + esc(stLabel(secs[secs.length - 1].station)) + '</bdi>' }], ['تعداد مقاطع', String(secs.length)], ['تاریخ', new Date().toLocaleDateString('fa-IR')]];
+      ['بازه‌ی کیلومتراژ', { h: '<bdi dir="ltr">' + esc(stLabel(secs[0].station)) + '</bdi> تا <bdi dir="ltr">' + esc(stLabel(secs[secs.length - 1].station)) + '</bdi>' }], ['تعداد مقاطع', String(secs.length)], ['تاریخ', new Date().toLocaleDateString('fa-IR')],
+      ['عرض مسیر', { h: cp.widths }, 1], ['شیب عرضی', { h: cp.slopes }, 1]];
     let h = '<div class="pt-head"><div class="pt-brand">جدول مختصات پیاده‌سازی</div><div class="pt-title">' + esc(p.name) + '<small>' + esc(activeStreet().name) + ' — لایه‌ی «' + esc(lname) + '»</small></div></div>' +
-      '<div class="pt-meta">' + meta.map(function (m) { return '<div><span>' + esc(m[0]) + '</span><b>' + (typeof m[1] === 'object' ? m[1].h : esc(m[1])) + '</b></div>'; }).join('') + '</div>' +
-      '<table class="pt-tbl"><thead><tr><th>کیلومتراژ</th><th>Z</th><th>نام</th><th>X</th><th>Y</th><th>فاصله از محور</th><th>توضیحات</th></tr></thead><tbody>';
-    tblRows(secs, 0, secs.length).forEach(function (g, gi) {
+      '<div class="pt-meta">' + meta.map(function (m) { return '<div' + (m[2] ? ' class="wide"' : '') + '><span>' + esc(m[0]) + '</span><b>' + (typeof m[1] === 'object' ? m[1].h : esc(m[1])) + '</b></div>'; }).join('') + '</div>' +
+      '';
+    // جدول به قطعه‌های جدا (هر قطعه یک صفحه) تقسیم می‌شود تا عنوان ستون‌ها همیشه بالای هر صفحه درست بیاید
+    const head = '<table class="pt-tbl pt-chunk"><tbody><tr class="hd"><th>کیلومتراژ</th><th>Z</th><th>نام</th><th>X</th><th>Y</th><th>فاصله از محور</th><th>توضیحات</th></tr>';
+    const groups = tblRows(secs, 0, secs.length);
+    let cur = '', curRows = 0, limit = 26, cnt = 0;
+    const flush = function () { if (cur) h += head + cur + '</tbody></table>'; cur = ''; curRows = 0; limit = 38; };
+    groups.forEach(function (g, gi) {
+      if (curRows && curRows + g.rows.length > limit) flush();
       g.rows.forEach(function (q, k) {
-        h += '<tr class="' + (gi % 2 ? 'alt' : '') + (q.side === 'axis' ? ' ax' : '') + '">' +
-          (k === 0 ? '<td class="stn" rowspan="' + g.rows.length + '" dir="ltr">' + esc(stn(g.station)) + '</td>' : '') +
+        cur += '<tr class="' + (gi % 2 ? 'alt' : '') + (q.side === 'axis' ? ' ax' : '') + '">' +
+          '<td class="stn' + (k === 0 ? ' f' : '') + (k === g.rows.length - 1 ? ' l' : '') + '" dir="ltr">' + (k === 0 ? esc(stn(g.station)) : '') + '</td>' +
           '<td dir="ltr"><b>' + fx(q.z) + '</b></td><td>' + esc(q.name) + '</td><td dir="ltr">' + fx(q.x) + '</td><td dir="ltr">' + fx(q.y) + '</td><td dir="ltr">' + C.fmt(q.dist, 3) + '</td><td>' + esc(q.desc) + '</td></tr>';
       });
+      curRows += g.rows.length; cnt++;
     });
-    h += '</tbody></table><div class="pt-foot">' + esc(p.name) + ' • ' + esc(lname) + '</div>';
+    flush();
+    h += '<div class="pt-foot">' + esc(p.name) + ' • ' + esc(activeStreet().name) + ' • ' + esc(lname) + '</div>';
     const pa = $('#printArea'), oldTitle = document.title;
     pa.className = 'pt'; pa.innerHTML = h;
     document.title = slugFa(p.name) + '_' + slugFa(activeStreet().name) + '_' + slugFa(lname);
@@ -3784,8 +3823,21 @@ tr.auto-row td { background: var(--axis-soft); }
   const RP = { navy: '#0b2a40', gold: '#c9962b', left: '#1565c0', right: '#2e7d32', up: '#1b7a3d', dn: '#c62828', grid: '#d5dde3', mut: '#5a6875' };
   const RP_FONT = 'font-family:Vazirmatn,Tahoma,sans-serif;direction:ltr;display:block';
 
+  /** بازه‌های هم‌جهت نیمرخ طولی: بالارو، سرازیر یا تخت (شیب کوچک‌تر از حد = تخت) */
+  function rpRanges(segs, tol) {
+    const dirOf = function (q) { return !fin(q.slopePct) || Math.abs(q.slopePct) < tol ? 'flat' : q.slopePct > 0 ? 'up' : 'dn'; };
+    const out = [];
+    segs.forEach(function (q) {
+      const d = dirOf(q), last = out[out.length - 1];
+      if (last && last.dir === d) { last.to = q.to; last.zTo = q.zTo; last.len += q.dS; last.dz += q.dZ; if (Math.abs(q.slopePct) > Math.abs(last.max)) last.max = q.slopePct; last.n++; }
+      else out.push({ dir: d, from: q.from, to: q.to, zFrom: q.zFrom, zTo: q.zTo, len: q.dS, dz: q.dZ, max: fin(q.slopePct) ? q.slopePct : 0, n: 1 });
+    });
+    out.forEach(function (r) { r.avg = r.len > 0 ? r.dz / r.len * 100 : 0; });
+    return out;
+  }
+
   /** نیمرخ طولی چاپی با شیب نوشته‌شده روی بازه‌ها (مثل تب شیب) */
-  function rpProfile(prof, W, H) {
+  function rpProfile(prof, W, H, ranges) {
     const pts = prof.points, segs = prof.segments;
     if (pts.length < 2) return '<div class="rp-none">برای نیمرخ طولی دست‌کم دو نقطه‌ی محور با Z لازم است.</div>';
     const L = 52, R = 12, T = 16, B = 28;
@@ -3800,19 +3852,31 @@ tr.auto-row td { background: var(--axis-soft); }
       g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + sy(v).toFixed(1) + '" y2="' + sy(v).toFixed(1) + '" stroke="' + RP.grid + '" stroke-width=".6"/><text x="' + (L - 5) + '" y="' + (sy(v) + 3).toFixed(1) + '" text-anchor="end" font-size="8.5" fill="' + RP.mut + '">' + C.fmt(v, 2) + '</text>';
     for (let v = Math.ceil(x0 / xs) * xs; v <= x1 + 1e-9; v += xs)
       g += '<line x1="' + sx(v).toFixed(1) + '" x2="' + sx(v).toFixed(1) + '" y1="' + T + '" y2="' + (H - B) + '" stroke="' + RP.grid + '" stroke-width=".5" stroke-dasharray="2 3"/><text x="' + sx(v).toFixed(1) + '" y="' + (H - B + 12) + '" text-anchor="middle" font-size="8.5" fill="' + RP.mut + '">' + esc(stLabel(v)) + '</text>';
+    (ranges || []).forEach(function (rg) {
+      if (rg.dir === 'flat') return;
+      g += '<rect x="' + sx(rg.from).toFixed(1) + '" y="' + T + '" width="' + Math.max(0, sx(rg.to) - sx(rg.from)).toFixed(1) + '" height="' + (H - T - B) + '" fill="' + (rg.dir === 'up' ? RP.up : RP.dn) + '" opacity=".07"/>';
+    });
     const poly = pts.map(function (q, i) { return (i ? 'L' : 'M') + sx(q.station).toFixed(1) + ' ' + sy(q.z).toFixed(1); }).join('');
     g += '<path d="' + poly + 'L' + sx(x1).toFixed(1) + ' ' + (H - B) + 'L' + sx(x0).toFixed(1) + ' ' + (H - B) + 'Z" fill="' + RP.navy + '" opacity=".07"/>';
     thin(segs, 300).forEach(function (q) {
       g += '<line x1="' + sx(q.from).toFixed(1) + '" y1="' + sy(q.zFrom).toFixed(1) + '" x2="' + sx(q.to).toFixed(1) + '" y2="' + sy(q.zTo).toFixed(1) + '" stroke="' + (q.dZ > 0 ? RP.up : q.dZ < 0 ? RP.dn : RP.mut) + '" stroke-width="2.2" stroke-linecap="round"/>';
     });
     if (pts.length <= 60) pts.forEach(function (q) { g += '<circle cx="' + sx(q.station).toFixed(1) + '" cy="' + sy(q.z).toFixed(1) + '" r="1.8" fill="' + RP.navy + '"/>'; });
+    const tp = [];
+    // نقطه‌های تغییر جهت (بلندترین و پست‌ترین)
+    (ranges || []).forEach(function (rg, i) {
+      const nx = ranges[i + 1]; if (!nx || rg.dir === 'flat' || nx.dir === 'flat' || rg.dir === nx.dir) return;
+      const peak = rg.dir === 'up', x = sx(rg.to), y = sy(rg.zTo); tp.push({ x: x, y: peak ? y - 12 : y + 12 });
+      g += '<path d="' + (peak ? 'M' + (x - 4).toFixed(1) + ' ' + (y - 4).toFixed(1) + 'L' + (x + 4).toFixed(1) + ' ' + (y - 4).toFixed(1) + 'L' + x.toFixed(1) + ' ' + (y - 0.5).toFixed(1) + 'Z' : 'M' + (x - 4).toFixed(1) + ' ' + (y + 4).toFixed(1) + 'L' + (x + 4).toFixed(1) + ' ' + (y + 4).toFixed(1) + 'L' + x.toFixed(1) + ' ' + (y + 0.5).toFixed(1) + 'Z') + '" fill="' + RP.gold + '"/>' +
+        '<text x="' + x.toFixed(1) + '" y="' + (peak ? y - 9 : y + 17).toFixed(1) + '" text-anchor="middle" font-size="7.5" font-weight="700" fill="' + RP.navy + '" stroke="#fff" stroke-width="2.4" paint-order="stroke">' + esc(stLabel(rg.to)) + ' • ' + C.fmt(rg.zTo, 2) + '</text>';
+    });
     // برچسب شیب: بازه‌های پرشیب‌تر اولویت دارند، بدون هم‌پوشانی
-    const placed = [], cand = segs.filter(function (q) { return fin(q.slopePct); }).sort(function (a, b) { return Math.abs(b.slopePct) - Math.abs(a.slopePct); });
+    const placed = tp.slice(), cand = segs.filter(function (q) { return fin(q.slopePct); }).sort(function (a, b) { return Math.abs(b.slopePct) - Math.abs(a.slopePct); });
     cand.forEach(function (q) {
       if (placed.length >= 16) return;
       const cx = sx((q.from + q.to) / 2), cy = sy((q.zFrom + q.zTo) / 2), w = 34;
       if (sx(q.to) - sx(q.from) < 18) return;
-      if (placed.some(function (p) { return Math.abs(p.x - cx) < w && Math.abs(p.y - cy) < 12; })) return;
+      if (placed.some(function (p) { return Math.abs(p.x - cx) < w + 12 && Math.abs(p.y - cy) < 14; })) return;
       placed.push({ x: cx, y: cy });
       g += '<text x="' + cx.toFixed(1) + '" y="' + (cy - 5).toFixed(1) + '" text-anchor="middle" font-size="8.5" font-weight="700" fill="' + (q.slopePct > 0 ? RP.up : RP.dn) + '" stroke="#fff" stroke-width="2.6" paint-order="stroke">' + (q.slopePct > 0 ? '+' : '') + C.fmt(q.slopePct, 2) + '٪</text>';
     });
@@ -3940,19 +4004,26 @@ tr.auto-row td { background: var(--axis-soft); }
     // پلان + مقطع‌های عرضی
     let groups = C.groupCrossModels(secs, st.slopeUnit);
     if (groups.length > 6) groups = C.mergeGroupsByMode(groups);
-    const xsHtml = groups.slice(0, 4).map(function (g) {
+        const xsCap = function (g) {
+      const d = st.slopeUnit === 'ratio' ? 4 : 2, kk = st.slopeUnit === 'ratio' ? 'm/m' : '٪';
+      const rg2 = function (a, b, dd) { return Math.abs(a - b) < 1e-9 ? C.fmt(a, dd) : C.fmt(a, dd) + ' تا ' + C.fmt(b, dd); };
+      const R = g.merged && g.rng ? g.rng : { wL: [g.wL, g.wL], wR: [g.wR, g.wR], sL: [g.sL, g.sL], sR: [g.sR, g.sR] };
+      return 'عرض چپ ' + bd(rg2(R.wL[0], R.wL[1], 2) + ' ' + unitL()) + ' • راست ' + bd(rg2(R.wR[0], R.wR[1], 2) + ' ' + unitL()) +
+        (g.mode !== 'flat' ? '<br>شیب چپ ' + bd(rg2(R.sL[0], R.sL[1], d) + ' ' + kk) + ' • راست ' + bd(rg2(R.sR[0], R.sR[1], d) + ' ' + kk) : '<br>تخت (بدون شیب عرضی)');
+    };
+const xsHtml = groups.slice(0, 4).map(function (g) {
       const title = C.MODE_FA[g.mode] || g.mode;
       return '<div class="rp-xc"><div class="rp-xh"><b>' + esc(title) + '</b><span>' + bd(stLabel(g.from)) + ' تا ' + bd(stLabel(g.to)) + ' • ' + g.count + ' مقطع</span></div>' +
-        crossSectionSVG({ mode: g.mode, wL: g.wL, wR: g.wR, sL: g.sL, sR: g.sR, unit: st.slopeUnit, title: '', compact: true, mids: g.rep ? C.sideKeys(g.rep).filter(function (k) { return g.rep[k].kind === 'mid'; }).map(function (k) { const q = g.rep[k]; return { side: q.edge, offset: q.width, dz: q.dz, name: q.midName || q.tag }; }) : [] }) + '</div>';
+        crossSectionSVG({ mode: g.mode, wL: g.wL, wR: g.wR, sL: g.sL, sR: g.sR, unit: st.slopeUnit, title: '', compact: true, mids: g.rep ? C.sideKeys(g.rep).filter(function (k) { return g.rep[k].kind === 'mid'; }).map(function (k) { const q = g.rep[k]; return { side: q.edge, offset: q.width, dz: q.dz, name: q.midName || q.tag }; }) : [] }) + '<div class="rp-cap">' + xsCap(g) + '</div></div>';
     }).join('') + (groups.length > 4 ? '<div class="rp-note">+ ' + (groups.length - 4) + ' مدل دیگر</div>' : '');
     h += '<div class="rp-row"><div class="rp-box rp-plan"><h3>پلان مسیر</h3>' + rpPlan(secs, PW, PH, mp) +
       '<div class="rp-note"><span style="color:' + RP.left + '">■</span> لبه‌ی چپ &nbsp;<span style="color:' + RP.navy + '">■</span> محور &nbsp;<span style="color:' + RP.right + '">■</span> لبه‌ی راست &nbsp;<span style="color:' + RP.gold + '">●</span> کیلومتراژ' + (mapNote ? '<br>' + mapNote : '') + '</div></div>' +
       '<div class="rp-box rp-xsb"><h3>مقطع‌های عرضی مورد استفاده</h3>' + (xsHtml || '<div class="rp-none">شیب عرضی اعمال نشده است.</div>') + '</div></div>';
 
     // نیمرخ طولی
-    h += '<div class="rp-box"><h3>نیمرخ طولی <small>(عدد روی هر بازه = شیب طولی؛ <span style="color:' + RP.up + '">■</span> بالارو <span style="color:' + RP.dn + '">■</span> سرازیر)</small></h3>' + rpProfile(prof, 720, 138) + '</div>';
+    h += '<div class="rp-box"><h3>نیمرخ طولی <small>(عدد روی هر بازه = شیب طولی؛ ▲ طلایی = نقطه‌ی تغییر جهت؛ <span style="color:' + RP.up + '">■</span> بالارو <span style="color:' + RP.dn + '">■</span> سرازیر)</small></h3>' + rpProfile(prof, 720, 138, rpRanges(segs, 0.1)) + '</div>';
 
-    // لایه‌ها و بنچ‌مارک‌ها
+    // لایه‌ها و خلاصه‌ی جهت‌ها
     const ll = C.normalizeLayers(p.layers).layers;
     const mini = function (heads, rows) {
       let t = '<div class="rp-g" style="grid-template-columns:repeat(' + heads.length + ',1fr)">' + heads.map(function (x) { return '<div class="gh">' + x + '</div>'; }).join('');
@@ -3960,25 +4031,28 @@ tr.auto-row td { background: var(--axis-soft); }
       return t + '</div>';
     };
     const layTbl = ll.length ? mini(['نام لایه', 'جابه‌جایی', 'از تا'], ll.map(function (l) { return [esc(l.name), '<bdi dir="ltr">' + (l.offset > 0 ? '+' : '') + C.fmt(l.offset * 100, 1) + ' cm</bdi>', rangeText(l.from, l.to)]; })) : '<div class="rp-none">لایه‌ای تعریف نشده است (فقط خط پروژه).</div>';
-    const bms = p.benchmarks.slice(0, 5);
-    const bmTbl = bms.length ? mini(['بنچ‌مارک', 'Z', 'توضیح'], bms.map(function (bm) { return [esc(bm.name), '<bdi dir="ltr">' + fx(C.toNumber(bm.z)) + '</bdi>', esc(bm.desc || '')]; })) : '<div class="rp-none">بنچ‌مارکی ثبت نشده است.</div>';
-    h += '<div class="rp-row rp-eq"><div class="rp-box"><h3>لایه‌ها</h3>' + layTbl + '</div><div class="rp-box"><h3>بنچ‌مارک‌ها' + (p.benchmarks.length > 5 ? ' (۵ مورد از ' + p.benchmarks.length + ')' : '') + '</h3>' + bmTbl + '</div></div>';
+    const tol = 0.1, ranges = rpRanges(segs, tol);
+    const sumDir = function (dir) { const rs = ranges.filter(function (x) { return x.dir === dir; }); return { n: rs.length, len: rs.reduce(function (a, x) { return a + x.len; }, 0), mx: rs.reduce(function (a, x) { return Math.abs(x.max) > Math.abs(a) ? x.max : a; }, 0) }; };
+    const su = sumDir('up'), sd = sumDir('dn'), sf = sumDir('flat');
+    const dirBox = mini(['جهت', 'بازه', 'طول (' + unitL() + ')', 'بیشترین شیب'], [
+      ['<b style="color:' + RP.up + '">▲ بالارو</b>', bd(String(su.n)), bd(C.fmt(su.len, 1)), su.n ? bd(pc(su.mx)) : '—'],
+      ['<b style="color:' + RP.dn + '">▼ سرازیر</b>', bd(String(sd.n)), bd(C.fmt(sd.len, 1)), sd.n ? bd(pc(sd.mx)) : '—'],
+      ['<b style="color:' + RP.mut + '">■ تخت</b>', bd(String(sf.n)), bd(C.fmt(sf.len, 1)), '—']]);
+    h += '<div class="rp-row rp-eq"><div class="rp-box"><h3>لایه‌ها</h3>' + layTbl + '</div><div class="rp-box"><h3>خلاصه‌ی بالارو و سرازیر <small>(شیب کمتر از ' + bd(C.fmt(tol, 1) + '٪') + ' = تخت)</small></h3>' + dirBox + '</div></div>';
 
-    // جدول بازه‌های کیلومتراژ
-    const segRow = function (q, i) {
-      return '<tr class="' + (i % 2 ? 'alt' : '') + '"><td dir="ltr">' + esc(stLabel(q.from)) + '</td><td dir="ltr">' + esc(stLabel(q.to)) + '</td><td dir="ltr">' + C.fmt(q.dS, 2) + '</td><td dir="ltr" style="color:' + (q.dZ > 0 ? RP.up : q.dZ < 0 ? RP.dn : RP.mut) + '">' + sgn(q.dZ) + '</td><td dir="ltr" style="color:' + (q.slopePct > 0 ? RP.up : q.slopePct < 0 ? RP.dn : RP.mut) + '">' + (fin(q.slopePct) ? (q.slopePct > 0 ? '+' : '') + C.fmt(q.slopePct, 2) : '—') + '</td></tr>';
+    // جدول بازه‌های تغییر شیب (هم‌جهت)
+    const dirFa = { up: '▲ بالارو', dn: '▼ سرازیر', flat: '■ تخت' }, dirCol = { up: RP.up, dn: RP.dn, flat: RP.mut };
+    const rgRow = function (q, i) {
+      return '<tr class="' + (i % 2 ? 'alt' : '') + '"><td style="color:' + dirCol[q.dir] + ';font-weight:700">' + dirFa[q.dir] + '</td><td dir="ltr">' + esc(stLabel(q.from)) + '</td><td dir="ltr">' + esc(stLabel(q.to)) + '</td><td dir="ltr">' + C.fmt(q.len, 1) + '</td><td dir="ltr">' + sgn(q.dz) + '</td><td dir="ltr">' + (q.avg > 0 ? '+' : '') + C.fmt(q.avg, 2) + '</td><td dir="ltr">' + (q.max > 0 ? '+' : '') + C.fmt(q.max, 2) + '</td></tr>';
     };
-    const segHead = '<table class="pt-tbl"><thead><tr><th>از</th><th>تا</th><th>فاصله</th><th>ΔZ</th><th>شیب ٪</th></tr></thead><tbody>';
-    const LIM = 14, shown = segs.slice(0, LIM), half = Math.ceil(shown.length / 2);
-    h += '<div class="rp-box"><h3>جدول بازه‌های کیلومتراژ (' + segs.length + ' بازه)' + (segs.length > LIM ? ' <small>— فهرست کامل در صفحه‌ی بعد</small>' : '') + '</h3><div class="rp-2c">' +
-      '<div>' + segHead + shown.slice(0, half).map(segRow).join('') + '</tbody></table></div>' +
-      '<div>' + (shown.length > half ? segHead + shown.slice(half).map(function (q, i) { return segRow(q, i + half); }).join('') + '</tbody></table>' : '') + '</div></div></div>';
+    const rgHead = '<table class="pt-tbl"><thead><tr><th>جهت</th><th>از</th><th>تا</th><th>طول</th><th>ΔZ</th><th>شیب میانگین ٪</th><th>بیشترین ٪</th></tr></thead><tbody>';
+    const LIM = 20, shownR = ranges.slice(0, LIM), half = Math.ceil(shownR.length / 2);
+    h += '<div class="rp-box"><h3>بازه‌های تغییر شیب طولی (' + ranges.length + ' بازه)' + (ranges.length > LIM ? ' <small>— ' + (ranges.length - LIM) + ' بازه‌ی دیگر جا نشد</small>' : '') + '</h3><div class="rp-2c">' +
+      '<div>' + rgHead + shownR.slice(0, half).map(rgRow).join('') + '</tbody></table></div>' +
+      '<div>' + (shownR.length > half ? rgHead + shownR.slice(half).map(function (q, i) { return rgRow(q, i + half); }).join('') + '</tbody></table>' : '') + '</div></div></div>';
     const warns = (r.axisV.warnings || []).concat((r.secV.warnings || []).filter(function (w) { return w.index !== null; }));
     if (warns.length) h += '<div class="rp-warn"><b>هشدار (' + warns.length + '):</b> ' + warns.slice(0, 2).map(function (w) { return esc(w.msg); }).join(' • ') + (warns.length > 2 ? ' …' : '') + '</div>';
     h += '<div class="pt-foot">RoadStake • ' + esc(p.name) + ' • ' + esc(activeStreet().name) + ' • ' + esc(new Date().toLocaleDateString('fa-IR')) + '</div></div>';
-    if (segs.length > LIM) {
-      h += '<div class="rp-page rp-more"><div class="rp-box"><h3>فهرست کامل بازه‌های کیلومتراژ — ' + esc(activeStreet().name) + '</h3>' + segHead + segs.map(segRow).join('') + '</tbody></table></div></div>';
-    }
 
     const pa = $('#printArea'), oldTitle = document.title;
     pa.className = 'pt rp'; pa.innerHTML = h;
