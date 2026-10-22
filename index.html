@@ -347,18 +347,25 @@ tr.auto-row td { background: var(--axis-soft); }
   .rp .rp-card small { display: block; font-size: 6.5pt; color: #5a6875; }
   .rp .rp-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 6pt; margin-bottom: 6pt; }
   .rp .rp-row.rp-eq { grid-template-columns: 1fr 1fr; }
-  .rp .rp-box { border: .6pt solid #c4ced6; border-radius: 3pt; padding: 4pt 6pt; margin-bottom: 6pt; min-width: 0; break-inside: avoid; }
+  .rp .rp-box { border: .6pt solid #c4ced6; border-radius: 3pt; padding: 3pt 6pt; margin-bottom: 4pt; min-width: 0; break-inside: avoid; }
   .rp .rp-row .rp-box { margin-bottom: 0; }
   .rp .rp-box h3 { font-size: 9pt; color: #0b2a40; border-inline-start: 3pt solid #c9962b; padding-inline-start: 5pt; margin: 0 0 3pt; }
   .rp .rp-box h3 small { font-size: 6.8pt; font-weight: 400; color: #5a6875; }
   .rp .rp-note { font-size: 6.8pt; color: #5a6875; margin-top: 2pt; }
   .rp .rp-none { color: #5a6875; font-size: 8pt; padding: 4pt 0; }
   .rp .rp-xsb { display: flex; flex-direction: column; gap: 3pt; }
+  .rp .rp-xsb .rp-xc { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .rp .rp-xg { margin-top: 2pt; font-size: 6.8pt; }
+  .rp .rp-xg .gh { padding: 1.2pt 2pt; font-size: 6.5pt; }
+  .rp .rp-xg .gc { padding: 1pt 2pt; }
+  .rp .sg { height: 24pt; }
+  .rp .rp-cover { padding: 6pt 12pt; }
   .rp .rp-xc { border: .5pt solid #dde3e8; border-radius: 3pt; padding: 2pt 4pt; }
   .rp .rp-xh { display: flex; justify-content: space-between; font-size: 7pt; }
   .rp .rp-cap { font-size: 6.8pt; color: #1d2733; text-align: center; line-height: 1.5; margin-top: 1pt; }
   .rp .rp-xh span { color: #5a6875; font-size: 6.3pt; }
-  .rp .rp-xc svg { max-height: 62pt; }
+  .rp .rp-xc svg { max-height: 46pt; }
+  .rp .rp-xsb.n3 .rp-xc svg { max-height: 30pt; }
   .rp .rp-2c { display: grid; grid-template-columns: 1fr 1fr; gap: 6pt; }
   .rp .rp-warn { border: .6pt solid #d9a93a; background: #fff6df; border-radius: 3pt; padding: 3pt 6pt; font-size: 7pt; margin-bottom: 4pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .rp .pt-tbl { font-size: 7.3pt !important; }
@@ -372,6 +379,11 @@ tr.auto-row td { background: var(--axis-soft); }
   .rp .rp-g .gc { padding: 1.5pt 3pt; border-top: .4pt solid #dde3e8; }
   .rp .rp-g .gc.alt { background: #eef3f6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .rp .rp-more .pt-tbl { font-size: 8.3pt !important; }
+  .pt .sig { display: grid; gap: 6pt; margin-top: 10pt; break-inside: avoid; }
+  .pt .sg { border: .6pt solid #c4ced6; border-radius: 3pt; padding: 3pt 6pt; height: 40pt; text-align: center; position: relative; }
+  .pt .sg .sgt { font-size: 8pt; font-weight: 700; color: #0b2a40; }
+  .pt .sg .sgn { font-size: 8.5pt; margin-top: 1pt; }
+  .pt .sg .sgl { position: absolute; bottom: 2pt; inset-inline: 6pt; border-top: .5pt dashed #9aa8b3; font-size: 6.3pt; color: #5a6875; padding-top: 1pt; }
   #printArea.pt table, #printArea.pt th, #printArea.pt td { font-family: inherit; }
 }
 
@@ -394,6 +406,66 @@ tr.auto-row td { background: var(--axis-soft); }
 .stk-box .stk-btn { flex: 1; min-height: 48px; font-size: 1.05rem; }
 .stk-ok { color: var(--ok, #1f9d55); font-weight: 700; font-size: 1.15rem; }
 .stk-cnt { justify-content: space-between; margin-bottom: 6px; }
+
+/* ---- برآورد مصالح ---- */
+.mc-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.mc-row .mc-ic { flex: none; }
+.mc-row select.inp { width: auto; min-width: 96px; }
+.mc-cap { width: 72px; }
+.mt-card { border: 1px solid var(--line, #d5dde3); border-radius: 10px; padding: 10px; margin: 8px 0; }
+.chk { display: flex; gap: 6px; align-items: center; font-size: 13px; }
+tr.sel td { background: rgba(201,150,43,.14); }
+tr.sum td { font-weight: 700; border-top: 2px solid #c9962b; }
+tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c62828; } tr.ab-out td { opacity: .6; }
+@media print {
+  .rp .mt-mach { display: flex; gap: 8pt; flex-wrap: wrap; }
+  .rp .mt-mc { flex: 1; min-width: 70pt; border: .5pt solid #dde3e8; border-radius: 3pt; padding: 3pt; text-align: center; font-size: 7.5pt; }
+  .rp .mt-mc.on { border-color: #c9962b; background: #fbf4e3; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rp .mt-mc b { display: block; color: #0b2a40; } .rp .mt-mc span { color: #5a6875; font-size: 6.8pt; }
+  .rp .mt-mc svg { margin: 0 auto; }
+  .rp .mt-t { width: 100%; border-collapse: collapse; font-size: 7.5pt; }
+  .rp .mt-t thead { display: table-row-group; }
+  .rp .mt-t th { position: static; background: #0b2a40; color: #fff; padding: 2pt 4pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rp .mt-t td { padding: 2pt 4pt; border-bottom: .4pt solid #dde3e8; text-align: center; }
+  .rp .mt-t tr.sum td { font-weight: 700; border-top: 1pt solid #c9962b; }
+  .rp .mt-two { display: block; margin: 4pt 0; }
+  .rp .mt-sec { width: 62%; margin: 4pt auto 0; }
+  .rp .mt-pts { display: flex; flex-wrap: wrap; gap: 2pt 6pt; font-size: 6.3pt; color: #1d2733; }
+  .rp .mt-pts span { border: .4pt solid #dde3e8; border-radius: 2pt; padding: 0 3pt; }
+  .rp .mt-av { margin-top: 3pt; }
+  .rp .mt-mat { break-inside: avoid; }
+}
+.mc-row { border: 1px solid var(--line, #d5dde3); border-radius: 10px; padding: 6px 8px; }
+.mc-row input.grow { flex: 1 1 140px; min-width: 0; }
+.mc-row select.inp { flex: 1 1 90px; }
+
+.mc-form { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin-bottom: 10px; }
+.mc-sel { flex: 1 1 170px; min-width: 150px; font-size: 15px; }
+.mc-row { flex-wrap: nowrap; }
+.mc-row .mc-sel { flex: 1 1 150px; min-width: 130px; }
+.mc-form .mc-cap, .mc-row .mc-cap { flex: 0 0 76px; }
+.card-d { margin-top: 10px; } .card-d summary { cursor: pointer; font-weight: 600; padding: 6px 0; }
+@media print {
+  .rp .mt-mat + .mt-mat { break-before: page; }
+  .rp .mt-mb { break-inside: avoid; margin-top: 4pt; }
+  .rp .mt-mh { display: flex; align-items: center; gap: 8pt; font-size: 8pt; margin-bottom: 2pt; }
+  .rp .mt-mh span { display: block; color: #3a4753; font-size: 7pt; }
+  .rp .mt-mh svg { flex: none; }
+  .rp .mt-sec { width: 55%; margin: 2pt auto 4pt; }
+}
+.mc-form .mc-sel { flex: 1 1 100%; }
+.mc-form .mc-cap { flex: 1 1 90px; }
+.mc-row { flex-wrap: wrap; }
+.mc-row .mc-sel { flex: 1 1 60%; min-width: 0; }
+.mc-row .mc-cap { flex: 0 0 90px; }
+
+.mc-row { display: block; }
+.mc-row .mc-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.mc-row .mc-top .mc-sel { flex: 1 1 auto; min-width: 0; }
+.mc-row .mc-bot { display: flex; align-items: center; gap: 6px; }
+.mc-row .mc-bot .mc-cap { flex: 0 0 90px; }
+@media print { .rp .mt-t tr.on td { background: #fbf4e3; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .rp .mt-mc svg { width: 48pt; height: auto; } .rp .mt-mh svg { width: 38pt; height: auto; } }
+@media print { .rp .mt-mat { break-inside: auto; } .rp .mt-mat > .rp-box:first-child { break-after: avoid; } }
 </style>
 </head>
 <body>
@@ -1260,6 +1332,283 @@ tr.auto-row td { background: var(--axis-soft); }
   }
 
   /* ------------------------------------------------------------------ *
+   *  برآورد مصالح لایه‌ها، برنامه‌ی تخلیه‌ی بار و مقایسه با برداشت اجرایی
+   * ------------------------------------------------------------------ */
+  /** ارتفاع نسبی یک سطح: '' = خط پروژه (۰)، وگرنه جابه‌جایی لایه (متر) */
+  function surfOffset(id, layers) {
+    if (!id) return 0;
+    const l = (layers || []).find(function (x) { return x.id === id; });
+    return l ? l.offset : NaN;
+  }
+
+  /** مشخصات یک ردیف مصالح: ضخامت و بازه‌ی کیلومتراژ مشترک */
+  function matInfo(mat, layers, secs) {
+    const a = surfOffset(mat.top, layers), b = surfOffset(mat.bot, layers);
+    const out = { ok: false, t: NaN, lo: NaN, hi: NaN, warn: '' };
+    if (!Number.isFinite(a) || !Number.isFinite(b)) { out.warn = 'یکی از دو سطح حذف شده است.'; return out; }
+    out.t = Math.abs(a - b);
+    out.hiId = a >= b ? mat.top : mat.bot; out.loId = a >= b ? mat.bot : mat.top;
+    if (mat.top === mat.bot || out.t < 1e-9) { out.warn = 'ضخامت صفر است (دو سطح یکی‌اند).'; return out; }
+    const ls = [mat.top, mat.bot].map(function (id) { return (layers || []).find(function (x) { return x.id === id; }); }).filter(Boolean);
+    let lo = secs.length ? secs[0].station : 0, hi = secs.length ? secs[secs.length - 1].station : 0;
+    ls.forEach(function (l) { if (l.from !== null && l.from !== undefined) lo = Math.max(lo, l.from); if (l.to !== null && l.to !== undefined) hi = Math.min(hi, l.to); });
+    if (!(hi > lo)) { out.warn = 'دو لایه بازه‌ی مشترک ندارند.'; return out; }
+    out.lo = lo; out.hi = hi; out.ok = true;
+    return out;
+  }
+
+  /** عرض چپ و راست در یک کیلومتراژ (درون‌یابی خطی بین مقاطع) */
+  function widthsAt(secs, s) {
+    if (!secs.length) return { wL: 0, wR: 0 };
+    if (s <= secs[0].station) return { wL: secs[0].left.width, wR: secs[0].right.width };
+    const n = secs.length;
+    if (s >= secs[n - 1].station) return { wL: secs[n - 1].left.width, wR: secs[n - 1].right.width };
+    let i = 1; while (i < n && secs[i].station < s) i++;
+    const a = secs[i - 1], b = secs[i], t = (s - a.station) / Math.max(b.station - a.station, 1e-12);
+    return { wL: a.left.width + (b.left.width - a.left.width) * t, wR: a.right.width + (b.right.width - a.right.width) * t };
+  }
+
+  /** حجم متراکم با روش میانگین سطوح: بازه‌ها بین نقاط شکست (مقاطع و دو سر بازه). cum = حجم تجمعی در هر نقطه‌ی شکست */
+  function matVolume(secs, lo, hi, t) {
+    const bps = [lo];
+    secs.forEach(function (s) { if (s.station > lo + 1e-9 && s.station < hi - 1e-9) bps.push(s.station); });
+    bps.push(hi);
+    const steps = []; let v = 0;
+    for (let i = 1; i < bps.length; i++) {
+      const s0 = bps[i - 1], s1 = bps[i], a = widthsAt(secs, s0), b = widthsAt(secs, s1);
+      const w0 = a.wL + a.wR, w1 = b.wL + b.wR, len = s1 - s0, vol = t * (w0 + w1) / 2 * len;
+      steps.push({ s0: s0, s1: s1, w0: w0, w1: w1, len: len, vol: vol, v0: v, v1: v + vol });
+      v += vol;
+    }
+    return { steps: steps, total: v, length: hi - lo };
+  }
+
+  /** کیلومتراژی که در آن حجم تجمعیِ متراکم به target برسد (درون هر بازه عرض خطی است، پس معادله‌ی درجه‌ی دوم) */
+  function stationAtVolume(vol, target) {
+    const steps = vol.steps;
+    for (let i = 0; i < steps.length; i++) {
+      const st = steps[i];
+      if (target <= st.v1 + 1e-9 || i === steps.length - 1) {
+        const need = Math.max(0, target - st.v0), L = st.len;
+        if (L <= 0) return st.s0;
+        const avgW = (st.w0 + st.w1) / 2, t = avgW > 0 ? st.vol / (L * avgW) : 0;
+        const a = t * (st.w1 - st.w0) / (2 * L), b = t * st.w0;
+        let x;
+        if (Math.abs(a) < 1e-12) x = b > 0 ? need / b : 0;
+        else x = (-b + Math.sqrt(Math.max(0, b * b + 4 * a * need))) / (2 * a);
+        return st.s0 + Math.min(L, Math.max(0, x));
+      }
+    }
+    return steps.length ? steps[steps.length - 1].s1 : 0;
+  }
+
+  /**
+   * برنامه‌ی تخلیه‌ی بار: cap = ظرفیت ماشین (حجم شل)، swell = ضریب تورم، rows = تعداد ردیف روی عرض باند.
+   * هر ردیف سهم 1/rows از حجم را می‌گیرد؛ بار k در کیلومتراژی می‌افتد که حجم تجمعی ردیف به (k−0.5)·cap برسد.
+   * زیگزاگ: ردیف‌های زوج (دومی، چهارمی…) نیم‌بار جلوتر.
+   */
+  function dumpPlan(vol, secs, cap, swell, rows, zigzag) {
+    rows = Math.max(1, Math.round(rows || 1));
+    const loose = vol.total * swell, perRow = loose / rows;
+    const out = { ok: false, loose: loose, perRow: perRow, loadsPerRow: 0, total: 0, rows: [], all: [], min: NaN, max: NaN, avg: NaN, fill: NaN };
+    if (!(cap > 0) || !(perRow > 0)) return out;
+    const N = Math.max(1, Math.ceil(perRow / cap - 1e-9));
+    out.loadsPerRow = N; out.total = N * rows; out.ok = true;
+    const gaps = [];
+    for (let j = 0; j < rows; j++) {
+      const pos = [];
+      for (let k = 1; k <= N; k++) {
+        let tgt = (k - 0.5) * cap;
+        if (zigzag && rows > 1 && j % 2 === 1) tgt += cap / 2;
+        if (k === N) tgt = Math.min(tgt, perRow - cap * 0.0001);
+        tgt = Math.max(0, Math.min(tgt, perRow));
+        const s = stationAtVolume(vol, tgt * rows / swell);
+        pos.push(s);
+      }
+      // مقدار هر بار: برای آخرین بار باقی‌مانده
+      const rowObj = { index: j, loads: pos.map(function (s, k) {
+        const w = widthsAt(secs, s), tot = w.wL + w.wR, off = -w.wL + (j + 0.5) * tot / rows;
+        return { k: k + 1, station: s, offset: off, vol: k === N - 1 ? perRow - cap * (N - 1) : cap };
+      }) };
+      out.rows.push(rowObj);
+      for (let k = 1; k < pos.length; k++) gaps.push(pos[k] - pos[k - 1]);
+      rowObj.loads.forEach(function (l) { out.all.push({ row: j + 1, k: l.k, station: l.station, offset: l.offset, vol: l.vol }); });
+    }
+    out.all.sort(function (a, b) { return a.station - b.station || a.row - b.row; });
+    if (gaps.length) { out.min = Math.min.apply(null, gaps); out.max = Math.max.apply(null, gaps); out.avg = gaps.reduce(function (a, b) { return a + b; }, 0) / gaps.length; }
+    out.fill = perRow / (N * cap);
+    return out;
+  }
+
+
+  /**
+   * برنامه‌ی تخلیه‌ی بازه‌ای: تعداد ردیف یا ثابت است (spec.rows ≥ 1) یا خودکار از عرض مسیر (spec.rows = 0، عرض هر ردیف spec.rowW).
+   * هرجا تعداد ردیف عوض شود بازه‌ی جدید شروع می‌شود و هر بازه برنامه‌ی تخلیه‌ی خودش را دارد.
+   */
+  function dumpZones(secs, info, cap, swell, spec, zigzag) {
+    const lo = info.lo, hi = info.hi, t = info.t;
+    const auto = !(spec && spec.rows > 0), rowW = spec && spec.rowW > 0 ? spec.rowW : 5, TOL = 0.05;
+    const tot = function (s) { const w = widthsAt(secs, s); return w.wL + w.wR; };
+    const rowsFor = function (w) { return Math.max(1, Math.ceil((w - TOL) / rowW - 1e-9)); };
+    let zs = [];
+    if (!auto) zs = [{ lo: lo, hi: hi, rows: Math.min(12, Math.round(spec.rows)) }];
+    else {
+      const bps = [lo]; secs.forEach(function (q) { if (q.station > lo + 1e-9 && q.station < hi - 1e-9) bps.push(q.station); }); bps.push(hi);
+      const cuts = [lo];
+      for (let i = 1; i < bps.length; i++) {
+        const a = bps[i - 1], b = bps[i], wa = tot(a), wb = tot(b), mid = [];
+        if (Math.abs(wb - wa) > 1e-9) {
+          const k0 = Math.min(wa, wb) / rowW, k1 = Math.max(wa, wb) / rowW;
+          for (let k = Math.floor(k0 + 1e-9) + 1; k <= k1 - 1e-9; k++) {
+            const s = a + (k * rowW + TOL - wa) / (wb - wa) * (b - a);
+            if (s > a + 1e-9 && s < b - 1e-9) mid.push(s);
+          }
+          mid.sort(function (x, y) { return x - y; });
+        }
+        mid.forEach(function (s) { cuts.push(s); }); cuts.push(b);
+      }
+      for (let i = 1; i < cuts.length; i++) {
+        if (cuts[i] - cuts[i - 1] < 1e-6) continue;
+        const r = rowsFor(tot((cuts[i] + cuts[i - 1]) / 2)), last = zs[zs.length - 1];
+        if (last && last.rows === r) last.hi = cuts[i]; else zs.push({ lo: cuts[i - 1], hi: cuts[i], rows: r });
+      }
+    }
+    const out = { ok: zs.length > 0, zones: [], total: 0, loose: 0, all: [], min: NaN, max: NaN, avg: NaN };
+    const gaps = [];
+    zs.forEach(function (z, zi) {
+      const vol = matVolume(secs, z.lo, z.hi, t), dp = dumpPlan(vol, secs, cap, swell, z.rows, zigzag);
+      if (!dp.ok) { out.ok = false; return; }
+      const wm = widthsAt(secs, (z.lo + z.hi) / 2), tt = wm.wL + wm.wR;
+      const offs = []; for (let j = 0; j < z.rows; j++) offs.push(-wm.wL + (j + 0.5) * tt / z.rows);
+      const wa = tot(z.lo), wb = tot(z.hi);
+      out.zones.push({ lo: z.lo, hi: z.hi, len: z.hi - z.lo, rows: z.rows, wMin: Math.min(wa, wb), wMax: Math.max(wa, wb), offs: offs, dp: dp, total: dp.total, avg: dp.avg, min: dp.min, max: dp.max, loose: dp.loose, vol: vol.total });
+      out.total += dp.total; out.loose += dp.loose;
+      dp.rows.forEach(function (r) { for (let k = 1; k < r.loads.length; k++) gaps.push(r.loads[k].station - r.loads[k - 1].station); });
+      dp.all.forEach(function (l) { out.all.push({ zone: zi + 1, row: l.row, k: l.k, station: l.station, offset: l.offset, vol: l.vol }); });
+    });
+    out.all.sort(function (a, b) { return a.station - b.station || a.row - b.row; });
+    if (gaps.length) { out.min = Math.min.apply(null, gaps); out.max = Math.max.apply(null, gaps); out.avg = gaps.reduce(function (a, b) { return a + b; }, 0) / gaps.length; }
+    return out;
+  }
+
+  /** نمایه‌ی عرضی یک مقطع: [{off, z}] مرتب از چپ (منفی) به راست (مثبت) */
+  function sectionProfile(sec) {
+    const pts = [];
+    sideKeys(sec).forEach(function (k) {
+      const q = sec[k]; if (!q) return;
+      let off = 0;
+      if (k === 'left') off = -q.width; else if (k === 'right') off = q.width; else if (k === 'axis') off = 0;
+      else off = q.edge === 'left' ? -q.width : q.width;
+      if (Number.isFinite(q.z)) pts.push({ off: off, z: q.z });
+    });
+    pts.sort(function (a, b) { return a.off - b.off; });
+    return pts;
+  }
+  function zOnProfile(prof, off) {
+    if (prof.length < 2) return { z: prof.length ? prof[0].z : NaN, out: true };
+    if (off < prof[0].off - 1e-9 || off > prof[prof.length - 1].off + 1e-9) return { z: NaN, out: true };
+    for (let i = 1; i < prof.length; i++) {
+      if (off <= prof[i].off + 1e-12) {
+        const a = prof[i - 1], b = prof[i], t = (off - a.off) / Math.max(b.off - a.off, 1e-12);
+        return { z: a.z + (b.z - a.z) * t, out: false };
+      }
+    }
+    return { z: prof[prof.length - 1].z, out: false };
+  }
+  /** Z طراحی سطح خط پروژه در (کیلومتراژ، فاصله‌ی عرضی؛ راست مثبت) */
+  function designZAt(secs, s, off) {
+    const n = secs.length; if (!n) return { z: NaN, out: true };
+    if (s < secs[0].station - 1e-6 || s > secs[n - 1].station + 1e-6) return { z: NaN, out: true };
+    let i = 1; while (i < n && secs[i].station < s) i++;
+    if (i >= n) i = n - 1;
+    const a = secs[Math.max(0, i - 1)], b = secs[i];
+    const za = zOnProfile(sectionProfile(a), off), zb = zOnProfile(sectionProfile(b), off);
+    const t = b.station > a.station ? (s - a.station) / (b.station - a.station) : 0;
+    if (za.out && zb.out) return { z: NaN, out: true };
+    if (za.out) return { z: zb.z, out: false };
+    if (zb.out) return { z: za.z, out: false };
+    return { z: za.z + (zb.z - za.z) * t, out: false };
+  }
+
+  /** تصویر نقطه روی خط محور (چندخطی از مرکز مقاطع): کیلومتراژ، فاصله‌ی عرضی (راست مثبت) و فاصله‌ی افقی تا محور */
+  function projectToAxis(secs, x, y) {
+    let best = null;
+    for (let i = 1; i < secs.length; i++) {
+      const a = secs[i - 1].axis, b = secs[i].axis, dx = b.x - a.x, dy = b.y - a.y, L2 = dx * dx + dy * dy;
+      if (L2 < 1e-12) continue;
+      let t = ((x - a.x) * dx + (y - a.y) * dy) / L2; const tc = Math.max(0, Math.min(1, t));
+      const px = a.x + dx * tc, py = a.y + dy * tc, d = Math.hypot(x - px, y - py);
+      if (!best || d < best.dist - 1e-9) {
+        const L = Math.sqrt(L2), cross = dx * (y - a.y) - dy * (x - a.x);
+        best = { dist: d, station: secs[i - 1].station + (secs[i].station - secs[i - 1].station) * tc, offset: -cross / L, inside: t >= -1e-9 && t <= 1 + 1e-9 };
+      }
+    }
+    return best;
+  }
+
+  /**
+   * مقایسه‌ی نقطه‌های برداشت با طراحی. pts: [{x,y,z,src,desc,layerId}]؛ layers: لایه‌های نرمال‌شده.
+   * خروجی هر نقطه: کیلومتراژ، فاصله‌ی عرضی، Z طراحی سطح لایه، اختلاف dz (برداشت − طراحی)، وضعیت.
+   */
+  function compareSurvey(secs, pts, layers, tolMm) {
+    const tol = (tolMm || 10) / 1000, rows = [];
+    pts.forEach(function (p) {
+      const pr = projectToAxis(secs, p.x, p.y);
+      const row = { src: p.src || '', desc: p.desc || '', layerId: p.layerId || '', x: p.x, y: p.y, zMeas: p.z, station: NaN, offset: NaN, zDes: NaN, dz: NaN, status: 'out' };
+      if (pr) {
+        row.station = pr.station; row.offset = pr.offset;
+        const dz = designZAt(secs, pr.station, pr.offset), lo = surfOffset(p.layerId, layers);
+        if (!dz.out && Number.isFinite(lo) && pr.inside) {
+          row.zDes = dz.z + lo; row.dz = p.z - row.zDes;
+          row.status = Math.abs(row.dz) <= tol ? 'ok' : (row.dz > 0 ? 'high' : 'low');
+        }
+      }
+      rows.push(row);
+    });
+    return rows;
+  }
+
+  /** میانگین اختلاف سطح هر لایه در هر مقطع (هر نقطه به نزدیک‌ترین مقطع می‌رود) */
+  function meanDevBySection(secs, rows, layerId) {
+    const sum = secs.map(function () { return 0; }), cnt = secs.map(function () { return 0; });
+    rows.forEach(function (r) {
+      if (r.layerId !== layerId || r.status === 'out' || !Number.isFinite(r.dz)) return;
+      let bi = 0, bd = Infinity;
+      secs.forEach(function (s, i) { const d = Math.abs(s.station - r.station); if (d < bd) { bd = d; bi = i; } });
+      sum[bi] += r.dz; cnt[bi]++;
+    });
+    return secs.map(function (s, i) { return cnt[i] ? { dz: sum[i] / cnt[i], n: cnt[i] } : null; });
+  }
+
+  /**
+   * حجم واقعی مصالح یک ردیف از ضخامت برداشت‌شده: ضخامت هر مقطع = ضخامت طرح + (اختلاف سطح رویی − اختلاف سطح زیرین).
+   * سطحی که هیچ نقطه‌ی برداشتی ندارد، اختلاف صفر (مطابق طرح) فرض می‌شود؛ دست‌کم یکی از دو سطح باید برداشت داشته باشد.
+   * فقط بازه‌هایی حساب می‌شوند که هر دو مقطع دو سرشان داده‌ی لازم دارند.
+   */
+  function actualVolume(secs, info, rows) {
+    const has = function (id) { return rows.some(function (r) { return r.layerId === id && r.status !== 'out' && Number.isFinite(r.dz); }); };
+    const sHi = has(info.hiId), sLo = has(info.loId);
+    const out = { ok: false, covered: 0, design: 0, actual: 0, diff: 0, pct: NaN, thick: [], surveyedHi: sHi, surveyedLo: sLo };
+    if (!sHi && !sLo) return out;
+    const dH = sHi ? meanDevBySection(secs, rows, info.hiId) : null, dL = sLo ? meanDevBySection(secs, rows, info.loId) : null;
+    const th = secs.map(function (s, i) {
+      if (s.station < info.lo - 1e-9 || s.station > info.hi + 1e-9) return null;
+      const a = dH ? dH[i] : { dz: 0 }, b = dL ? dL[i] : { dz: 0 };
+      if (!a || !b) return null;
+      return info.t + (a.dz - b.dz);
+    });
+    for (let i = 1; i < secs.length; i++) {
+      if (th[i - 1] === null || th[i] === null) continue;
+      const w = widthsAt(secs, secs[i - 1].station), w2 = widthsAt(secs, secs[i].station), len = secs[i].station - secs[i - 1].station;
+      const wm = ((w.wL + w.wR) + (w2.wL + w2.wR)) / 2;
+      out.covered += len; out.design += info.t * wm * len; out.actual += (th[i - 1] + th[i]) / 2 * wm * len;
+    }
+    secs.forEach(function (s, i) { if (th[i] !== null) out.thick.push({ station: s.station, t: th[i] }); });
+    out.ok = out.covered > 0; out.diff = out.actual - out.design; out.pct = out.design > 0 ? out.diff / out.design * 100 : NaN;
+    return out;
+  }
+
+  /* ------------------------------------------------------------------ *
    *  لایه‌ها (جابه‌جایی ارتفاعی نسبت به خط پروژه؛ منفی = پایین‌تر)
    * ------------------------------------------------------------------ */
   function normalizeLayers(layers) {
@@ -1556,7 +1905,7 @@ tr.auto-row td { background: var(--axis-soft); }
     computeSetup: computeSetup, staffReading: staffReading, setupCovers: setupCovers, buildReadings: buildReadings,
     buildPointRows: buildPointRows, buildNewoRows: buildNewoRows,
     sortSetups: sortSetups, analyzeSetups: analyzeSetups, surveyPoint: surveyPoint, surveyStats: surveyStats,
-    utmToLatLon: utmToLatLon, groupCrossModels: groupCrossModels, mergeGroupsByMode: mergeGroupsByMode, migrateSlopeRows: migrateSlopeRows,
+    utmToLatLon: utmToLatLon, surfOffset: surfOffset, matInfo: matInfo, widthsAt: widthsAt, matVolume: matVolume, stationAtVolume: stationAtVolume, dumpPlan: dumpPlan, dumpZones: dumpZones, sectionProfile: sectionProfile, designZAt: designZAt, projectToAxis: projectToAxis, compareSurvey: compareSurvey, meanDevBySection: meanDevBySection, actualVolume: actualVolume, groupCrossModels: groupCrossModels, mergeGroupsByMode: mergeGroupsByMode, migrateSlopeRows: migrateSlopeRows,
     modelFromFalls: modelFromFalls, modeDirs: modeDirs, autoSections: autoSections, interpolateAxisPoint: interpolateAxisPoint, generatePegs: generatePegs, normalizeMids: normalizeMids, midCovers: midCovers, sideKeys: sideKeys,
     MODES: MODES, MODE_FA: MODE_FA
   };
@@ -2290,6 +2639,14 @@ tr.auto-row td { background: var(--axis-soft); }
         if (Array.isArray(s.layers)) o.layers = normLayers(s.layers);
         if (Array.isArray(s.survey)) o.survey = normSurvey(s.survey);
         if (Array.isArray(s.mids)) o.mids = normMids(s.mids);
+        if (Array.isArray(s.mats)) o.mats = s.mats.filter(function (m) { return m && typeof m === 'object'; }).map(function (m) {
+          const sw = num(m.swell), rw = num(m.rows);
+          return { id: String(m.id || C.uid('mt')), name: str(m.name), top: str(m.top), bot: str(m.bot), topFile: str(m.topFile), botFile: str(m.botFile), swell: sw !== null && sw > 0 ? sw : 1.25, rows: rw !== null && rw >= 1 ? Math.min(6, Math.round(rw)) : (rw === 0 ? 0 : 1), rowW: num(m.rowW) > 0 ? num(m.rowW) : 5, zigzag: !!m.zigzag };
+        });
+        if (Array.isArray(s.asbuilt)) o.asbuilt = s.asbuilt.filter(function (a) { return a && Array.isArray(a.pts); }).map(function (a) {
+          return { id: String(a.id || C.uid('ab')), name: str(a.name), date: str(a.date), layerId: str(a.layerId), src: str(a.src),
+            pts: a.pts.map(function (q) { return { x: num(q.x), y: num(q.y), z: num(q.z), desc: str(q.desc) }; }).filter(function (q) { return q.x !== null && q.y !== null && q.z !== null; }) };
+        });
         if (s.staked && typeof s.staked === 'object' && !Array.isArray(s.staked)) {
           o.staked = {};
           Object.keys(s.staked).forEach(function (k) { if (Array.isArray(s.staked[k])) o.staked[k] = s.staked[k].map(String).filter(function (v) { return /^-?\d+$/.test(v); }); });
@@ -2307,6 +2664,10 @@ tr.auto-row td { background: var(--axis-soft); }
     });
     base.activeSetupId = p.activeSetupId || null;
     base.importTemplates = normTpl(p.importTemplates, 'points').filter(function (t) { return t.roles; });
+    if (Array.isArray(p.signers)) base.signers = p.signers.slice(0, 6).map(function (x) { return { title: str(x && x.title), name: str(x && x.name) }; });
+    base.signOn = p.signOn !== false;
+    if (Array.isArray(p.machines)) base.machines = p.machines.filter(function (m) { return m && num(m.cap) !== null && num(m.cap) > 0; }).map(function (m) { return { id: String(m.id || C.uid('mc')), name: str(m.name), label: str(m.label), cap: num(m.cap), icon: str(m.icon) || 'generic' }; });
+    if (Array.isArray(p.vehicleTypes)) base.vehicleTypes = p.vehicleTypes.map(function (n) { return String(n).trim(); }).filter(function (n, i, a) { return n && a.indexOf(n) === i; });
     base.exportTemplates = { points: normTpl(p.exportTemplates && p.exportTemplates.points, 'points').filter(function (t) { return t.cols; }), survey: normTpl(p.exportTemplates && p.exportTemplates.survey, 'survey').filter(function (t) { return t.cols; }) };
     base.layerNames = (Array.isArray(p.layerNames) ? p.layerNames : []).map(function (n) { return String(n).trim(); }).filter(function (n, i, a) { return n && a.indexOf(n) === i; });
     return base;
@@ -2461,6 +2822,8 @@ tr.auto-row td { background: var(--axis-soft); }
   const isOldDefaultSections = function (a) {
     return Array.isArray(a) && a.length === 1 && a[0].station === 0 && a[0].wL === 3.5 && a[0].wR === 3.5 && a[0].mode === 'crown' && a[0].sL === 2 && a[0].sR === 2;
   };
+  const DEFAULT_SIGNERS = ['تهیه‌کننده', 'کنترل‌کننده', 'ناظر', 'مدیر پروژه'];
+  const defaultMachines = function () { return [{ id: 'mc_tak', name: 'کمپرسی تک', cap: 10, icon: 'single' }, { id: 'mc_10', name: 'کمپرسی ده‌چرخ', cap: 16, icon: 'ten' }, { id: 'mc_tr', name: 'تریلی', cap: 28, icon: 'trailer' }]; };
   function linkStreets(p) {
     const own = function (k) { const d = Object.getOwnPropertyDescriptor(p, k); return d && 'value' in d ? d.value : undefined; };
     const legacySections = Array.isArray(own('sections')) ? own('sections') : null;
@@ -2473,6 +2836,8 @@ tr.auto-row td { background: var(--axis-soft); }
       if (!Array.isArray(s.survey)) s.survey = [];
       if (!Array.isArray(s.mids)) s.mids = [];
       if (!s.staked || typeof s.staked !== 'object' || Array.isArray(s.staked)) s.staked = {};
+      if (!Array.isArray(s.mats)) s.mats = [];
+      if (!Array.isArray(s.asbuilt)) s.asbuilt = [];
       // شیب هر نقطه‌ی محور جدا نگه داشته می‌شود؛ جدول‌های قدیمیِ درون‌یابی به ردیف به‌ازای هر نقطه تبدیل می‌شوند
       if (s.slopeMode !== 'point') {
         if (isOldDefaultSections(s.sections)) s.sections = [];
@@ -2483,6 +2848,10 @@ tr.auto-row td { background: var(--axis-soft); }
       s.sections = C.migrateSlopeRows(s.sections, p.settings);
       s.points.forEach(function (q) { if (q.desc == null) q.desc = ''; });
     });
+    if (!Array.isArray(p.signers)) p.signers = DEFAULT_SIGNERS.map(function (t) { return { title: t, name: '' }; });
+    if (typeof p.signOn !== 'boolean') p.signOn = true;
+    if (!Array.isArray(p.vehicleTypes)) p.vehicleTypes = [];
+    if (!Array.isArray(p.machines) || !p.machines.length) p.machines = defaultMachines();
     if ('sections' in p) delete p.sections;
     if ('layers' in p) delete p.layers;
     if ('mids' in p) delete p.mids;
@@ -2729,9 +3098,10 @@ tr.auto-row td { background: var(--axis-soft); }
     newo: '<path d="M12 3v4"/><rect x="6" y="7" width="12" height="7" rx="2"/><path d="M12 14v4M7 21l5-3 5 3"/>',
     survey: '<rect x="9" y="3" width="6" height="18" rx="1"/><path d="M9 7h3M9 11h3M9 15h3"/>',
     stake: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>',
+    mat: '<path d="M3 18h18"/><path d="M5 18 8 9h8l3 9"/><path d="M9 13h6"/>',
     export: '<path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 20h16"/>'
   };
-  const NAV = [['projects', 'پروژه‌ها'], ['points', 'محور'], ['slopes', 'شیب'], ['layers', 'لایه‌ها'], ['newo', 'نیوو'], ['stake', 'پیاده'], ['survey', 'برداشت'], ['export', 'خروجی']];
+  const NAV = [['projects', 'پروژه‌ها'], ['points', 'محور'], ['slopes', 'شیب'], ['layers', 'لایه‌ها'], ['mat', 'برآورد'], ['newo', 'نیوو'], ['stake', 'پیاده'], ['survey', 'برداشت'], ['export', 'خروجی']];
 
   function renderNav() {
     $('#nav').innerHTML = NAV.map(function (n) {
@@ -2789,8 +3159,31 @@ tr.auto-row td { background: var(--axis-soft); }
     });
     h += '<section class="card"><h3>بازیابی از فایل پشتیبان</h3><p class="muted small">فایل .json که از «پشتیبان JSON» یا «پشتیبان همه‌ی پروژه‌ها» گرفته‌اید. اگر پروژه‌ای با همان شناسه وجود داشته باشد، قبل از جایگزینی تأیید می‌گیرد.</p>' +
       '<div class="row"><label class="btn">انتخاب فایل پشتیبان<input type="file" id="restoreFile" class="vh"></label>' + (list.length ? '<button class="btn" data-act="backupAll">پشتیبان همه‌ی پروژه‌ها</button>' : '') + '</div></section>';
-    if (S.project) h += settingsCard();
+    if (S.project) h += settingsCard() + signersCard();
     return h + '<div class="credit">By AliGhorbani</div>';
+  }
+
+  /* ---------- امضاکنندگان گزارش (در تب پروژه‌ها) ---------- */
+  function signersCard() {
+    const p = P(), sg = p.signers;
+    let h = '<section class="card" id="signersCard"><h2>امضاکنندگان گزارش</h2><p class="muted small">در پایین گزارش‌های PDF (جدول، گزارش مسیر، برآورد مصالح) به همین ترتیب نوشته می‌شود. سمت و نام را خودتان تغییر دهید؛ نام خالی بماند فقط سمت و جای امضا چاپ می‌شود.</p>' +
+      '<label class="row" style="margin:6px 0"><input type="checkbox" data-sg="on"' + (p.signOn ? ' checked' : '') + '> امضا در گزارش‌ها نوشته شود</label>';
+    sg.forEach(function (x, i) {
+      h += '<div class="row" style="margin-bottom:6px"><input class="inp" style="max-width:42%" data-sg="title" data-i="' + i + '" value="' + esc(x.title) + '" placeholder="سمت" autocomplete="off" aria-label="سمت">' +
+        '<input class="inp grow" data-sg="name" data-i="' + i + '" value="' + esc(x.name) + '" placeholder="نام و نام خانوادگی" autocomplete="off" aria-label="نام">' +
+        '<button class="btn icon danger sm" data-act="sgDel" data-i="' + i + '" aria-label="حذف">×</button></div>';
+    });
+    h += '<div class="row"><button class="btn sm"' + (sg.length >= 6 ? ' disabled' : '') + ' data-act="sgAdd">افزودن امضاکننده</button>' + (sg.length >= 6 ? '<span class="muted small">حداکثر ۶ نفر</span>' : '') + '</div></section>';
+    return h;
+  }
+  /** کادر امضا برای پایین گزارش‌های چاپی */
+  function signBlock() {
+    const p = P(); if (!p.signOn) return '';
+    const sg = (p.signers || []).filter(function (x) { return x.title || x.name; });
+    if (!sg.length) return '';
+    return '<div class="sig" style="grid-template-columns:repeat(' + sg.length + ',1fr)">' + sg.map(function (x) {
+      return '<div class="sg"><div class="sgt">' + esc(x.title) + '</div><div class="sgn">' + esc(x.name) + '</div><div class="sgl">امضا</div></div>';
+    }).join('') + '</div>';
   }
 
   function settingsCard() {
@@ -3807,7 +4200,7 @@ tr.auto-row td { background: var(--axis-soft); }
       curRows += g.rows.length; cnt++;
     });
     flush();
-    h += '<div class="pt-foot">' + esc(p.name) + ' • ' + esc(activeStreet().name) + ' • ' + esc(lname) + '</div>';
+    h += signBlock() + '<div class="pt-foot">' + esc(p.name) + ' • ' + esc(activeStreet().name) + ' • ' + esc(lname) + '</div>';
     const pa = $('#printArea'), oldTitle = document.title;
     pa.className = 'pt'; pa.innerHTML = h;
     document.title = slugFa(p.name) + '_' + slugFa(activeStreet().name) + '_' + slugFa(lname);
@@ -3977,7 +4370,9 @@ tr.auto-row td { background: var(--axis-soft); }
     const cs = st.coordSystem === 'UTM' ? 'UTM ' + st.utmZone + (st.hemisphere === 'S' ? 'S' : 'N') + ' / ' + st.datum : 'محلی';
 
     // نقشه‌ی پس‌زمینه (اختیاری)
-    const PW = 430, PH = 232;
+    const PW = 430;
+    let groups0 = C.groupCrossModels(secs, st.slopeUnit); if (groups0.length > 6) groups0 = C.mergeGroupsByMode(groups0);
+    const nXs = Math.min(3, Math.max(1, groups0.length)), PH = nXs <= 1 ? 190 : nXs === 2 ? 236 : 300;
     let mp = null, mapNote = '';
     if (S.rpMap !== false && st.coordSystem === 'UTM') {
       mp = rpMapSetup(secs, PW, PH);
@@ -4004,24 +4399,27 @@ tr.auto-row td { background: var(--axis-soft); }
     // پلان + مقطع‌های عرضی
     let groups = C.groupCrossModels(secs, st.slopeUnit);
     if (groups.length > 6) groups = C.mergeGroupsByMode(groups);
-        const xsCap = function (g) {
+    const xsCap = function (g) {
       const d = st.slopeUnit === 'ratio' ? 4 : 2, kk = st.slopeUnit === 'ratio' ? 'm/m' : '٪';
       const rg2 = function (a, b, dd) { return Math.abs(a - b) < 1e-9 ? C.fmt(a, dd) : C.fmt(a, dd) + ' تا ' + C.fmt(b, dd); };
       const R = g.merged && g.rng ? g.rng : { wL: [g.wL, g.wL], wR: [g.wR, g.wR], sL: [g.sL, g.sL], sR: [g.sR, g.sR] };
-      return 'عرض چپ ' + bd(rg2(R.wL[0], R.wL[1], 2) + ' ' + unitL()) + ' • راست ' + bd(rg2(R.wR[0], R.wR[1], 2) + ' ' + unitL()) +
-        (g.mode !== 'flat' ? '<br>شیب چپ ' + bd(rg2(R.sL[0], R.sL[1], d) + ' ' + kk) + ' • راست ' + bd(rg2(R.sR[0], R.sR[1], d) + ' ' + kk) : '<br>تخت (بدون شیب عرضی)');
+      const row = function (lab, col, w, sl) {
+        return '<div class="gc"><span style="color:' + col + '">●</span> ' + lab + '</div><div class="gc">' + bd(rg2(w[0], w[1], 2)) + '</div><div class="gc">' + (g.mode !== 'flat' ? bd(rg2(sl[0], sl[1], d)) : '—') + '</div>';
+      };
+      return '<div class="rp-g rp-xg" style="grid-template-columns:.8fr 1fr 1fr"><div class="gh">سمت</div><div class="gh">عرض (' + unitL() + ')</div><div class="gh">شیب عرضی (' + kk + ')</div>' +
+        row('چپ', RP.left, R.wL, R.sL) + row('راست', RP.right, R.wR, R.sR) + '</div>';
     };
-const xsHtml = groups.slice(0, 4).map(function (g) {
+    const xsHtml = groups.slice(0, 3).map(function (g) {
       const title = C.MODE_FA[g.mode] || g.mode;
       return '<div class="rp-xc"><div class="rp-xh"><b>' + esc(title) + '</b><span>' + bd(stLabel(g.from)) + ' تا ' + bd(stLabel(g.to)) + ' • ' + g.count + ' مقطع</span></div>' +
-        crossSectionSVG({ mode: g.mode, wL: g.wL, wR: g.wR, sL: g.sL, sR: g.sR, unit: st.slopeUnit, title: '', compact: true, mids: g.rep ? C.sideKeys(g.rep).filter(function (k) { return g.rep[k].kind === 'mid'; }).map(function (k) { const q = g.rep[k]; return { side: q.edge, offset: q.width, dz: q.dz, name: q.midName || q.tag }; }) : [] }) + '<div class="rp-cap">' + xsCap(g) + '</div></div>';
-    }).join('') + (groups.length > 4 ? '<div class="rp-note">+ ' + (groups.length - 4) + ' مدل دیگر</div>' : '');
+        crossSectionSVG({ mode: g.mode, wL: g.wL, wR: g.wR, sL: g.sL, sR: g.sR, unit: st.slopeUnit, title: '', compact: true, mids: g.rep ? C.sideKeys(g.rep).filter(function (k) { return g.rep[k].kind === 'mid'; }).map(function (k) { const q = g.rep[k]; return { side: q.edge, offset: q.width, dz: q.dz, name: q.midName || q.tag }; }) : [] }) + xsCap(g) + '</div>';
+    }).join('') + (groups.length > 3 ? '<div class="rp-note">+ ' + (groups.length - 3) + ' مدل دیگر</div>' : '');
     h += '<div class="rp-row"><div class="rp-box rp-plan"><h3>پلان مسیر</h3>' + rpPlan(secs, PW, PH, mp) +
       '<div class="rp-note"><span style="color:' + RP.left + '">■</span> لبه‌ی چپ &nbsp;<span style="color:' + RP.navy + '">■</span> محور &nbsp;<span style="color:' + RP.right + '">■</span> لبه‌ی راست &nbsp;<span style="color:' + RP.gold + '">●</span> کیلومتراژ' + (mapNote ? '<br>' + mapNote : '') + '</div></div>' +
-      '<div class="rp-box rp-xsb"><h3>مقطع‌های عرضی مورد استفاده</h3>' + (xsHtml || '<div class="rp-none">شیب عرضی اعمال نشده است.</div>') + '</div></div>';
+      '<div class="rp-box rp-xsb n' + nXs + '"><h3>مقطع‌های عرضی مورد استفاده</h3>' + (xsHtml || '<div class="rp-none">شیب عرضی اعمال نشده است.</div>') + '</div></div>';
 
     // نیمرخ طولی
-    h += '<div class="rp-box"><h3>نیمرخ طولی <small>(عدد روی هر بازه = شیب طولی؛ ▲ طلایی = نقطه‌ی تغییر جهت؛ <span style="color:' + RP.up + '">■</span> بالارو <span style="color:' + RP.dn + '">■</span> سرازیر)</small></h3>' + rpProfile(prof, 720, 138, rpRanges(segs, 0.1)) + '</div>';
+    h += '<div class="rp-box"><h3>نیمرخ طولی <small>(عدد روی هر بازه = شیب طولی؛ ▲ طلایی = نقطه‌ی تغییر جهت؛ <span style="color:' + RP.up + '">■</span> بالارو <span style="color:' + RP.dn + '">■</span> سرازیر)</small></h3>' + rpProfile(prof, 720, 112, rpRanges(segs, 0.1)) + '</div>';
 
     // لایه‌ها و خلاصه‌ی جهت‌ها
     const ll = C.normalizeLayers(p.layers).layers;
@@ -4052,7 +4450,7 @@ const xsHtml = groups.slice(0, 4).map(function (g) {
       '<div>' + (shownR.length > half ? rgHead + shownR.slice(half).map(function (q, i) { return rgRow(q, i + half); }).join('') + '</tbody></table>' : '') + '</div></div></div>';
     const warns = (r.axisV.warnings || []).concat((r.secV.warnings || []).filter(function (w) { return w.index !== null; }));
     if (warns.length) h += '<div class="rp-warn"><b>هشدار (' + warns.length + '):</b> ' + warns.slice(0, 2).map(function (w) { return esc(w.msg); }).join(' • ') + (warns.length > 2 ? ' …' : '') + '</div>';
-    h += '<div class="pt-foot">RoadStake • ' + esc(p.name) + ' • ' + esc(activeStreet().name) + ' • ' + esc(new Date().toLocaleDateString('fa-IR')) + '</div></div>';
+    h += signBlock() + '<div class="pt-foot">RoadStake • ' + esc(p.name) + ' • ' + esc(activeStreet().name) + ' • ' + esc(new Date().toLocaleDateString('fa-IR')) + '</div></div>';
 
     const pa = $('#printArea'), oldTitle = document.title;
     pa.className = 'pt rp'; pa.innerHTML = h;
@@ -4952,11 +5350,369 @@ const xsHtml = groups.slice(0, 4).map(function (g) {
     points: { render: pointsPage, live: pointsLive, after: pointsLive },
     slopes: { render: slopesPage, live: slopesLive, after: slopesLive },
     layers: { render: layersPage, live: layersLive, after: layersLive },
+    mat: { render: matPage },
     newo: { render: newoPage, live: newoLive, after: newoLive },
     stake: { render: stakePage },
     survey: { render: surveyPage, live: svRefreshLive, after: svRefreshLive },
     export: { render: exportPage, live: exportLive, after: exportLive }
   };
+
+  /* ============================== برآورد مصالح ============================== */
+  const MC_ICONS = [['single', 'کمپرسی تک'], ['ten', 'کمپرسی ده‌چرخ'], ['trailer', 'تریلی'], ['generic', 'کامیون']];
+  const MC_LABEL = { single: 'کمپرسی تک', ten: 'کمپرسی ده‌چرخ', trailer: 'تریلی', generic: 'کامیون', loader: 'لودر', grader: 'گریدر', roller: 'غلتک' };
+  const mcNum = function (v) { return String(+Number(v).toFixed(2)); };
+  const mcLabel = function (m) { return m.label || MC_LABEL[m.icon] || 'ماشین'; };
+  const mcNameH = function (m) { return esc(mcLabel(m)) + ' <bdi dir="ltr">' + mcNum(m.cap) + ' m³</bdi>'; };
+  const mcName = function (m) { return mcLabel(m) + ' ' + mcNum(m.cap) + ' m³'; };
+  S.mt = { mat: '', mach: '', page: 0, mcForm: { type: 'single', cap: '', newName: '' }, form: null, editMat: '', editMc: '' };
+  function mcTypeOpts(cur) {
+    const vt = P().vehicleTypes || [];
+    return MC_ICONS.map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === cur ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') +
+      vt.map(function (n) { return '<option value="c:' + esc(n) + '"' + ('c:' + n === cur ? ' selected' : '') + '>' + esc(n) + '</option>'; }).join('') +
+      '<option value="__new"' + (cur === '__new' ? ' selected' : '') + '>+ افزودن خودرو جدید…</option>';
+  }
+  function mtLoadsTxt(ze) {
+    if (!ze || !ze.ok) return '—';
+    if (ze.zones.length === 1) { const z = ze.zones[0]; return z.dp.loadsPerRow + ' × ' + z.rows + ' = ' + ze.total; }
+    const per = ze.zones.map(function (z) { return z.dp.loadsPerRow; });
+    return ze.total + ' (در هر ردیف ' + Math.min.apply(null, per) + ' تا ' + Math.max.apply(null, per) + ')';
+  }
+  function mtNewForm(layers) {
+    return { name: '', topSel: 'x', botSel: 'x', topDes: '', botDes: '', swell: '1.25', rows: '0', rowW: '5', zigzag: false };
+  }
+
+  /** آیکن برداری ماشین (طرح عمومی، بدون نشان تجاری). جهت: سمت راست = کابین */
+  function mcIcon(kind, o) {
+    o = o || {};
+    const c = o.color || '#0b2a40', a = o.accent || '#c9962b', w = o.w || 84, h = Math.round(w * 0.5);
+    const wheel = function (x, y, r) { return '<circle cx="' + x + '" cy="' + y + '" r="' + (r || 5) + '" fill="#26323d"/><circle cx="' + x + '" cy="' + y + '" r="' + ((r || 5) * 0.45) + '" fill="#cfd8de"/>'; };
+    let g = '';
+    if (kind === 'ten') {
+      g = '<path d="M6 34 L8 12 H62 L66 34 Z" fill="' + a + '"/><path d="M6 34 H66 V38 H6Z" fill="' + c + '"/>' +
+        '<path d="M68 38 V16 H80 L88 26 V38 Z" fill="' + c + '"/><path d="M72 19 H79 L84 26 H72Z" fill="#cfe6f3"/>' +
+        wheel(78, 41, 5.5) + wheel(24, 41) + wheel(38, 41) + wheel(54, 41);
+    } else if (kind === 'trailer') {
+      g = '<rect x="2" y="14" width="64" height="20" rx="2" fill="' + a + '"/><rect x="2" y="34" width="64" height="4" fill="' + c + '"/>' +
+        '<path d="M68 38 V18 H80 L90 28 V38 Z" fill="' + c + '"/><path d="M72 21 H79 L85 28 H72Z" fill="#cfe6f3"/>' +
+        wheel(82, 41, 5.5) + wheel(14, 41) + wheel(26, 41) + wheel(38, 41) + wheel(72, 41, 5);
+    } else if (kind === 'loader') {
+      g = '<path d="M30 36 V16 H56 V36 Z" fill="' + a + '"/><rect x="36" y="8" width="16" height="10" fill="' + c + '"/><rect x="38" y="10" width="12" height="6" fill="#cfe6f3"/>' +
+        '<path d="M56 24 L74 30" stroke="' + c + '" stroke-width="3.5"/><path d="M70 22 H88 L84 40 H72 Z" fill="' + c + '"/>' + wheel(38, 40, 7) + wheel(60, 40, 7);
+    } else if (kind === 'grader') {
+      g = '<rect x="4" y="22" width="52" height="8" fill="' + c + '"/><rect x="48" y="10" width="14" height="18" fill="' + a + '"/><rect x="50" y="12" width="10" height="7" fill="#cfe6f3"/>' +
+        '<rect x="62" y="34" width="22" height="4" rx="1" fill="#26323d"/><path d="M64 30 L70 34" stroke="' + c + '" stroke-width="2.5"/>' +
+        wheel(10, 38, 6) + wheel(24, 38, 6) + wheel(54, 38, 6);
+    } else if (kind === 'roller') {
+      g = '<rect x="26" y="14" width="30" height="16" rx="2" fill="' + a + '"/><rect x="30" y="6" width="14" height="10" fill="' + c + '"/><rect x="32" y="8" width="10" height="5" fill="#cfe6f3"/>' +
+        '<circle cx="18" cy="33" r="10" fill="#26323d"/><circle cx="18" cy="33" r="4" fill="#cfd8de"/><circle cx="66" cy="33" r="10" fill="#26323d"/><circle cx="66" cy="33" r="4" fill="#cfd8de"/><rect x="18" y="26" width="48" height="4" fill="' + c + '"/>';
+    } else if (kind === 'generic') {
+      g = '<rect x="6" y="14" width="56" height="22" rx="2" fill="' + a + '"/><path d="M64 38 V18 H78 L86 28 V38 Z" fill="' + c + '"/><path d="M68 21 H77 L82 28 H68Z" fill="#cfe6f3"/>' + wheel(22, 40) + wheel(52, 40) + wheel(74, 40);
+    } else {   // single
+      g = '<path d="M6 34 L10 12 H52 L56 34 Z" fill="' + a + '"/><rect x="6" y="34" width="50" height="4" fill="' + c + '"/>' +
+        '<path d="M58 38 V16 H70 L80 28 V38 Z" fill="' + c + '"/><path d="M62 19 H69 L75 28 H62Z" fill="#cfe6f3"/>' + wheel(20, 41) + wheel(66, 41);
+    }
+    return '<svg class="mc-ic" viewBox="0 0 92 48" width="' + w + '" height="' + h + '" aria-hidden="true" style="display:block;direction:ltr">' + g + '</svg>';
+  }
+
+  function mtCtx() {
+    const p = P(), r = calc(), st = activeStreet();
+    return { p: p, r: r, st: st, secs: r.sections || [], layers: C.normalizeLayers(p.layers).layers, mats: st.mats, machines: p.machines, files: st.asbuilt || [] };
+  }
+  const mtLayerLabel = function (l) { return l.name + ' (' + (l.offset > 0 ? '+' : '') + C.fmt(l.offset * 100, 1) + ' cm)'; };
+  /** گزینه‌های کشویی سطح: لایه‌ها، خط پروژه، فایل‌های نقاط و «فایل نقاط جدید» */
+  function mtSurfOpts(cx, cur) {
+    return '<option value="x"' + (cur === 'x' ? ' selected' : '') + ' disabled>انتخاب کنید…</option>' +
+      '<option value=""' + (cur === '' ? ' selected' : '') + '>خط پروژه (جابه‌جایی ۰)</option>' +
+      cx.layers.map(function (l) { return '<option value="' + esc(l.id) + '"' + (l.id === cur ? ' selected' : '') + '>' + esc(mtLayerLabel(l)) + '</option>'; }).join('') +
+      '<optgroup label="فایل نقاط">' + cx.files.map(function (f) { return '<option value="f:' + esc(f.id) + '"' + ('f:' + f.id === cur ? ' selected' : '') + '>' + esc(f.name) + ' (' + f.pts.length + ' نقطه)</option>'; }).join('') +
+      '<option value="__new">+ بارگذاری فایل نقاط…</option></optgroup>';
+  }
+  function mtDesOpts(cx, cur) {
+    return '<option value=""' + (!cur ? ' selected' : '') + '>خط پروژه</option>' + cx.layers.map(function (l) { return '<option value="' + esc(l.id) + '"' + (l.id === cur ? ' selected' : '') + '>' + esc(mtLayerLabel(l)) + '</option>'; }).join('');
+  }
+  function mtSurfName(cx, layerId, fileId) {
+    const l = cx.layers.find(function (x) { return x.id === layerId; }), f = fileId ? cx.files.find(function (x) { return x.id === fileId; }) : null;
+    return (l ? l.name : 'خط پروژه') + (f ? ' ← فایل «' + f.name + '»' : '');
+  }
+
+  /** حجم واقعی از فایل‌های نقاط (سطح بالا و/یا پایین) */
+  function mtActual(mat, info, cx) {
+    const pts = [];
+    [['topFile', 'top'], ['botFile', 'bot']].forEach(function (k) {
+      const f = mat[k[0]] ? cx.files.find(function (x) { return x.id === mat[k[0]]; }) : null;
+      if (f) f.pts.forEach(function (q) { pts.push({ x: q.x, y: q.y, z: q.z, layerId: mat[k[1]] || '' }); });
+    });
+    if (!pts.length) return null;
+    const rows = C.compareSurvey(cx.secs, pts, cx.layers, cx.p.settings.surveyTolMm || 10);
+    const av = C.actualVolume(cx.secs, info, rows);
+    av.n = rows.filter(function (r) { return r.status !== 'out'; }).length; av.nAll = rows.length;
+    return av;
+  }
+  /** نتیجه‌ی محاسبه‌ی یک ردیف مصالح */
+  function mtResult(mat, cx) {
+    const info = C.matInfo(mat, cx.layers, cx.secs);
+    const res = { mat: mat, info: info, vol: null, loose: NaN, mach: {}, actual: null };
+    if (!info.ok) return res;
+    res.vol = C.matVolume(cx.secs, info.lo, info.hi, info.t);
+    res.loose = res.vol.total * mat.swell;
+    cx.machines.forEach(function (m) { res.mach[m.id] = C.dumpZones(cx.secs, info, m.cap, mat.swell, { rows: mat.rows, rowW: mat.rowW }, mat.zigzag); });
+    res.actual = mtActual(mat, info, cx);
+    return res;
+  }
+  const mtNum = function (v) { return C.fmt(v, 1); };
+  const mtM3 = function (v) { return C.fmt(v, 1) + ' m³'; };
+  const mtRowsTxt = function (m) { return m.rows > 0 ? m.rows + ' ردیف' : 'خودکار (' + mcNum(m.rowW) + ' m)'; };
+
+  function mtSelMach(cx) {
+    if (!cx.machines.some(function (m) { return m.id === S.mt.mach; })) S.mt.mach = cx.machines[0] ? cx.machines[0].id : '';
+    return cx.machines.find(function (m) { return m.id === S.mt.mach; }) || null;
+  }
+
+  /** جدول بازه‌های تخلیه (صفحه و گزارش) */
+  function mtZoneTable(ze, cls) {
+    const off = function (a) { return a.map(function (v) { return (v > 0 ? '+' : '') + C.fmt(v, 2); }).join(' / '); };
+    let h = '<table class="' + (cls || '') + '"><thead><tr><th>از</th><th>تا</th><th>عرض مسیر</th><th>ردیف</th><th>فاصله‌ی ردیف‌ها از محور</th><th>فاصله‌ی بارها</th><th>بار در هر ردیف</th><th>کل بار</th></tr></thead><tbody>';
+    ze.zones.forEach(function (z) {
+      h += '<tr><td dir="ltr">' + esc(stn(z.lo)) + '</td><td dir="ltr">' + esc(stn(z.hi)) + '</td><td dir="ltr">' + (z.wMax - z.wMin < 0.01 ? C.fmt(z.wMax, 2) : C.fmt(z.wMin, 2) + '–' + C.fmt(z.wMax, 2)) + '</td><td>' + z.rows + '</td><td dir="ltr">' + off(z.offs) + '</td><td dir="ltr">' + (isFinite(z.avg) ? C.fmt(z.avg, 1) + ' ' + unitL() : '—') + '</td><td>' + z.dp.loadsPerRow + '</td><td><b>' + z.total + '</b></td></tr>';
+    });
+    return h + '<tr class="sum"><td colspan="7">جمع</td><td>' + ze.total + '</td></tr></tbody></table>';
+  }
+
+  function matPage() {
+    const cx = mtCtx(), p = cx.p;
+    let h = streetBar(false);
+    if (!p.points.length) return h + '<div class="msg warn">برای این خیابان نقطه‌ی محوری بارگذاری نشده است. ابتدا در تب «محور» نقاط را وارد کنید.</div>';
+    if (!cx.r.sections) return h + '<div class="msg err"><b>محاسبه انجام نشد.</b> ابتدا خطاهای تب محور/شیب را رفع کنید.</div>' + blockedBanner(cx.r);
+    if (!p.sections.length) return h + '<div class="msg warn">ابتدا شیب عرضی را در تب «شیب» تعریف کنید.</div>';
+    if (!S.mt.form) S.mt.form = mtNewForm(cx.layers);
+    const F = S.mt.form, MF = S.mt.mcForm;
+    if (cx.layers.length < 1) h += '<div class="msg info small">لایه‌ای تعریف نشده است؛ فقط «خط پروژه» انتخاب‌پذیر است. لایه‌ها را در تب «لایه‌ها» بسازید.</div>';
+
+    // ماشین‌ها
+    const edMc = S.mt.editMc ? p.machines.find(function (m) { return m.id === S.mt.editMc; }) : null;
+    h += '<section class="card" id="mcForm"><h2>ماشین‌آلات</h2><p class="muted small">نوع خودرو و ظرفیت (m³، حجم غیرمتراکم) را بدهید. «+ افزودن خودرو جدید…» نام دلخواه را برای همیشه در کشویی نگه می‌دارد.</p>' +
+      (edMc ? '<div class="msg info small">در حال ویرایش «' + esc(mcName(edMc)) + '»</div>' : '') +
+      '<div class="mc-form"><select class="inp mc-sel" data-mcf="type" aria-label="نوع خودرو">' + mcTypeOpts(MF.type) + '</select>' +
+      (MF.type === '__new' ? '<input class="inp mc-sel" data-mcf="newName" value="' + esc(MF.newName) + '" placeholder="نام خودرو (مثلاً نیسان)" autocomplete="off" aria-label="نام خودرو جدید">' : '') +
+      '<input class="inp ltr mc-cap" data-mcf="cap" value="' + esc(MF.cap) + '" placeholder="ظرفیت" inputmode="decimal" dir="ltr" aria-label="ظرفیت m³" autocomplete="off"><span class="muted small">m³</span>' +
+      '<button class="btn primary" data-act="mcAdd">' + (edMc ? 'ذخیره‌ی تغییرات' : 'افزودن') + '</button>' + (edMc ? '<button class="btn" data-act="mcCancel">انصراف</button>' : '') + '</div>' +
+      '<div class="tbl-wrap"><table><thead><tr><th></th><th>ماشین</th><th></th></tr></thead><tbody>';
+    cx.machines.forEach(function (m, i) {
+      h += '<tr' + (m.id === S.mt.editMc ? ' class="sel"' : '') + '><td>' + mcIcon(m.icon, { w: 44 }) + '</td><td>' + mcNameH(m) + '</td><td class="nw"><button class="btn icon sm" data-act="mcEdit" data-i="' + i + '" aria-label="ویرایش ماشین">✎</button> <button class="btn icon danger sm" data-act="mcDel" data-i="' + i + '" aria-label="حذف ماشین">×</button></td></tr>';
+    });
+    h += '</tbody></table></div></section>';
+
+    // مصالح: فرم + فهرست
+    const surfBlock = function (key, label) {
+      const sel = F[key + 'Sel'];
+      return field(label, '<select class="inp" data-mtf="' + key + 'Sel">' + mtSurfOpts(cx, sel) + '</select>') +
+        (String(sel).indexOf('f:') === 0 ? field('لایه‌ی طراحیِ این فایل', '<select class="inp" data-mtf="' + key + 'Des">' + mtDesOpts(cx, F[key + 'Des']) + '</select>') : '');
+    };
+    const edMt = S.mt.editMat ? cx.mats.find(function (m) { return m.id === S.mt.editMat; }) : null;
+    h += '<section class="card" id="mtForm"><h2>مصالح — خیابان «' + esc(cx.st.name) + '»</h2>' + (edMt ? '<div class="msg info small">در حال ویرایش «' + esc(edMt.name || '—') + '»</div>' : '') + '<p class="muted small">دو سطح را انتخاب کنید؛ فاصله‌ی ارتفاعی آن‌ها ضخامت است. سطح می‌تواند لایه‌ی طراحی یا «فایل نقاط» (برداشت اجرا، قالب PENZD) باشد؛ با فایل، حجم عملیاتی هم محاسبه می‌شود.</p>' +
+      '<input class="inp" data-mtf="name" value="' + esc(F.name) + '" placeholder="نام مصالح (مثلاً اساس)" autocomplete="off" aria-label="نام مصالح">' +
+      '<div class="grid2" style="margin-top:6px">' + surfBlock('top', 'از سطح') + surfBlock('bot', 'تا سطح') +
+      field('ضریب تورم (غیرمتراکم/متراکم)', '<input class="inp ltr" data-mtf="swell" value="' + esc(F.swell) + '" inputmode="decimal" dir="ltr" autocomplete="off">') +
+      field('ردیف‌های ریختن روی عرض', '<select class="inp" data-mtf="rows"><option value="0"' + (F.rows === '0' ? ' selected' : '') + '>خودکار (بر اساس عرض)</option>' + [1, 2, 3, 4, 5, 6].map(function (n) { return '<option value="' + n + '"' + (String(n) === F.rows ? ' selected' : '') + '>' + n + ' ردیف</option>'; }).join('') + '</select>') +
+      (F.rows === '0' ? field('عرض هر ردیف (m)', '<input class="inp ltr" data-mtf="rowW" value="' + esc(F.rowW) + '" inputmode="decimal" dir="ltr" autocomplete="off">') : '') +
+      '</div><label class="chk" style="margin-top:6px"><input type="checkbox" data-mtf="zigzag"' + (F.zigzag ? ' checked' : '') + '> ردیف‌ها زیگزاگ (نیم‌ظرفیت جابه‌جا) ریخته شوند</label>' +
+      '<div class="row" style="margin-top:10px"><button class="btn primary grow" data-act="mtAdd">' + (edMt ? 'ذخیره‌ی تغییرات' : 'افزودن مصالح') + '</button>' + (edMt ? '<button class="btn" data-act="mtCancel">انصراف</button>' : '') + '</div>';
+    h += '</section>';
+
+    if (cx.files.length) {
+      h += '<section class="card"><h2>فایل‌های نقاط</h2><div class="tbl-wrap"><table><thead><tr><th>فایل</th><th>تاریخ</th><th>نقاط</th><th></th></tr></thead><tbody>';
+      cx.files.forEach(function (f, i) {
+        h += '<tr><td>' + esc(f.name) + '</td><td class="n">' + esc(new Date(f.date).toLocaleDateString('fa-IR')) + '</td><td class="n">' + f.pts.length + '</td><td><button class="btn icon danger sm" data-act="abDel" data-i="' + i + '" aria-label="حذف فایل">×</button></td></tr>';
+      });
+      h += '</tbody></table></div></section>';
+    }
+
+    if (!cx.mats.length) return h;
+    const ok = cx.mats.filter(function (m) { return C.matInfo(m, cx.layers, cx.secs).ok; });
+    const results = ok.map(function (m) { return mtResult(m, cx); }), byId = {};
+    results.forEach(function (rs) { byId[rs.mat.id] = rs; });
+    const acts = function (i) { return '<td class="nw"><button class="btn icon sm" data-act="mtEdit" data-i="' + i + '" aria-label="ویرایش مصالح">✎</button> <button class="btn icon danger sm" data-act="mtDel" data-i="' + i + '" aria-label="حذف مصالح">×</button></td>'; };
+
+    // نتایج: حجم محاسباتی و عملیاتی
+    h += '<section class="card"><h2>نتایج</h2><div class="tbl-wrap"><table><thead><tr><th>مصالح</th><th>ضخامت</th><th>طول</th><th>حجم محاسباتی (متراکم)</th><th>ضریب</th><th>حجم غیرمتراکم</th><th></th></tr></thead><tbody>';
+    let tc = 0, tl = 0;
+    cx.mats.forEach(function (m, i) {
+      const rs = byId[m.id];
+      if (!rs) { h += '<tr><td>' + esc(m.name || '—') + '</td><td colspan="5" class="muted" style="color:#c62828">' + esc(C.matInfo(m, cx.layers, cx.secs).warn) + '</td>' + acts(i) + '</tr>'; return; }
+      tc += rs.vol.total; tl += rs.loose;
+      h += '<tr' + (m.id === S.mt.editMat ? ' class="sel"' : '') + '><td>' + esc(m.name || '—') + '<div class="muted small">' + esc(mtSurfName(cx, m.top, m.topFile)) + ' ← ' + esc(mtSurfName(cx, m.bot, m.botFile)) + ' • ' + esc(mtRowsTxt(m)) + (m.zigzag && m.rows !== 1 ? ' • زیگزاگ' : '') + '</div></td><td class="n">' + C.fmt(rs.info.t * 100, 1) + ' cm</td><td class="n">' + mtNum(rs.vol.length) + ' ' + unitL() + '</td><td class="n">' + mtM3(rs.vol.total) + '</td><td class="n">' + C.fmt(m.swell, 3) + '</td><td class="n"><b>' + mtM3(rs.loose) + '</b></td>' + acts(i) + '</tr>';
+    });
+    h += '<tr class="sum"><td colspan="3"><b>جمع</b></td><td class="n"><b>' + mtM3(tc) + '</b></td><td></td><td class="n"><b>' + mtM3(tl) + '</b></td><td></td></tr></tbody></table></div>';
+    if (results.some(function (rs) { return rs.actual; })) {
+      h += '<h3 style="margin:12px 0 4px">حجم محاسباتی و حجم عملیاتی (از نقاط برداشت)</h3><div class="tbl-wrap"><table><thead><tr><th>مصالح</th><th>بازه‌ی دارای داده</th><th>حجم محاسباتی (همان بازه)</th><th>حجم عملیاتی</th><th>اختلاف</th></tr></thead><tbody>';
+      results.forEach(function (rs) {
+        const av = rs.actual;
+        if (!av) return;
+        h += '<tr><td>' + esc(rs.mat.name || '—') + '</td>' + (av.ok ?
+          '<td class="n">' + mtNum(av.covered) + ' از ' + mtNum(rs.info.hi - rs.info.lo) + ' ' + unitL() + '</td><td class="n">' + mtM3(av.design) + '</td><td class="n"><b>' + mtM3(av.actual) + '</b></td><td class="n" style="color:' + (av.diff >= 0 ? '#1b7a3d' : '#c62828') + '">' + (av.diff > 0 ? '+' : '') + mtM3(av.diff) + ' (' + (av.diff > 0 ? '+' : '') + C.fmt(av.pct, 1) + '٪)</td>' :
+          '<td colspan="4" class="muted">نقاط فایل روی مسیر نیفتاد یا هر دو سر بازه داده ندارد (' + av.n + ' از ' + av.nAll + ' نقطه روی مسیر)</td>') + '</tr>';
+      });
+      h += '</tbody></table></div><p class="muted small">سطحی که فایل ندارد مطابق طرح فرض می‌شود؛ فقط بازه‌هایی حساب می‌شوند که در هر دو سر داده دارند.</p>';
+    }
+    h += '</section>';
+    if (!ok.length) return h;
+    if (!ok.some(function (m) { return m.id === S.mt.mat; })) S.mt.mat = ok[0].id;
+    const mach = mtSelMach(cx);
+
+    // تخلیه: مقایسه‌ی ماشین‌ها + جدول بازه‌ای ماشین انتخابی
+    const rs0 = results.find(function (rs) { return rs.mat.id === S.mt.mat; }), m0 = rs0.mat;
+    h += '<section class="card"><h2>تخلیه‌ی بار</h2><div class="grid2">' +
+      field('مصالح', '<select class="inp" id="mtMat">' + ok.map(function (m) { return '<option value="' + esc(m.id) + '"' + (m.id === S.mt.mat ? ' selected' : '') + '>' + esc(m.name || '—') + '</option>'; }).join('') + '</select>') +
+      field('ماشین', '<select class="inp" id="mtMach">' + cx.machines.map(function (m) { return '<option value="' + esc(m.id) + '"' + (m.id === S.mt.mach ? ' selected' : '') + '>' + esc(mcName(m)) + '</option>'; }).join('') + '</select>') + '</div>' +
+      '<p class="muted small">ردیف‌ها: ' + esc(mtRowsTxt(m0)) + (m0.zigzag && (m0.rows !== 1) ? ' • زیگزاگ' : '') + '</p>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>ماشین</th><th>بار (هر ردیف × ردیف = کل)</th><th>فاصله‌ی بارها (حداقل / حداکثر / میانگین)</th></tr></thead><tbody>';
+    cx.machines.forEach(function (m) {
+      const ze = rs0.mach[m.id];
+      h += '<tr' + (m.id === S.mt.mach ? ' class="sel"' : '') + '><td>' + esc(mcName(m)) + '</td>' + (ze && ze.ok ?
+        '<td class="n"><b>' + esc(mtLoadsTxt(ze)) + '</b></td><td class="n">' + (isFinite(ze.min) ? C.fmt(ze.min, 1) + ' / ' + C.fmt(ze.max, 1) + ' / ' + C.fmt(ze.avg, 1) : '—') + ' ' + unitL() + '</td>' : '<td colspan="2" class="muted">ظرفیت نامعتبر</td>') + '</tr>';
+    });
+    h += '</tbody></table></div>';
+    const ze0 = mach ? rs0.mach[mach.id] : null;
+    if (ze0 && ze0.ok) {
+      h += '<h3 style="margin:12px 0 4px">بازه‌های تخلیه — ' + esc(mcName(mach)) + '</h3><div class="tbl-wrap">' + mtZoneTable(ze0, '') + '</div>' +
+        '<p class="muted small">هرجا عرض مسیر عوض شود بازه‌ی جدید شروع می‌شود. فاصله‌ی عرضی: راست محور مثبت، چپ منفی.</p>';
+      const size = 30, total = ze0.all.length, pages = Math.max(1, Math.ceil(total / size));
+      S.mt.page = Math.min(S.mt.page, pages - 1);
+      h += '<details class="card-d"><summary>فهرست کامل نقاط تخلیه (' + total + ' بار)</summary><div class="tbl-wrap"><table><thead><tr><th>#</th><th>بازه</th><th>ردیف</th><th>کیلومتراژ</th><th>فاصله از محور (' + unitL() + ')</th><th>حجم غیرمتراکم (m³)</th></tr></thead><tbody>';
+      ze0.all.slice(S.mt.page * size, S.mt.page * size + size).forEach(function (l, i) {
+        h += '<tr><td class="n">' + (S.mt.page * size + i + 1) + '</td><td class="n">' + l.zone + '</td><td class="n">' + l.row + '</td><td class="n" dir="ltr">' + esc(stn(l.station)) + '</td><td class="n" dir="ltr">' + (l.offset > 0 ? '+' : '') + C.fmt(l.offset, 2) + '</td><td class="n">' + C.fmt(l.vol, 2) + '</td></tr>';
+      });
+      h += '</tbody></table></div>' + pager('mtPageKey', total, size) + '</details>';
+    }
+    h += '<div class="row" style="margin-top:10px"><button class="btn primary grow" data-act="mtPdf">گزارش</button></div></section>';
+    return h;
+  }
+  Object.defineProperty(S, 'mtPageKey', { get: function () { return S.mt.page; }, set: function (v) { S.mt.page = v; }, enumerable: false });
+
+  /** انتخاب و خواندن فایل نقاط PENZD (شماره، E، N، Z، توضیح؛ توضیح نادیده گرفته می‌شود) */
+  function abPick(which) {
+    const el = document.createElement('input');
+    el.type = 'file'; el.style.display = 'none'; document.body.appendChild(el);
+    el.addEventListener('change', function () { const f = el.files && el.files[0]; el.remove(); if (f) abLoadFile(f, which); });
+    el.click();
+  }
+  async function abLoadFile(file, which) {
+    const cx = mtCtx();
+    toast('در حال خواندن «' + file.name + '» …');
+    try {
+      let rows;
+      if (/\.xlsx$/i.test(file.name)) rows = await IO.readXlsx(new Uint8Array(await file.arrayBuffer()));
+      else if (/\.xls$/i.test(file.name)) throw new Error('فرمت .xls پشتیبانی نمی‌شود؛ به .xlsx یا CSV ذخیره کنید.');
+      else {
+        const buf = await file.arrayBuffer();
+        let text = new TextDecoder('utf-8').decode(buf);
+        if (text.indexOf('�') >= 0) { try { text = new TextDecoder('windows-1256').decode(buf); } catch (e) { /* ignore */ } }
+        rows = IO.parseDelimited(text).rows;
+      }
+      const pts = [];
+      rows.forEach(function (r) {
+        const x = C.toNumber(r[1]), y = C.toNumber(r[2]), z = C.toNumber(r[3]);
+        if (fin(x) && fin(y) && fin(z)) pts.push({ x: x, y: y, z: z, desc: String(r[4] === undefined ? '' : r[4]) });
+      });
+      if (!pts.length) throw new Error('نقطه‌ی معتبری (شماره، E، N، Z) در فایل پیدا نشد.');
+      const id = C.uid('ab');
+      cx.st.asbuilt.push({ id: id, name: file.name, date: new Date().toISOString(), layerId: '', src: 'penzd', pts: pts });
+      if (which && S.mt.form) S.mt.form[which + 'Sel'] = 'f:' + id;
+      markDirty(); render(); toast(pts.length + ' نقطه از «' + file.name + '» خوانده شد.');
+    } catch (e) { toast('فایل خوانده نشد: ' + (e.message || 'خطای نامشخص'), 'err'); }
+  }
+
+  /* ---------- گزارش مصالح (همه‌ی ماشین‌های فهرست) ---------- */
+  function mtStripSVG(info, ze, W) {
+    const lo = info.lo, hi = info.hi, L = Math.max(hi - lo, 1e-9);
+    const maxRows = Math.max.apply(null, ze.zones.map(function (z) { return z.rows; }));
+    const H = 36 + Math.min(maxRows, 8) * 13, padL = 36, padR = 8, padT = 8, padB = 16, pw = W - padL - padR, ph = H - padT - padB;
+    const X = function (s) { return padL + (s - lo) / L * pw; };
+    let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="' + RP_FONT + '" xmlns="http://www.w3.org/2000/svg">';
+    svg += '<rect x="' + padL + '" y="' + padT + '" width="' + pw + '" height="' + ph + '" fill="#eef2f5" stroke="#9fb0bd" stroke-width=".6"/>';
+    const step = rpNice(L, 8);
+    for (let s = Math.ceil(lo / step) * step; s <= hi + 1e-9; s += step) {
+      const x = X(s); svg += '<line x1="' + x + '" x2="' + x + '" y1="' + padT + '" y2="' + (padT + ph + 3) + '" stroke="#c4ced6" stroke-width=".4"/><text x="' + x + '" y="' + (H - 4) + '" font-size="6" text-anchor="middle" fill="' + RP.mut + '">' + esc(stn(s)) + '</text>';
+    }
+    ze.zones.forEach(function (z, zi) {
+      const x0 = X(z.lo), x1 = X(z.hi), bh = ph / z.rows;
+      if (zi > 0) svg += '<line x1="' + x0 + '" x2="' + x0 + '" y1="' + padT + '" y2="' + (padT + ph) + '" stroke="' + RP.navy + '" stroke-width=".8" stroke-dasharray="2,2"/>';
+      for (let j = 1; j < z.rows; j++) svg += '<line x1="' + x0 + '" x2="' + x1 + '" y1="' + (padT + j * bh) + '" y2="' + (padT + j * bh) + '" stroke="#9fb0bd" stroke-width=".5" stroke-dasharray="3,2"/>';
+      svg += '<text x="' + ((x0 + x1) / 2) + '" y="' + (padT + 6) + '" font-size="6" text-anchor="middle" fill="' + RP.navy + '" opacity=".8">' + z.rows + ' ردیف</text>';
+      z.dp.rows.forEach(function (rw) {
+        const cy = padT + (rw.index + 0.5) * bh;
+        rw.loads.forEach(function (l) {
+          svg += '<circle cx="' + X(l.station) + '" cy="' + cy + '" r="' + Math.max(1.3, Math.min(bh * 0.28, 3)) + '" fill="' + RP.gold + '" stroke="' + RP.navy + '" stroke-width=".4"/>';
+        });
+      });
+    });
+    return svg + '</svg>';
+  }
+  function mtLayerSection(cx, rs) {
+    const secs = cx.secs, mid = (rs.info.lo + rs.info.hi) / 2, w = C.widthsAt(secs, mid);
+    const wl = w.wL, wr = w.wR, W = 360, H = 74, pad = 10, tot = wl + wr, sx = (W - 2 * pad) / Math.max(tot, 1e-9);
+    const zs = [C.designZAt(secs, mid, -wl).z, C.designZAt(secs, mid, 0).z, C.designZAt(secs, mid, wr).z];
+    const zc = zs[1], hi = C.surfOffset(rs.info.hiId, cx.layers), lo = C.surfOffset(rs.info.loId, cx.layers);
+    const sy = 24 / Math.max(rs.info.t, 0.01);
+    const Y = function (z, off) { return 28 + (-(z - zc) - (off - hi)) * sy; };
+    const polyTop = [], polyBot = [];
+    [[-wl, zs[0]], [0, zs[1]], [wr, zs[2]]].forEach(function (q) { polyTop.push([pad + (q[0] + wl) * sx, Y(q[1], hi)]); polyBot.push([pad + (q[0] + wl) * sx, Y(q[1], lo)]); });
+    const pts = polyTop.concat(polyBot.slice().reverse()).map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' ');
+    return '<svg viewBox="0 0 ' + W + ' ' + H + '" width="100%" style="' + RP_FONT + '"><polygon points="' + pts + '" fill="' + RP.gold + '" fill-opacity=".55" stroke="' + RP.navy + '" stroke-width=".8"/>' +
+      '<polyline points="' + polyBot.map(function (q) { return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' ') + '" fill="none" stroke="#6a7783" stroke-width=".6" stroke-dasharray="3,2"/>' +
+      '<text x="' + (W / 2) + '" y="' + (polyTop[1][1] - 6) + '" font-size="8" text-anchor="middle" fill="' + RP.navy + '">' + esc(rs.mat.name || '') + '</text>' +
+      '<text x="' + (W / 2) + '" y="' + (H - 5) + '" font-size="7" text-anchor="middle" fill="' + RP.mut + '">' + 'ضخامت ' + C.fmt(rs.info.t * 100, 1) + ' cm • مجموع عرض ' + C.fmt(tot, 2) + ' m' + '</text></svg>';
+  }
+
+  function printMaterials() {
+    const cx = mtCtx(), p = cx.p;
+    const ok = cx.mats.filter(function (m) { return C.matInfo(m, cx.layers, cx.secs).ok; });
+    if (!ok.length) { toast('ابتدا یک ردیف مصالح معتبر تعریف کنید.', 'err'); return; }
+    const bd = function (t) { return '<bdi dir="ltr">' + esc(t) + '</bdi>'; };
+    const cs = p.settings.coordSystem === 'UTM' ? 'UTM ' + p.settings.utmZone + (p.settings.hemisphere === 'S' ? 'S' : 'N') + ' / ' + p.settings.datum : (p.settings.coordSystem || '');
+    const sel = mtSelMach(cx);
+    const mOrd = cx.machines.slice().sort(function (a, b) { return (b === sel ? 1 : 0) - (a === sel ? 1 : 0); });   // ماشین انتخاب‌شده اول؛ بقیه به ترتیب فهرست
+    const sg = function (v, d) { return (v > 0 ? '+' : '') + C.fmt(v, d); };
+    const results = ok.map(function (m) { return mtResult(m, cx); });
+    let h = '<div class="rp-page"><div class="rp-cover"><div class="rp-l"><div class="rp-brand">RoadStake</div><div class="rp-sub">برآورد مصالح و برنامه‌ی تخلیه</div></div>' +
+      '<div class="rp-title">' + esc(p.name) + '<small>خیابان: <b>' + esc(cx.st.name) + '</b></small></div>' +
+      '<div class="rp-r"><div>' + esc(new Date().toLocaleDateString('fa-IR')) + '</div><div dir="ltr">' + esc(cs) + '</div></div></div>';
+    h += '<div class="rp-box"><h3>ماشین‌آلات</h3><div class="mt-mach">' + mOrd.map(function (m) {
+      return '<div class="mt-mc' + (m === sel ? ' on' : '') + '">' + mcIcon(m.icon, { w: 48 }) + '<b>' + esc(mcLabel(m)) + '</b><span>' + bd(mcNum(m.cap)) + ' m³</span></div>';
+    }).join('') + '</div></div>';
+    let tc = 0, tl = 0, anyAct = false;
+    const sumRows = results.map(function (rs) {
+      tc += rs.vol.total; tl += rs.loose;
+      const av = rs.actual && rs.actual.ok ? rs.actual : null; if (av) anyAct = true;
+      return '<tr><td>' + esc(rs.mat.name || '—') + '</td><td>' + bd(C.fmt(rs.info.t * 100, 1) + ' cm') + '</td><td>' + bd(stLabel(rs.info.lo) + ' → ' + stLabel(rs.info.hi)) + '</td><td>' + bd(C.fmt(rs.vol.total, 1)) + '</td><td>' + bd(C.fmt(rs.mat.swell, 3)) + '</td><td><b>' + bd(C.fmt(rs.loose, 1)) + '</b></td>' +
+        '<td>' + (av ? bd(C.fmt(av.actual, 1)) : '—') + '</td><td' + (av ? ' style="color:' + (av.diff >= 0 ? RP.up : RP.dn) + '"' : '') + '>' + (av ? bd(sg(av.diff, 1) + ' (' + sg(av.pct, 1) + '%)') : '—') + '</td></tr>';
+    }).join('');
+    h += '<div class="rp-box"><h3>خلاصه‌ی مصالح <small>(حجم‌ها m³)</small></h3><table class="mt-t"><thead><tr><th>مصالح</th><th>ضخامت</th><th>بازه</th><th>حجم محاسباتی</th><th>ضریب</th><th>حجم غیرمتراکم</th><th>حجم عملیاتی</th><th>اختلاف</th></tr></thead><tbody>' + sumRows +
+      '<tr class="sum"><td colspan="3">جمع</td><td>' + bd(C.fmt(tc, 1)) + '</td><td></td><td>' + bd(C.fmt(tl, 1)) + '</td><td colspan="2"></td></tr></tbody></table>' +
+      '<div class="rp-note">حجم محاسباتی = حجم بین دو لایه از روی طرح. حجم عملیاتی = حجم از نقاط برداشت' + (anyAct ? ' (فقط بازه‌ی دارای داده؛ اختلاف نسبت به حجم محاسباتیِ همان بازه)' : '') + '.</div></div>';
+    h += '<div class="rp-box"><h3>تعداد سرویس ماشین‌ها <small>(بار در هر ردیف × تعداد ردیف = کل بارها)</small></h3><table class="mt-t"><thead><tr><th>ماشین</th>' + results.map(function (rs) { return '<th>' + esc(rs.mat.name || '—') + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      mOrd.map(function (m) { return '<tr' + (m === sel ? ' class="on"' : '') + '><td>' + mcNameH(m) + '</td>' + results.map(function (rs) { return '<td>' + bd(mtLoadsTxt(rs.mach[m.id])) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+    results.forEach(function (rs) {
+      const m = rs.mat, av = rs.actual && rs.actual.ok ? rs.actual : null;
+      h += '<div class="mt-mat"><div class="rp-box"><h3>' + esc(m.name || '—') + ' <small>' + bd(stLabel(rs.info.lo)) + ' تا ' + bd(stLabel(rs.info.hi)) + ' • ضخامت ' + bd(C.fmt(rs.info.t * 100, 1) + ' cm') + ' • ردیف‌ها: ' + esc(mtRowsTxt(m)) + (m.zigzag && m.rows !== 1 ? ' زیگزاگ' : '') + '</small></h3>' +
+                '<div class="rp-g" style="grid-template-columns:repeat(' + (av ? 5 : 3) + ',1fr)"><div class="gh">حجم محاسباتی</div><div class="gh">ضریب تورم</div><div class="gh">حجم غیرمتراکم</div>' + (av ? '<div class="gh">حجم عملیاتی (بازه‌ی دارای داده)</div><div class="gh">اختلاف حجم محاسباتی و عملیاتی</div>' : '') +
+        '<div class="gc">' + bd(C.fmt(rs.vol.total, 1) + ' m³') + '</div><div class="gc">' + bd(C.fmt(m.swell, 3)) + '</div><div class="gc"><b>' + bd(C.fmt(rs.loose, 1) + ' m³') + '</b></div>' +
+        (av ? '<div class="gc">' + bd(C.fmt(av.actual, 1) + ' m³ (محاسباتیِ همان بازه: ' + C.fmt(av.design, 1) + ')') + '</div><div class="gc" style="color:' + (av.diff >= 0 ? RP.up : RP.dn) + '"><b>' + bd(sg(av.diff, 1) + ' m³ (' + sg(av.pct, 1) + '%)') + '</b></div>' : '') + '</div></div>';
+      mOrd.forEach(function (mc) {
+        const ze = rs.mach[mc.id];
+        h += '<div class="rp-box mt-mb"><div class="mt-mh">' + mcIcon(mc.icon, { w: 40 }) + '<div><b>' + mcNameH(mc) + '</b><span>' + (ze && ze.ok ? 'بار: <b>' + bd(mtLoadsTxt(ze)) + '</b> • فاصله‌ی بارها (حداقل/حداکثر/میانگین): ' + bd(C.fmt(ze.min, 1) + ' / ' + C.fmt(ze.max, 1) + ' / ' + C.fmt(ze.avg, 1) + ' m') : 'ظرفیت نامعتبر') + '</span></div></div>';
+        if (ze && ze.ok) h += mtStripSVG(rs.info, ze, 700) + mtZoneTable(ze, 'mt-t');
+        h += '</div>';
+      });
+      h += '</div>';
+    });
+    h += signBlock() + '<div class="pt-foot">RoadStake • ' + esc(p.name) + ' • ' + esc(cx.st.name) + ' • ' + esc(new Date().toLocaleDateString('fa-IR')) + '</div></div>';
+    const pa = $('#printArea'), oldTitle = document.title;
+    pa.className = 'pt rp'; pa.innerHTML = h;
+    document.title = slugFa(p.name) + '_' + slugFa(cx.st.name) + '_' + 'برآورد-مصالح';
+    window.print();
+    setTimeout(function () { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; }, 1000);
+  }
 
   /* ============================== رویدادها ============================== */
   function setPath(path, v) {
@@ -4976,7 +5732,43 @@ const xsHtml = groups.slice(0, 4).map(function (g) {
 
   function onChange(e) {
     const el = e.target;
+    if (el.dataset.sg) {
+      const p = P(), k = el.dataset.sg, i = parseInt(el.dataset.i, 10);
+      if (k === 'on') p.signOn = el.checked; else if (p.signers[i]) p.signers[i][k] = el.value.trim();
+      markDirty(); return;
+    }
     if (el.dataset.rp === 'map') { S.rpMap = el.checked; return; }
+    if (el.dataset.mcf) {
+      const F = S.mt.mcForm, k = el.dataset.mcf;
+      if (k === 'type') { F.type = el.value; render(); } else if (k === 'newName') F.newName = el.value; else F.cap = el.value.trim();
+      return;
+    }
+    if (el.dataset.mc) {
+      const m = P().machines[parseInt(el.dataset.i, 10)], k = el.dataset.mc; if (!m) return;
+      if (k === 'cap') { const v = C.toNumber(el.value); if (fin(v) && v > 0) m.cap = v; else toast('ظرفیت باید عددی بزرگ‌تر از صفر باشد.', 'err'); }
+      else m.icon = el.value;
+      m.name = mcName(m);
+      markDirty(); render(); return;
+    }
+    if (el.dataset.mtf) {
+      const F = S.mt.form || (S.mt.form = mtNewForm()), k = el.dataset.mtf;
+      if (k === 'zigzag') F.zigzag = el.checked;
+      else if ((k === 'topSel' || k === 'botSel') && el.value === '__new') { abPick(k === 'topSel' ? 'top' : 'bot'); render(); return; }
+      else F[k] = el.value;
+      if (k === 'topSel' || k === 'botSel' || k === 'rows') render();
+      return;
+    }
+    if (el.dataset.mt) {
+      const m = activeStreet().mats[parseInt(el.dataset.i, 10)], k = el.dataset.mt; if (!m) return;
+      if (k === 'swell') { const v = C.toNumber(el.value); if (fin(v) && v >= 1 && v <= 3) m.swell = v; else toast('ضریب تورم باید بین ۱ و ۳ باشد (مثلاً ۱٫۲۵).', 'err'); }
+      else if (k === 'rowW') { const v = C.toNumber(el.value); if (fin(v) && v > 0) m.rowW = v; else toast('عرض هر ردیف باید بزرگ‌تر از صفر باشد.', 'err'); }
+      else if (k === 'rows') m.rows = Math.min(6, Math.max(0, parseInt(el.value, 10) || 0));
+      else if (k === 'zigzag') m.zigzag = el.checked;
+      else m[k] = el.value;
+      markDirty(); render(); return;
+    }
+    if (el.id === 'mtMat') { S.mt.mat = el.value; S.mt.page = 0; render(); return; }
+    if (el.id === 'mtMach') { S.mt.mach = el.value; S.mt.page = 0; render(); return; }
     if (el.dataset.tx) {
       const k = el.dataset.tx;
       if (k === 'type') { S.tx.type = el.value === 'pdf' ? 'pdf' : 'txt'; try { localStorage.setItem('roadstake:txType', S.tx.type); } catch (_) {} txModal(); }
@@ -5135,18 +5927,39 @@ const xsHtml = groups.slice(0, 4).map(function (g) {
     if (openId) { S.dirty = false; await openProject(openId, true); } else render();
   }
 
-  function backupAll() {
-    const all = ST.list().map(function (e) { return S.project && S.project.id === e.id ? S.project : ST.load(e.id); }).filter(Boolean);
-    if (!all.length) return;
-    const d = new Date(), pad = function (v) { return String(v).padStart(2, '0'); };
-    deliver('RoadStake-all-' + d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '.json', IO.allToJSON(all), 'application/json');
-  }
-
-  function backupOf(id) {
+  /** فایل پشتیبان یک پروژه (id) یا همه‌ی پروژه‌ها ('all') */
+  function backupBuild(id) {
+    if (id === 'all') {
+      const all = ST.list().map(function (e) { return S.project && S.project.id === e.id ? S.project : ST.load(e.id); }).filter(Boolean);
+      if (!all.length) return null;
+      const d = new Date(), pad = function (v) { return String(v).padStart(2, '0'); };
+      return { name: 'RoadStake-all-' + d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '.json', data: IO.allToJSON(all), title: 'پشتیبان همه‌ی پروژه‌ها (' + all.length + ' پروژه)' };
+    }
     const p = S.project && S.project.id === id ? S.project : ST.load(id);
-    if (!p) return;
-    deliver(slug(p.name) + '_backup.json', IO.projectToJSON(p), 'application/json');
+    if (!p) return null;
+    return { name: slug(p.name) + '_backup.json', data: IO.projectToJSON(p), title: 'پشتیبان پروژه‌ی «' + p.name + '»' };
   }
+  const canShareFiles = function () { try { return !!(window.File && navigator.canShare && navigator.canShare({ files: [new File(['x'], 'a.json', { type: 'application/json' })] })); } catch (_) { return false; } };
+  function backupModal(id) {
+    const f = backupBuild(id); if (!f) return;
+    S.bk = id;
+    const m = $('#modal');
+    m.innerHTML = '<div class="box"><div class="sec-title"><h3>' + esc(f.title) + '</h3><button class="btn icon sm" data-act="bkClose" aria-label="بستن">×</button></div>' +
+      '<p class="muted small" dir="ltr" style="text-align:start">' + esc(f.name) + '</p>' +
+      '<div class="col" style="display:flex;flex-direction:column;gap:8px;margin-top:6px"><button class="btn primary" data-act="bkSave">ذخیره‌ی فایل</button>' +
+      (canShareFiles() ? '<button class="btn" data-act="bkShare">ارسال (تلگرام، ایتا، بله، واتساپ…)</button>' : '') + '</div></div>';
+    m.classList.add('on'); m.onclick = function (e) { if (e.target === m) bkClose(); };
+  }
+  function bkClose() { const m = $('#modal'); S.bk = null; m.classList.remove('on'); m.innerHTML = ''; m.onclick = null; }
+  async function bkShare() {
+    const f = backupBuild(S.bk); if (!f) return;
+    const file = new File([new Blob([f.data], { type: 'application/json' })], f.name, { type: 'application/json' });
+    try { await navigator.share({ files: [file], title: f.name }); bkClose(); }
+    catch (e) { if (e && e.name === 'AbortError') return; toast('ارسال ممکن نشد؛ «ذخیره‌ی فایل» را بزنید و فایل را دستی بفرستید.', 'err'); }
+  }
+  function bkSave() { const f = backupBuild(S.bk); if (!f) return; deliver(f.name, f.data, 'application/json'); toast('فایل ' + f.name + ' آماده شد.'); bkClose(); }
+  function backupAll() { backupModal('all'); }
+  function backupOf(id) { backupModal(id); }
 
   async function onClick(e) {
     const b = e.target.closest('[data-act]');
@@ -5168,6 +5981,86 @@ const xsHtml = groups.slice(0, 4).map(function (g) {
       }
       case 'backup': backupOf(b.dataset.id); break;
       case 'backupAll': backupAll(); break;
+      case 'mcAdd': {
+        const F = S.mt.mcForm, cap = C.toNumber(F.cap);
+        if (!fin(cap) || cap <= 0) { toast('ظرفیت ماشین را به متر مکعب وارد کنید.', 'err'); break; }
+        let icon = 'generic', label = '';
+        if (F.type === '__new') {
+          const nm = F.newName.trim();
+          if (!nm) { toast('نام خودرو‌ی جدید را بنویسید.', 'err'); break; }
+          label = nm;
+          if (!(p.vehicleTypes || (p.vehicleTypes = [])).includes(nm)) p.vehicleTypes.push(nm);
+          F.type = 'c:' + nm; F.newName = '';
+        } else if (F.type.indexOf('c:') === 0) label = F.type.slice(2);
+        else icon = F.type;
+        const dup = p.machines.some(function (m) { return m.id !== S.mt.editMc && m.icon === icon && (m.label || '') === label && Math.abs(m.cap - cap) < 1e-9; });
+        if (dup) { toast('این ماشین با همین ظرفیت قبلاً در فهرست هست.', 'err'); break; }
+        let m = S.mt.editMc ? p.machines.find(function (x) { return x.id === S.mt.editMc; }) : null;
+        if (m) { m.icon = icon; m.label = label; m.cap = cap; } else { m = { id: C.uid('mc'), name: '', label: label, cap: cap, icon: icon }; p.machines.push(m); }
+        m.name = mcName(m); const was = S.mt.editMc; S.mt.editMc = ''; F.cap = '';
+        markDirty(); render(); toast(was ? 'ماشین ویرایش شد.' : '«' + m.name + '» به فهرست اضافه شد.');
+        break;
+      }
+      case 'mcEdit': {
+        const m = p.machines[parseInt(b.dataset.i, 10)]; if (!m) break;
+        S.mt.editMc = m.id;
+        if (m.label) { if (!(p.vehicleTypes || (p.vehicleTypes = [])).includes(m.label)) p.vehicleTypes.push(m.label); S.mt.mcForm = { type: 'c:' + m.label, cap: mcNum(m.cap), newName: '' }; }
+        else S.mt.mcForm = { type: MC_ICONS.some(function (x) { return x[0] === m.icon; }) ? m.icon : 'generic', cap: mcNum(m.cap), newName: '' };
+        render(); { const el = $('#mcForm'); if (el) el.scrollIntoView({ block: 'start' }); }
+        break;
+      }
+      case 'mcCancel': S.mt.editMc = ''; S.mt.mcForm.cap = ''; render(); break;
+      case 'mcDel': {
+        const i = parseInt(b.dataset.i, 10);
+        if (p.machines.length <= 1) { toast('دست‌کم یک ماشین باید بماند.', 'err'); break; }
+        if (await ask('ماشین «' + esc(mcName(p.machines[i])) + '» حذف شود؟', { danger: true, ok: 'حذف' })) { if (S.mt.editMc === p.machines[i].id) S.mt.editMc = ''; p.machines.splice(i, 1); markDirty(); render(); }
+        break;
+      }
+      case 'mtAdd': {
+        const F = S.mt.form || (S.mt.form = mtNewForm()), name = F.name.trim();
+        if (!name) { toast('نام مصالح را وارد کنید.', 'err'); break; }
+        if (F.topSel === 'x' || F.botSel === 'x') { toast('هر دو سطح «از سطح» و «تا سطح» را انتخاب کنید.', 'err'); break; }
+        const sw = C.toNumber(F.swell), rw = C.toNumber(F.rowW);
+        if (!(fin(sw) && sw >= 1 && sw <= 3)) { toast('ضریب تورم باید بین ۱ و ۳ باشد.', 'err'); break; }
+        if (F.rows === '0' && !(fin(rw) && rw > 0)) { toast('عرض هر ردیف را وارد کنید.', 'err'); break; }
+        const sf = function (sel, des) { return sel.indexOf('f:') === 0 ? { layer: des || '', file: sel.slice(2) } : { layer: sel, file: '' }; };
+        const T = sf(F.topSel, F.topDes), B = sf(F.botSel, F.botDes);
+        const mat = { id: C.uid('mt'), name: name, top: T.layer, bot: B.layer, topFile: T.file, botFile: B.file, swell: sw, rows: parseInt(F.rows, 10), rowW: fin(rw) && rw > 0 ? rw : 5, zigzag: F.zigzag };
+        const inf = C.matInfo(mat, C.normalizeLayers(p.layers).layers, calc().sections || []);
+        if (!inf.ok) { toast(inf.warn || 'دو سطح معتبر نیستند.', 'err'); break; }
+        const eix = S.mt.editMat ? activeStreet().mats.findIndex(function (x) { return x.id === S.mt.editMat; }) : -1;
+        if (eix >= 0) { mat.id = activeStreet().mats[eix].id; activeStreet().mats[eix] = mat; } else activeStreet().mats.push(mat);
+        S.mt.editMat = ''; S.mt.form = mtNewForm(); markDirty(); render(); toast(eix >= 0 ? 'مصالح ویرایش شد.' : '«' + name + '» به فهرست مصالح اضافه شد.');
+        break;
+      }
+      case 'mtEdit': {
+        const m = activeStreet().mats[parseInt(b.dataset.i, 10)]; if (!m) break;
+        S.mt.editMat = m.id;
+        S.mt.form = { name: m.name, topSel: m.topFile ? 'f:' + m.topFile : m.top, botSel: m.botFile ? 'f:' + m.botFile : m.bot, topDes: m.top, botDes: m.bot, swell: String(m.swell), rows: String(m.rows), rowW: String(m.rowW), zigzag: !!m.zigzag };
+        render(); { const el = $('#mtForm'); if (el) el.scrollIntoView({ block: 'start' }); }
+        break;
+      }
+      case 'mtCancel': S.mt.editMat = ''; S.mt.form = mtNewForm(); render(); break;
+      case 'mtDel': {
+        const i = parseInt(b.dataset.i, 10), mm = activeStreet().mats;
+        if (await ask('ردیف مصالح «' + esc(mm[i].name || '—') + '» حذف شود؟', { danger: true, ok: 'حذف' })) { if (S.mt.editMat === mm[i].id) { S.mt.editMat = ''; S.mt.form = mtNewForm(); } mm.splice(i, 1); markDirty(); render(); }
+        break;
+      }
+      case 'mtPdf': printMaterials(); break;
+      case 'abDel': {
+        const i = parseInt(b.dataset.i, 10), ab = activeStreet().asbuilt, f = ab[i];
+        const used = activeStreet().mats.filter(function (m) { return m.topFile === f.id || m.botFile === f.id; });
+        if (await ask('فایل «' + esc(f.name) + '» (' + f.pts.length + ' نقطه) حذف شود؟' + (used.length ? ' در ' + used.length + ' ردیف مصالح استفاده شده است؛ حجم عملیاتی آن‌ها حذف می‌شود.' : ''), { danger: true, ok: 'حذف' })) {
+          used.forEach(function (m) { if (m.topFile === f.id) m.topFile = ''; if (m.botFile === f.id) m.botFile = ''; });
+          ab.splice(i, 1); markDirty(); render();
+        }
+        break;
+      }
+      case 'sgAdd': if (p.signers.length < 6) { p.signers.push({ title: '', name: '' }); markDirty(); render(); } break;
+      case 'sgDel': p.signers.splice(parseInt(b.dataset.i, 10), 1); markDirty(); render(); break;
+      case 'bkClose': bkClose(); break;
+      case 'bkSave': bkSave(); break;
+      case 'bkShare': bkShare(); break;
       case 'backupCur': if (p) backupOf(p.id); break;
       case 'dup': {
         const src = S.project && S.project.id === b.dataset.id ? S.project : ST.load(b.dataset.id);
