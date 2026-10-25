@@ -466,6 +466,59 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
 .mc-row .mc-bot .mc-cap { flex: 0 0 90px; }
 @media print { .rp .mt-t tr.on td { background: #fbf4e3; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .rp .mt-mc svg { width: 48pt; height: auto; } .rp .mt-mh svg { width: 38pt; height: auto; } }
 @media print { .rp .mt-mat { break-inside: auto; } .rp .mt-mat > .rp-box:first-child { break-after: avoid; } }
+.seg { display: flex; gap: 6px; margin: 8px 0; } .seg .btn { flex: 1; }
+.btn.disabled { opacity: .5; pointer-events: none; }
+.credit .ver { letter-spacing: 0; opacity: .8; }
+@media print { #printArea.pt .pt-fl tr.hd th { position: static; } #printArea.pt .pt-fl { margin-bottom: 4pt; font-size: 7.5pt; } }
+
+/* ===== v1.20: نقاط برداشت از فایل ===== */
+.seg { display: flex; gap: 6px; margin: 8px 0; } .seg .btn { flex: 1; }
+.btn.disabled { opacity: .5; pointer-events: none; }
+.credit .ver { letter-spacing: 0; opacity: .8; }
+.hashbox { border: 1px solid var(--line); border-radius: 8px; padding: 6px 9px; margin: 6px 0; background: var(--axis-soft); }
+.hashbox span { display: block; font-size: .72rem; color: var(--muted); margin-bottom: 2px; }
+.hashbox code { display: block; direction: ltr; text-align: left; font-family: var(--mono); font-size: .76rem; word-break: break-all; user-select: all; }
+
+/* ===== قالب مشترک گزارش‌های جدولی (سرمه‌ای و طلایی) ===== */
+@media print {
+  #printArea.rpl { page: rpl; }
+  @page rpl { size: A4; margin: 12mm 12mm 12mm; @bottom-center { content: none; } }
+  #printArea.rpl .rpl-pg { display: flex; flex-direction: column; min-height: 268mm; break-after: page; box-sizing: border-box; }
+  #printArea.rpl .rpl-pg.last { break-after: auto; }
+  #printArea.rpl .rp-cover { padding: 7pt 12pt; margin-bottom: 5pt; }
+  #printArea.rpl .rpl-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3pt; margin-bottom: 4pt; break-inside: avoid; }
+  #printArea.rpl .rpl-meta .c { border: .6pt solid #c4ced6; border-top: 2pt solid #c9962b; border-radius: 3pt; padding: 2.5pt 5pt; min-width: 0; }
+  #printArea.rpl .rpl-meta .c.s2 { grid-column: span 2; } #printArea.rpl .rpl-meta .c.s3 { grid-column: span 3; } #printArea.rpl .rpl-meta .c.s4 { grid-column: span 4; }
+  #printArea.rpl .rpl-meta span { display: block; font-size: 6.5pt; color: #5a6875; }
+  #printArea.rpl .rpl-meta b { font-size: 8.6pt; font-weight: 700; color: #0b2a40; overflow-wrap: anywhere; }
+  #printArea.rpl .rpl-warn { color: #8a5200; }
+  #printArea.rpl .rpl-hash { border: .6pt solid #c4ced6; border-inline-start: 3pt solid #c9962b; border-radius: 3pt; padding: 2.5pt 6pt; margin-bottom: 3pt; break-inside: avoid; }
+  #printArea.rpl .rpl-hash span { display: block; font-size: 6.5pt; color: #5a6875; }
+  #printArea.rpl .rpl-hash code { display: block; direction: ltr; text-align: left; font-family: 'DejaVu Sans Mono', Consolas, 'Courier New', monospace; font-size: 7.6pt; letter-spacing: .01em; color: #0b2a40; word-break: break-all; }
+  #printArea.rpl .rpl-note { font-size: 6.8pt; color: #5a6875; margin: 2pt 0 4pt; }
+  #printArea.rpl .pt-tbl { font-size: 8.4pt !important; }
+  #printArea.rpl .pt-tbl th { position: static !important; }
+  #printArea.rpl .pt-tbl th { background: #0b2a40 !important; color: #fff; border: .6pt solid #0b2a40; border-bottom: 1.6pt solid #c9962b; padding: 3pt 4pt; font-size: 7.8pt; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #printArea.rpl .pt-tbl td { padding: 2pt 4pt; border: .5pt solid #d5dde3; text-align: center; }
+  #printArea.rpl .pt-tbl td:last-child { text-align: center; }
+  #printArea.rpl .pt-tbl tr.alt td { background: #eef3f6; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #printArea.rpl table.pt-chunk { break-after: auto; margin-bottom: 4pt; }
+  #printArea.rpl table.rpl-det { margin-bottom: 2pt; font-size: 8pt !important; }
+  #printArea.rpl .rpl-pf { margin-top: auto; padding-top: 3pt; border-top: 1pt solid #c9962b; display: flex; justify-content: space-between; gap: 8pt; font-size: 7.2pt; color: #4a5866; }
+  #printArea.rpl .sig { margin-top: 6pt; }
+  #printArea.rpl .sg { height: 30pt; }
+  #printArea.rpl .rpl-dec { margin-top: auto; }
+  #printArea.rpl .rpl-dec + .rpl-pf { margin-top: 0; }
+  #printArea .rpl-sgs { display: grid; gap: 4pt; margin: 5pt 0 3pt; break-inside: avoid; }
+  #printArea .rpl-sgs > div { border: .6pt solid #c9962b; border-radius: 3pt; padding: 2pt 5pt; height: 13mm; position: relative; font-size: 7.4pt; color: #0b2a40; box-sizing: border-box; }
+  #printArea .rpl-sgs b { display: block; font-size: 7.8pt; }
+  #printArea .rpl-sgs i { position: absolute; left: 5pt; right: 5pt; bottom: 1.5pt; border-top: .6pt dotted #8a96a0; text-align: center; font-style: normal; color: #8a96a0; font-size: 6.4pt; }
+  #printArea .rpl-dsl { display: flex; justify-content: space-between; gap: 8pt; font-size: 6.8pt; color: #0b2a40; border-top: .6pt solid #c4ced6; padding-top: 2pt; margin-top: 4pt; }
+  #printArea .rpl-dsf { border: .6pt solid #0b2a40; border-radius: 3pt; padding: 3pt 6pt; margin: 5pt 0 2pt; font-size: 6.6pt; line-height: 1.5; background: #f4f7f9; break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #printArea .rpl-dsf b { display: block; color: #0b2a40; font-size: 7.4pt; margin-bottom: 1pt; }
+  #printArea .rpl-dsf span { display: block; color: #5a6875; }
+  #printArea .rpl-dsf code { display: block; direction: ltr; text-align: left; font-family: 'DejaVu Sans Mono', Consolas, 'Courier New', monospace; font-size: 6.2pt; word-break: break-all; color: #0b2a40; }
+}
 </style>
 </head>
 <body>
@@ -1342,7 +1395,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   }
 
   /** مشخصات یک ردیف مصالح: ضخامت و بازه‌ی کیلومتراژ مشترک */
-  function matInfo(mat, layers, secs) {
+  function matInfo(mat, layers, secs, opt) {
     const a = surfOffset(mat.top, layers), b = surfOffset(mat.bot, layers);
     const out = { ok: false, t: NaN, lo: NaN, hi: NaN, warn: '' };
     if (!Number.isFinite(a) || !Number.isFinite(b)) { out.warn = 'یکی از دو سطح حذف شده است.'; return out; }
@@ -1353,6 +1406,16 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     let lo = secs.length ? secs[0].station : 0, hi = secs.length ? secs[secs.length - 1].station : 0;
     ls.forEach(function (l) { if (l.from !== null && l.from !== undefined) lo = Math.max(lo, l.from); if (l.to !== null && l.to !== undefined) hi = Math.min(hi, l.to); });
     if (!(hi > lo)) { out.warn = 'دو لایه بازه‌ی مشترک ندارند.'; return out; }
+    // بازه‌ی «از تا»ی خود ردیف (اختیاری): به ابتدا و انتهای مسیر/لایه‌ها بریده می‌شود
+    const rf = mat.from !== '' && mat.from != null ? toNumber(mat.from) : NaN, rt = mat.to !== '' && mat.to != null ? toNumber(mat.to) : NaN;
+    out.rangeSet = Number.isFinite(rf) || Number.isFinite(rt);
+    if (out.rangeSet && !(opt && opt.ignoreRange)) {
+      const lo0 = lo, hi0 = hi;
+      if (Number.isFinite(rf)) lo = Math.max(lo, rf);
+      if (Number.isFinite(rt)) hi = Math.min(hi, rt);
+      out.clipped = (Number.isFinite(rf) && rf < lo0 - 1e-9) || (Number.isFinite(rt) && rt > hi0 + 1e-9);
+      if (!(hi > lo)) { out.warn = 'بازه‌ی «از تا» با مسیر (یا لایه‌ها) همپوشانی ندارد.'; return out; }
+    }
     out.lo = lo; out.hi = hi; out.ok = true;
     return out;
   }
@@ -1604,7 +1667,80 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       out.covered += len; out.design += info.t * wm * len; out.actual += (th[i - 1] + th[i]) / 2 * wm * len;
     }
     secs.forEach(function (s, i) { if (th[i] !== null) out.thick.push({ station: s.station, t: th[i] }); });
+    for (let i = 1; i < secs.length; i++) if (th[i - 1] !== null && th[i] !== null) { if (out.lo === undefined) out.lo = secs[i - 1].station; out.hi = secs[i].station; }
     out.ok = out.covered > 0; out.diff = out.actual - out.design; out.pct = out.design > 0 ? out.diff / out.design * 100 : NaN;
+    return out;
+  }
+
+  /* ------------------------------------------------------------------ *
+   *  قفل نهایی، زنجیره‌ی نسخه‌ها و مقایسه‌ی فایل‌ها (بدون سرور)
+   * ------------------------------------------------------------------ */
+  /** متن استانداردِ یک نسخه‌ی قفل؛ SHA-256 همین متن، اثرانگشت نسخه است. فایل‌ها به ترتیب نام و SHA-256 مرتب می‌شوند. */
+  function lockCanon(rec) {
+    const fl = (rec.files || []).slice().sort(function (a, b) { return a.sha256 < b.sha256 ? -1 : a.sha256 > b.sha256 ? 1 : (a.name < b.name ? -1 : a.name > b.name ? 1 : 0); });
+    return 'RS-LOCK-1\nproject:' + rec.project + '\nstreet:' + rec.street + '\nversion:' + rec.no + '\ndate:' + rec.date + '\nprev:' + (rec.prev || '-') + '\n' +
+      fl.map(function (f) { return 'file:' + f.sha256 + '|' + f.size + '|' + f.n + '|' + f.name; }).join('\n') + '\n';
+  }
+  function lockHash(rec) { return sha256Text(lockCanon(rec)); }
+  /** بررسی زنجیره: هر نسخه باید اثرانگشتش درست و به نسخه‌ی قبلی وصل باشد */
+  function verifyLocks(list) {
+    let prev = '';
+    return (list || []).map(function (r, i) {
+      const h = lockHash(r), out = { ok: true, why: '' };
+      if (h !== r.hash) { out.ok = false; out.why = 'اثرانگشت نسخه با محتوای ثبت‌شده نمی‌خواند.'; }
+      else if ((r.prev || '') !== prev) { out.ok = false; out.why = 'اتصال به نسخه‌ی قبلی شکسته است.'; }
+      else if (r.no !== i + 1) { out.ok = false; out.why = 'شماره‌ی نسخه‌ها پشت‌سرهم نیست.'; }
+      prev = r.hash; return out;
+    });
+  }
+  /** علت‌های تفاوت دو متن (بایت‌به‌بایت): فقط فرق‌های ظاهری را می‌شناسد */
+  function textDiffKinds(a, b) {
+    const kinds = [];
+    const bomA = a.charCodeAt(0) === 0xFEFF, bomB = b.charCodeAt(0) === 0xFEFF;
+    if (bomA !== bomB) kinds.push('bom');
+    a = bomA ? a.slice(1) : a; b = bomB ? b.slice(1) : b;
+    const eolA = /\r\n/.test(a) ? 'crlf' : /\r/.test(a) ? 'cr' : 'lf', eolB = /\r\n/.test(b) ? 'crlf' : /\r/.test(b) ? 'cr' : 'lf';
+    if (eolA !== eolB) kinds.push('eol');
+    const nl = function (t) { return t.replace(/\r\n?/g, '\n'); };
+    a = nl(a); b = nl(b);
+    const tl = function (t) { return t.split('\n').map(function (l) { return l.replace(/[ \t]+$/, ''); }).join('\n'); };
+    if ((tl(a) !== a) !== (tl(b) !== b)) kinds.push('trail');
+    a = tl(a); b = tl(b);
+    if (a.replace(/\n+$/, '') === b.replace(/\n+$/, '') && a !== b) kinds.push('endnl');
+    const same = a.replace(/\n+$/, '') === b.replace(/\n+$/, '');
+    return { kinds: kinds, sameText: same };
+  }
+  /**
+   * مقایسه‌ی دو مجموعه‌ی نقطه ({n,xs,ys,zs,desc,x,y,z}). نقطه‌ها با «نام/شماره» جفت می‌شوند؛ اگر نام تکراری باشد با ترتیب.
+   * خروجی: identical (همه‌چیز برابر)، sameSet، orderDiff، formatOnly (فقط شکل نوشتن عدد)، missing (در A هست و در B نیست)، extra، changed.
+   */
+  function comparePointSets(A, B, tol) {
+    tol = tol > 0 ? tol : 1e-6;
+    const out = { nA: A.length, nB: B.length, missing: [], extra: [], changed: [], orderDiff: false, formatOnly: 0, descDiff: 0, identical: false };
+    const keyOf = function (arr) {
+      const cnt = {}, keys = arr.map(function (q) { const k = String(q.n == null ? '' : q.n).trim(); cnt[k] = (cnt[k] || 0) + 1; return k + '#' + (cnt[k] - 1); });
+      return keys;
+    };
+    const kA = keyOf(A), kB = keyOf(B), mB = {};
+    kB.forEach(function (k, i) { mB[k] = i; });
+    const used = {};
+    kA.forEach(function (k, i) {
+      const j = mB[k];
+      if (j === undefined) { out.missing.push(A[i]); return; }
+      used[j] = 1;
+      const a = A[i], b = B[j], f = [];
+      if (Math.abs(a.x - b.x) > tol) f.push('E'); if (Math.abs(a.y - b.y) > tol) f.push('N'); if (Math.abs(a.z - b.z) > tol) f.push('Z');
+      if (f.length) out.changed.push({ n: a.n, fields: f, a: a, b: b });
+      else {
+        if (String(a.desc || '').trim() !== String(b.desc || '').trim()) out.descDiff++;
+        if ((a.xs !== undefined && (a.xs !== b.xs || a.ys !== b.ys || a.zs !== b.zs))) out.formatOnly++;
+      }
+    });
+    B.forEach(function (q, j) { if (!used[j]) out.extra.push(q); });
+    if (!out.missing.length && !out.extra.length && !out.changed.length && A.length === B.length) {
+      for (let i = 0; i < A.length; i++) if (kA[i] !== kB[i]) { out.orderDiff = true; break; }
+    }
+    out.identical = !out.missing.length && !out.extra.length && !out.changed.length && !out.orderDiff && !out.descDiff && !out.formatOnly;
     return out;
   }
 
@@ -1895,6 +2031,91 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     return out;
   }
 
+
+  /* ================= SHA-256 (بدون وابستگی؛ روی بایت‌ها) و کد کنترل ================= */
+  const K256 = new Uint32Array([
+    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  /** SHA-256 از بایت‌های واقعی (Uint8Array/ArrayBuffer) ← رشته‌ی hex ۶۴ حرفی کوچک */
+  function sha256Hex(data) {
+    const bytes = data instanceof Uint8Array ? data : new Uint8Array(data);
+    const n = bytes.length, total = (((n + 9 + 63) >> 6) << 6), buf = new Uint8Array(total);
+    buf.set(bytes); buf[n] = 0x80;
+    const dv = new DataView(buf.buffer), bits = n * 8;
+    dv.setUint32(total - 8, Math.floor(bits / 4294967296), false); dv.setUint32(total - 4, bits >>> 0, false);
+    const H = new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]), W = new Uint32Array(64);
+    const rotr = function (x, k) { return (x >>> k) | (x << (32 - k)); };
+    for (let off = 0; off < total; off += 64) {
+      for (let i = 0; i < 16; i++) W[i] = dv.getUint32(off + i * 4, false);
+      for (let i = 16; i < 64; i++) {
+        const a = W[i - 15], b = W[i - 2], s0 = rotr(a, 7) ^ rotr(a, 18) ^ (a >>> 3), s1 = rotr(b, 17) ^ rotr(b, 19) ^ (b >>> 10);
+        W[i] = (W[i - 16] + s0 + W[i - 7] + s1) >>> 0;
+      }
+      let a = H[0], b = H[1], c = H[2], d = H[3], e = H[4], f = H[5], g = H[6], h = H[7];
+      for (let i = 0; i < 64; i++) {
+        const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25), ch = (e & f) ^ (~e & g), t1 = (h + S1 + ch + K256[i] + W[i]) >>> 0;
+        const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22), mj = (a & b) ^ (a & c) ^ (b & c), t2 = (S0 + mj) >>> 0;
+        h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+      }
+      H[0] = (H[0] + a) >>> 0; H[1] = (H[1] + b) >>> 0; H[2] = (H[2] + c) >>> 0; H[3] = (H[3] + d) >>> 0;
+      H[4] = (H[4] + e) >>> 0; H[5] = (H[5] + f) >>> 0; H[6] = (H[6] + g) >>> 0; H[7] = (H[7] + h) >>> 0;
+    }
+    let out = ''; for (let i = 0; i < 8; i++) out += H[i].toString(16).padStart(8, '0');
+    return out;
+  }
+  /** SHA-256 یک رشته‌ی متنی (UTF-8) */
+  function sha256Text(str) { return sha256Hex(new TextEncoder().encode(String(str))); }
+  /** کد کنترل کوتاه = ۱۰ حرف اول SHA-256 به‌صورت XXXXX-XXXXX */
+  function controlCode(hex) { const t = String(hex || '').toUpperCase().slice(0, 10); return t ? t.slice(0, 5) + '-' + t.slice(5) : ''; }
+
+  /* ================= نقاط برداشت: محدوده‌ی خیابان (فقط هشدار) و تشخیص لایه ================= */
+  /** نقطه‌ای «بیرون از محدوده‌ی خیابان» است که از لبه‌ی چپ/راست بیش از margin دورتر باشد یا بیش از margin قبل از ابتدا/بعد از انتها بیفتد. هیچ نقطه‌ای حذف یا تغییر نمی‌کند. */
+  function outsideStreet(secs, x, y, margin) {
+    const m = margin === undefined ? 2 : margin;
+    if (!secs || secs.length < 2) return null;
+    const pr = projectToAxis(secs, x, y); if (!pr) return null;
+    const w = widthsAt(secs, pr.station);
+    const lim = pr.offset >= 0 ? w.wR : w.wL;
+    if (!pr.inside) return pr.dist > m;                    // بیرون از ابتدا یا انتها
+    return Math.abs(pr.offset) > lim + m;
+  }
+  /** شمار نقاط بیرون از محدوده */
+  function countOutside(secs, pts, margin) {
+    let n = 0, ok = 0;
+    pts.forEach(function (q) { const r = outsideStreet(secs, q.x, q.y, margin); if (r === true) n++; else if (r === false) ok++; });
+    return { outside: n, inside: ok, total: pts.length };
+  }
+  /** میانه */
+  function median(a) { if (!a.length) return NaN; const s = a.slice().sort(function (p, q) { return p - q; }), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+  /**
+   * تشخیص جابه‌جایی فایل نسبت به خط پروژه از روی نقاط.
+   * dzs: اختلاف Z هر نقطه با خط پروژه (متر) برای نقاط داخل مسیر. layers: لایه‌های خیابان (offset بر حسب متر).
+   * نتیجه: خوشه‌ها (هر خوشه n، میانه، کمینه و بیشینه، نزدیک‌ترین لایه) — میانه برای مقاومت در برابر نقاط پرت.
+   */
+  function detectLayerShift(dzs, layers, opt) {
+    const o = Object.assign({ gap: 0.03, tol: 0.05, minFrac: 0.05, minN: 3 }, opt || {});
+    const v = dzs.filter(function (z) { return Number.isFinite(z); }).sort(function (a, b) { return a - b; });
+    const res = { n: v.length, median: median(v), clusters: [], ignored: 0, reference: null };
+    if (!v.length) return res;
+    const groups = []; let cur = [v[0]];
+    for (let i = 1; i < v.length; i++) { if (v[i] - v[i - 1] > o.gap) { groups.push(cur); cur = [v[i]]; } else cur.push(v[i]); }
+    groups.push(cur);
+    const minCount = Math.max(o.minN, Math.ceil(v.length * o.minFrac));
+    groups.forEach(function (g) {
+      if (g.length < minCount) { res.ignored += g.length; return; }
+      const med = median(g); let best = null;
+      (layers || []).forEach(function (l) { const d = Math.abs(med - l.offset); if (!best || d < best.diff) best = { layer: l, diff: d }; });
+      const match = best && best.diff <= o.tol ? best : null;
+      res.clusters.push({ n: g.length, median: med, min: g[0], max: g[g.length - 1], layer: match ? match.layer : null, diff: match ? med - match.layer.offset : NaN, nearest: best ? best.layer : null });
+    });
+    // مرتب‌سازی از پایین‌ترین سطح؛ مرجع تشخیص لایه = پایین‌ترین گروه نقاط (نه یک نقطه‌ی تنها)
+    res.clusters.sort(function (a, b) { return a.median - b.median; });
+    res.reference = res.clusters.length ? res.clusters[0] : null;
+    return res;
+  }
+
   return {
     defaultSettings: defaultSettings, normalizeSettings: normalizeSettings, newProject: newProject, uid: uid,
     toNumber: toNumber, parseStation: parseStation, fmt: fmt, formatStation: formatStation, normalizeDigits: normalizeDigits,
@@ -1905,8 +2126,9 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     computeSetup: computeSetup, staffReading: staffReading, setupCovers: setupCovers, buildReadings: buildReadings,
     buildPointRows: buildPointRows, buildNewoRows: buildNewoRows,
     sortSetups: sortSetups, analyzeSetups: analyzeSetups, surveyPoint: surveyPoint, surveyStats: surveyStats,
-    utmToLatLon: utmToLatLon, surfOffset: surfOffset, matInfo: matInfo, widthsAt: widthsAt, matVolume: matVolume, stationAtVolume: stationAtVolume, dumpPlan: dumpPlan, dumpZones: dumpZones, sectionProfile: sectionProfile, designZAt: designZAt, projectToAxis: projectToAxis, compareSurvey: compareSurvey, meanDevBySection: meanDevBySection, actualVolume: actualVolume, groupCrossModels: groupCrossModels, mergeGroupsByMode: mergeGroupsByMode, migrateSlopeRows: migrateSlopeRows,
+    utmToLatLon: utmToLatLon, surfOffset: surfOffset, matInfo: matInfo, widthsAt: widthsAt, matVolume: matVolume, lockCanon: lockCanon, lockHash: lockHash, verifyLocks: verifyLocks, textDiffKinds: textDiffKinds, comparePointSets: comparePointSets, stationAtVolume: stationAtVolume, dumpPlan: dumpPlan, dumpZones: dumpZones, sectionProfile: sectionProfile, designZAt: designZAt, projectToAxis: projectToAxis, compareSurvey: compareSurvey, meanDevBySection: meanDevBySection, actualVolume: actualVolume, groupCrossModels: groupCrossModels, mergeGroupsByMode: mergeGroupsByMode, migrateSlopeRows: migrateSlopeRows,
     modelFromFalls: modelFromFalls, modeDirs: modeDirs, autoSections: autoSections, interpolateAxisPoint: interpolateAxisPoint, generatePegs: generatePegs, normalizeMids: normalizeMids, midCovers: midCovers, sideKeys: sideKeys,
+    sha256Hex: sha256Hex, sha256Text: sha256Text, controlCode: controlCode, outsideStreet: outsideStreet, countOutside: countOutside, detectLayerShift: detectLayerShift, median: median,
     MODES: MODES, MODE_FA: MODE_FA
   };
 });
@@ -2641,12 +2863,21 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
         if (Array.isArray(s.mids)) o.mids = normMids(s.mids);
         if (Array.isArray(s.mats)) o.mats = s.mats.filter(function (m) { return m && typeof m === 'object'; }).map(function (m) {
           const sw = num(m.swell), rw = num(m.rows);
-          return { id: String(m.id || C.uid('mt')), name: str(m.name), top: str(m.top), bot: str(m.bot), topFile: str(m.topFile), botFile: str(m.botFile), swell: sw !== null && sw > 0 ? sw : 1.25, rows: rw !== null && rw >= 1 ? Math.min(6, Math.round(rw)) : (rw === 0 ? 0 : 1), rowW: num(m.rowW) > 0 ? num(m.rowW) : 5, zigzag: !!m.zigzag };
+          return { id: String(m.id || C.uid('mt')), name: str(m.name), top: str(m.top), bot: str(m.bot), topFile: str(m.topFile), botFile: str(m.botFile), swell: sw !== null && sw > 0 ? sw : 1.25, rows: rw !== null && rw >= 1 ? Math.min(6, Math.round(rw)) : (rw === 0 ? 0 : 1), rowW: num(m.rowW) > 0 ? num(m.rowW) : 5, zigzag: !!m.zigzag, from: m.from === '' || m.from === null ? null : num(m.from), to: m.to === '' || m.to === null ? null : num(m.to) };
         });
         if (Array.isArray(s.asbuilt)) o.asbuilt = s.asbuilt.filter(function (a) { return a && Array.isArray(a.pts); }).map(function (a) {
-          return { id: String(a.id || C.uid('ab')), name: str(a.name), date: str(a.date), layerId: str(a.layerId), src: str(a.src),
-            pts: a.pts.map(function (q) { return { x: num(q.x), y: num(q.y), z: num(q.z), desc: str(q.desc) }; }).filter(function (q) { return q.x !== null && q.y !== null && q.z !== null; }) };
+          return { id: String(a.id || C.uid('ab')), name: str(a.name), date: str(a.date), layerId: str(a.layerId), layerMan: str(a.layerMan), tab: str(a.tab), src: str(a.src), size: num(a.size) > 0 ? Math.round(num(a.size)) : 0, sha256: /^[0-9a-f]{64}$/.test(str(a.sha256)) ? str(a.sha256) : '', csha256: /^[0-9a-f]{64}$/.test(str(a.csha256)) ? str(a.csha256) : '',
+            skipped: Array.isArray(a.skipped) ? a.skipped.slice(0, 500).map(function (k) { return { r: num(k && k.r) || 0, t: str(k && k.t) }; }) : [],
+            pts: a.pts.map(function (q) { const o = { x: num(q.x), y: num(q.y), z: num(q.z), desc: str(q.desc) }; if (q.n !== undefined) { o.n = str(q.n); o.xs = str(q.xs); o.ys = str(q.ys); o.zs = str(q.zs); } return o; }).filter(function (q) { return q.x !== null && q.y !== null && q.z !== null; }) };
         });
+        if (Array.isArray(s.locks)) {
+          const hx = function (v) { return /^[0-9a-f]{64}$/.test(str(v)) ? str(v) : ''; };
+          o.locks = s.locks.filter(function (r) { return r && Array.isArray(r.files); }).map(function (r) {
+            return { id: String(r.id || C.uid('lk')), no: Math.max(1, Math.round(num(r.no) || 1)), date: str(r.date), project: str(r.project), street: str(r.street), prev: hx(r.prev), hash: hx(r.hash), by: str(r.by), note: str(r.note),
+              files: r.files.filter(function (f) { return f && typeof f === 'object'; }).map(function (f) { return { id: str(f.id), name: str(f.name), size: num(f.size) > 0 ? Math.round(num(f.size)) : 0, sha256: hx(f.sha256), csha256: hx(f.csha256), n: Math.max(0, Math.round(num(f.n) || 0)), layer: str(f.layer) }; }),
+              receipts: Array.isArray(r.receipts) ? r.receipts.slice(0, 50).map(function (x) { return { date: str(x && x.date), to: str(x && x.to), note: str(x && x.note) }; }) : [] };
+          });
+        }
         if (s.staked && typeof s.staked === 'object' && !Array.isArray(s.staked)) {
           o.staked = {};
           Object.keys(s.staked).forEach(function (k) { if (Array.isArray(s.staked[k])) o.staked[k] = s.staked[k].map(String).filter(function (v) { return /^-?\d+$/.test(v); }); });
@@ -2803,6 +3034,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   const PAGE_SIZE = 50;       // ردیف در هر صفحه‌ی جدول نقاط
   const TABLE_STATIONS = 30;  // مقطع در هر صفحه‌ی جدول سه‌نقطه‌ای
 
+  const APP_VERSION = '1.21.1';
   const S = {
     project: null, dirty: false, rev: 0, calc: null, calcRev: -1,
     page: 'projects', imp: null, ptPage: 0, tPage: 0, stakeIdx: 0, rawBad: {},
@@ -2838,6 +3070,8 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       if (!s.staked || typeof s.staked !== 'object' || Array.isArray(s.staked)) s.staked = {};
       if (!Array.isArray(s.mats)) s.mats = [];
       if (!Array.isArray(s.asbuilt)) s.asbuilt = [];
+      if (!Array.isArray(s.locks)) s.locks = [];
+      s.asbuilt.forEach(function (f) { if (f && !f.tab) { f.tab = 'mt'; f.layerId = '~'; } if (f && f.tab === 'sv' && f.layerMan === undefined) f.layerMan = f.layerId || ''; });
       // شیب هر نقطه‌ی محور جدا نگه داشته می‌شود؛ جدول‌های قدیمیِ درون‌یابی به ردیف به‌ازای هر نقطه تبدیل می‌شوند
       if (s.slopeMode !== 'point') {
         if (isOldDefaultSections(s.sections)) s.sections = [];
@@ -3159,15 +3393,14 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     });
     h += '<section class="card"><h3>بازیابی از فایل پشتیبان</h3><p class="muted small">فایل .json که از «پشتیبان JSON» یا «پشتیبان همه‌ی پروژه‌ها» گرفته‌اید. اگر پروژه‌ای با همان شناسه وجود داشته باشد، قبل از جایگزینی تأیید می‌گیرد.</p>' +
       '<div class="row"><label class="btn">انتخاب فایل پشتیبان<input type="file" id="restoreFile" class="vh"></label>' + (list.length ? '<button class="btn" data-act="backupAll">پشتیبان همه‌ی پروژه‌ها</button>' : '') + '</div></section>';
-    if (S.project) h += settingsCard() + signersCard();
-    return h + '<div class="credit">By AliGhorbani</div>';
+    if (S.project) h += settingsCard() + signersCard() + keyCard();
+    return h + '<div class="credit">By AliGhorbani<br><span class="ver">RoadStake نسخه‌ی <bdi dir="ltr">' + APP_VERSION + '</bdi></span></div>';
   }
 
   /* ---------- امضاکنندگان گزارش (در تب پروژه‌ها) ---------- */
   function signersCard() {
     const p = P(), sg = p.signers;
-    let h = '<section class="card" id="signersCard"><h2>امضاکنندگان گزارش</h2><p class="muted small">در پایین گزارش‌های PDF (جدول، گزارش مسیر، برآورد مصالح) به همین ترتیب نوشته می‌شود. سمت و نام را خودتان تغییر دهید؛ نام خالی بماند فقط سمت و جای امضا چاپ می‌شود.</p>' +
-      '<label class="row" style="margin:6px 0"><input type="checkbox" data-sg="on"' + (p.signOn ? ' checked' : '') + '> امضا در گزارش‌ها نوشته شود</label>';
+    let h = '<section class="card" id="signersCard"><h2>امضاکنندگان گزارش</h2><p class="muted small">هنگام گرفتن گزارش، با تیک «کادر امضا در همه‌ی صفحه‌ها» این امضاکننده‌ها پایین هر صفحه چاپ می‌شوند. سمت و نام را خودتان تغییر دهید؛ نام خالی بماند فقط سمت و جای امضا چاپ می‌شود.</p>';
     sg.forEach(function (x, i) {
       h += '<div class="row" style="margin-bottom:6px"><input class="inp" style="max-width:42%" data-sg="title" data-i="' + i + '" value="' + esc(x.title) + '" placeholder="سمت" autocomplete="off" aria-label="سمت">' +
         '<input class="inp grow" data-sg="name" data-i="' + i + '" value="' + esc(x.name) + '" placeholder="نام و نام خانوادگی" autocomplete="off" aria-label="نام">' +
@@ -3178,7 +3411,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   }
   /** کادر امضا برای پایین گزارش‌های چاپی */
   function signBlock() {
-    const p = P(); if (!p.signOn) return '';
+    const p = P(); if (!(S.rpoCur && S.rpoCur.boxes)) return '';
     const sg = (p.signers || []).filter(function (x) { return x.title || x.name; });
     if (!sg.length) return '';
     return '<div class="sig" style="grid-template-columns:repeat(' + sg.length + ',1fr)">' + sg.map(function (x) {
@@ -4168,44 +4401,35 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     toast('فایل ' + name + ' آماده شد.');
   }
 
-  function printTable() {
+  async function printTable() {
     const p = P(), r = calc();
     if (!r.sections) { toast('ابتدا خطاها را رفع کنید.', 'err'); return; }
+    if (!(await rptAsk())) return;
     const ll = layerList().layers, layer = S.tbLayer ? ll.find(function (l) { return l.id === S.tbLayer; }) : null;
     const secs = layer ? C.applyLayer(r.sections, layer) : r.sections;
     if (!secs.length) { toast('مقطعی برای چاپ نیست.', 'err'); return; }
-    const lname = layer ? layer.name : 'خط پروژه';
-    const bd = function (t) { return { h: '<bdi dir="ltr">' + esc(t) + '</bdi>' }; };
-    const off = layer ? bd((layer.offset > 0 ? '+' : '') + C.fmt(layer.offset * 100, 1) + ' cm') : '۰';
-    const range = { h: rangeText(layer ? layer.from : null, layer ? layer.to : null) };
+    const lname = layer ? layer.name : 'خط پروژه', stName = activeStreet().name;
+    const off = layer ? rplL((layer.offset > 0 ? '+' : '') + C.fmt(layer.offset * 100, 1) + ' cm') : '۰';
     const cp = crossProps(secs);
-    const meta = [['پروژه', p.name], ['خیابان', activeStreet().name], ['لایه', lname], ['جابه‌جایی نسبت به خط پروژه', off], ['محدوده‌ی لایه', range],
-      ['بازه‌ی کیلومتراژ', { h: '<bdi dir="ltr">' + esc(stLabel(secs[0].station)) + '</bdi> تا <bdi dir="ltr">' + esc(stLabel(secs[secs.length - 1].station)) + '</bdi>' }], ['تعداد مقاطع', String(secs.length)], ['تاریخ', new Date().toLocaleDateString('fa-IR')],
-      ['عرض مسیر', { h: cp.widths }, 1], ['شیب عرضی', { h: cp.slopes }, 1]];
-    let h = '<div class="pt-head"><div class="pt-brand">جدول مختصات پیاده‌سازی</div><div class="pt-title">' + esc(p.name) + '<small>' + esc(activeStreet().name) + ' — لایه‌ی «' + esc(lname) + '»</small></div></div>' +
-      '<div class="pt-meta">' + meta.map(function (m) { return '<div' + (m[2] ? ' class="wide"' : '') + '><span>' + esc(m[0]) + '</span><b>' + (typeof m[1] === 'object' ? m[1].h : esc(m[1])) + '</b></div>'; }).join('') + '</div>' +
-      '';
-    // جدول به قطعه‌های جدا (هر قطعه یک صفحه) تقسیم می‌شود تا عنوان ستون‌ها همیشه بالای هر صفحه درست بیاید
+    const meta = [['پروژه', esc(p.name)], ['خیابان', esc(stName)], ['لایه', esc(lname)], ['جابه‌جایی نسبت به خط پروژه', off],
+      ['محدوده‌ی لایه', rangeText(layer ? layer.from : null, layer ? layer.to : null)],
+      ['بازه‌ی کیلومتراژ', '<bdi dir="ltr">' + esc(stLabel(secs[0].station)) + '</bdi> تا <bdi dir="ltr">' + esc(stLabel(secs[secs.length - 1].station)) + '</bdi>', 2], ['تعداد مقاطع', rplL(String(secs.length))],
+      ['عرض مسیر', cp.widths, 2], ['شیب عرضی', cp.slopes, 2]];
+    const top = rplCover('جدول مختصات پیاده‌سازی', p, stName, rplCs(p)) + rplMeta(meta);
     const head = '<table class="pt-tbl pt-chunk"><tbody><tr class="hd"><th>کیلومتراژ</th><th>Z</th><th>نام</th><th>X</th><th>Y</th><th>فاصله از محور</th><th>توضیحات</th></tr>';
     const groups = tblRows(secs, 0, secs.length);
-    let cur = '', curRows = 0, limit = 26, cnt = 0;
-    const flush = function () { if (cur) h += head + cur + '</tbody></table>'; cur = ''; curRows = 0; limit = 38; };
+    const units = [];
     groups.forEach(function (g, gi) {
-      if (curRows && curRows + g.rows.length > limit) flush();
+      let cur = '';
       g.rows.forEach(function (q, k) {
         cur += '<tr class="' + (gi % 2 ? 'alt' : '') + (q.side === 'axis' ? ' ax' : '') + '">' +
           '<td class="stn' + (k === 0 ? ' f' : '') + (k === g.rows.length - 1 ? ' l' : '') + '" dir="ltr">' + (k === 0 ? esc(stn(g.station)) : '') + '</td>' +
           '<td dir="ltr"><b>' + fx(q.z) + '</b></td><td>' + esc(q.name) + '</td><td dir="ltr">' + fx(q.x) + '</td><td dir="ltr">' + fx(q.y) + '</td><td dir="ltr">' + C.fmt(q.dist, 3) + '</td><td>' + esc(q.desc) + '</td></tr>';
       });
-      curRows += g.rows.length; cnt++;
+      units.push(cur);
     });
-    flush();
-    h += signBlock() + '<div class="pt-foot">' + esc(p.name) + ' • ' + esc(activeStreet().name) + ' • ' + esc(lname) + '</div>';
-    const pa = $('#printArea'), oldTitle = document.title;
-    pa.className = 'pt'; pa.innerHTML = h;
-    document.title = slugFa(p.name) + '_' + slugFa(activeStreet().name) + '_' + slugFa(lname);
-    window.print();
-    setTimeout(function () { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; }, 1000);
+    const foot = function (k, N) { return rplFoot([esc(p.name), esc(stName), 'لایه: ' + esc(lname)], k + 1, N); };
+    rplPrint(await rplFlow({ top: top, head: head, units: units, tail: '', foot: foot }), slugFa(p.name) + '_' + slugFa(stName) + '_' + slugFa(lname));
   }
 
   /* ============================== گزارش مسیر (PDF، یک صفحه) ============================== */
@@ -4357,6 +4581,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   async function printRouteReport() {
     const p = P(), r = calc(), st = p.settings;
     if (!r.sections || !r.sections.length) { toast('ابتدا خطاهای محور و شیب را رفع کنید.', 'err'); return; }
+    if (!(await rptAsk())) return;
     const secs = r.sections, n = secs.length, first = secs[0], last = secs[n - 1];
     const kU = st.slopeUnit === 'ratio' ? 'm/m' : '٪';
     const kdisp = function (v) { return C.fmt(v, st.slopeUnit === 'ratio' ? 4 : 2); };
@@ -4456,6 +4681,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     pa.className = 'pt rp'; pa.innerHTML = h;
     document.title = slugFa(p.name) + '_' + slugFa(activeStreet().name) + '_report';
     await new Promise(function (res) { setTimeout(res, 250); });
+    if (!(await rptSignOld(pa, document.title))) { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; return; }
     window.print();
     setTimeout(function () { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; }, 1000);
   }
@@ -5057,9 +5283,10 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     return h;
   }
 
-  function printReport() {
+  async function printReport() {
     const p = P(), r = calc();
     if (!r.sections) { toast('ابتدا خطاها را رفع کنید.', 'err'); return; }
+    if (!(await rptAsk())) return;
     let h = '<h2>' + esc(p.name) + ' — ' + esc(activeStreet().name) + ' — جدول مختصات و قرائت شاخص</h2><p>' + esc(new Date().toLocaleString('fa-IR')) + ' • ' +
       (r.setup ? 'استقرار: ' + esc(r.setup.name) + (r.setupInfo.ok ? ' • بنچ‌مارک: ' + esc(r.setupInfo.bm.name) + ' • HI = ' + fx(r.setupInfo.hi) : '') : 'بدون استقرار') + ' • طول شاخص: ' + C.fmt(p.settings.staffLength, 3) + '</p>' +
       '<table><thead><tr><th>کیلومتراژ</th><th>نقطه</th><th>X</th><th>Y</th><th>Z</th><th>عرض</th><th>شیب</th><th>ΔZ</th><th>HI</th><th>قرائت شاخص</th></tr></thead><tbody>';
@@ -5073,8 +5300,9 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
           '<td class="rdp" dir="ltr">' + (x.valid ? fx(x.value) : (x.status === 'invalid' ? '' : '⚠ ' + SHORT[x.status])) + '</td></tr>';
       });
     });
-    h += '</tbody></table>';
+    h += '</tbody></table>' + signBlock();
     $('#printArea').innerHTML = h;
+    if (!(await rptSignOld($('#printArea'), 'گزارش'))) { $('#printArea').innerHTML = ''; return; }
     window.print();
     setTimeout(function () { $('#printArea').innerHTML = ''; }, 1000);
   }
@@ -5190,9 +5418,10 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   }
 
   function surveyPage() {
+    if (S.sf.src === 'file') return streetBar(false) + svSrcBar() + svFilePage();
     const p = P(), cx = svCtx(), r = cx.r;
-    if (!r.sections) return streetBar(false) + '<div class="msg err"><b>محاسبه انجام نشد.</b> ابتدا خطاهای زیر را رفع کنید.</div>' + blockedBanner(r);
-    let h = streetBar(false);
+    if (!r.sections) return streetBar(false) + svSrcBar() + '<div class="msg err"><b>محاسبه انجام نشد.</b> ابتدا خطاهای زیر را رفع کنید.</div>' + blockedBanner(r);
+    let h = streetBar(false) + svSrcBar();
     if (!p.benchmarks.length) return h + '<div class="msg warn">برای برداشت دست‌کم یک بنچ‌مارک با ارتفاع معلوم لازم است. <a href="#/newo"><b>تعریف بنچ‌مارک در تب نیوو</b></a></div>';
     svSync();
     h += '<section class="card"><label class="field"><span>لایه‌ای که با آن مقایسه می‌شود</span><select class="inp" id="svLayer"><option value="">خط پروژه</option>' +
@@ -5378,7 +5607,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     return ze.total + ' (در هر ردیف ' + Math.min.apply(null, per) + ' تا ' + Math.max.apply(null, per) + ')';
   }
   function mtNewForm(layers) {
-    return { name: '', topSel: 'x', botSel: 'x', topDes: '', botDes: '', swell: '1.25', rows: '0', rowW: '5', zigzag: false };
+    return { name: '', topSel: 'x', botSel: 'x', topDes: '', botDes: '', swell: '1.25', rows: '0', rowW: '5', zigzag: false, from: '', to: '' };
   }
 
   /** آیکن برداری ماشین (طرح عمومی، بدون نشان تجاری). جهت: سمت راست = کابین */
@@ -5456,7 +5685,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     res.vol = C.matVolume(cx.secs, info.lo, info.hi, info.t);
     res.loose = res.vol.total * mat.swell;
     cx.machines.forEach(function (m) { res.mach[m.id] = C.dumpZones(cx.secs, info, m.cap, mat.swell, { rows: mat.rows, rowW: mat.rowW }, mat.zigzag); });
-    res.actual = mtActual(mat, info, cx);
+    res.actual = mtActual(mat, C.matInfo(mat, cx.layers, cx.secs, { ignoreRange: true }), cx);
     return res;
   }
   const mtNum = function (v) { return C.fmt(v, 1); };
@@ -5515,6 +5744,8 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       field('ضریب تورم (غیرمتراکم/متراکم)', '<input class="inp ltr" data-mtf="swell" value="' + esc(F.swell) + '" inputmode="decimal" dir="ltr" autocomplete="off">') +
       field('ردیف‌های ریختن روی عرض', '<select class="inp" data-mtf="rows"><option value="0"' + (F.rows === '0' ? ' selected' : '') + '>خودکار (بر اساس عرض)</option>' + [1, 2, 3, 4, 5, 6].map(function (n) { return '<option value="' + n + '"' + (String(n) === F.rows ? ' selected' : '') + '>' + n + ' ردیف</option>'; }).join('') + '</select>') +
       (F.rows === '0' ? field('عرض هر ردیف (m)', '<input class="inp ltr" data-mtf="rowW" value="' + esc(F.rowW) + '" inputmode="decimal" dir="ltr" autocomplete="off">') : '') +
+      field('از کیلومتراژ (اختیاری)', '<input class="inp ltr" data-mtf="from" value="' + esc(F.from) + '" placeholder="خالی = ابتدای مسیر" dir="ltr" autocomplete="off">') +
+      field('تا کیلومتراژ (اختیاری)', '<input class="inp ltr" data-mtf="to" value="' + esc(F.to) + '" placeholder="خالی = انتهای مسیر" dir="ltr" autocomplete="off">') +
       '</div><label class="chk" style="margin-top:6px"><input type="checkbox" data-mtf="zigzag"' + (F.zigzag ? ' checked' : '') + '> ردیف‌ها زیگزاگ (نیم‌ظرفیت جابه‌جا) ریخته شوند</label>' +
       '<div class="row" style="margin-top:10px"><button class="btn primary grow" data-act="mtAdd">' + (edMt ? 'ذخیره‌ی تغییرات' : 'افزودن مصالح') + '</button>' + (edMt ? '<button class="btn" data-act="mtCancel">انصراف</button>' : '') + '</div>';
     h += '</section>';
@@ -5540,17 +5771,17 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       const rs = byId[m.id];
       if (!rs) { h += '<tr><td>' + esc(m.name || '—') + '</td><td colspan="5" class="muted" style="color:#c62828">' + esc(C.matInfo(m, cx.layers, cx.secs).warn) + '</td>' + acts(i) + '</tr>'; return; }
       tc += rs.vol.total; tl += rs.loose;
-      h += '<tr' + (m.id === S.mt.editMat ? ' class="sel"' : '') + '><td>' + esc(m.name || '—') + '<div class="muted small">' + esc(mtSurfName(cx, m.top, m.topFile)) + ' ← ' + esc(mtSurfName(cx, m.bot, m.botFile)) + ' • ' + esc(mtRowsTxt(m)) + (m.zigzag && m.rows !== 1 ? ' • زیگزاگ' : '') + '</div></td><td class="n">' + C.fmt(rs.info.t * 100, 1) + ' cm</td><td class="n">' + mtNum(rs.vol.length) + ' ' + unitL() + '</td><td class="n">' + mtM3(rs.vol.total) + '</td><td class="n">' + C.fmt(m.swell, 3) + '</td><td class="n"><b>' + mtM3(rs.loose) + '</b></td>' + acts(i) + '</tr>';
+      h += '<tr' + (m.id === S.mt.editMat ? ' class="sel"' : '') + '><td>' + esc(m.name || '—') + '<div class="muted small">' + esc(mtSurfName(cx, m.top, m.topFile)) + ' ← ' + esc(mtSurfName(cx, m.bot, m.botFile)) + ' • ' + esc(mtRowsTxt(m)) + (rs.info.rangeSet ? ' • بازه‌ی ' + esc(stLabel(rs.info.lo) + ' تا ' + stLabel(rs.info.hi)) + (rs.info.clipped ? ' (بریده‌شده)' : '') : '') + (m.zigzag && m.rows !== 1 ? ' • زیگزاگ' : '') + '</div></td><td class="n">' + C.fmt(rs.info.t * 100, 1) + ' cm</td><td class="n">' + mtNum(rs.vol.length) + ' ' + unitL() + '</td><td class="n">' + mtM3(rs.vol.total) + '</td><td class="n">' + C.fmt(m.swell, 3) + '</td><td class="n"><b>' + mtM3(rs.loose) + '</b></td>' + acts(i) + '</tr>';
     });
     h += '<tr class="sum"><td colspan="3"><b>جمع</b></td><td class="n"><b>' + mtM3(tc) + '</b></td><td></td><td class="n"><b>' + mtM3(tl) + '</b></td><td></td></tr></tbody></table></div>';
     if (results.some(function (rs) { return rs.actual; })) {
-      h += '<h3 style="margin:12px 0 4px">حجم محاسباتی و حجم عملیاتی (از نقاط برداشت)</h3><div class="tbl-wrap"><table><thead><tr><th>مصالح</th><th>بازه‌ی دارای داده</th><th>حجم محاسباتی (همان بازه)</th><th>حجم عملیاتی</th><th>اختلاف</th></tr></thead><tbody>';
+      h += '<h3 style="margin:12px 0 4px">حجم محاسباتی و حجم عملیاتی (از نقاط برداشت)</h3><div class="tbl-wrap"><table><thead><tr><th>مصالح</th><th>بازه‌ی دارای داده</th><th>حجم محاسباتی (همان بازه)</th><th>حجم عملیاتی</th><th>اختلاف</th><th></th></tr></thead><tbody>';
       results.forEach(function (rs) {
         const av = rs.actual;
         if (!av) return;
         h += '<tr><td>' + esc(rs.mat.name || '—') + '</td>' + (av.ok ?
           '<td class="n">' + mtNum(av.covered) + ' از ' + mtNum(rs.info.hi - rs.info.lo) + ' ' + unitL() + '</td><td class="n">' + mtM3(av.design) + '</td><td class="n"><b>' + mtM3(av.actual) + '</b></td><td class="n" style="color:' + (av.diff >= 0 ? '#1b7a3d' : '#c62828') + '">' + (av.diff > 0 ? '+' : '') + mtM3(av.diff) + ' (' + (av.diff > 0 ? '+' : '') + C.fmt(av.pct, 1) + '٪)</td>' :
-          '<td colspan="4" class="muted">نقاط فایل روی مسیر نیفتاد یا هر دو سر بازه داده ندارد (' + av.n + ' از ' + av.nAll + ' نقطه روی مسیر)</td>') + '</tr>';
+          '<td colspan="4" class="muted">نقاط فایل روی مسیر نیفتاد یا هر دو سر بازه داده ندارد (' + av.n + ' از ' + av.nAll + ' نقطه روی مسیر)</td>') + '<td class="nw">' + (av.ok && av.lo !== undefined ? '<button class="btn sm" data-act="mtApplyRange" data-i="' + cx.mats.indexOf(rs.mat) + '" title="بازه‌ی طرح این ردیف را برابر بازه‌ی فایل برداشت می‌کند">اعمال بازه‌ی فایل</button>' : '') + '</td></tr>';
       });
       h += '</tbody></table></div><p class="muted small">سطحی که فایل ندارد مطابق طرح فرض می‌شود؛ فقط بازه‌هایی حساب می‌شوند که در هر دو سر داده دارند.</p>';
     }
@@ -5600,25 +5831,12 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     const cx = mtCtx();
     toast('در حال خواندن «' + file.name + '» …');
     try {
-      let rows;
-      if (/\.xlsx$/i.test(file.name)) rows = await IO.readXlsx(new Uint8Array(await file.arrayBuffer()));
-      else if (/\.xls$/i.test(file.name)) throw new Error('فرمت .xls پشتیبانی نمی‌شود؛ به .xlsx یا CSV ذخیره کنید.');
-      else {
-        const buf = await file.arrayBuffer();
-        let text = new TextDecoder('utf-8').decode(buf);
-        if (text.indexOf('�') >= 0) { try { text = new TextDecoder('windows-1256').decode(buf); } catch (e) { /* ignore */ } }
-        rows = IO.parseDelimited(text).rows;
-      }
-      const pts = [];
-      rows.forEach(function (r) {
-        const x = C.toNumber(r[1]), y = C.toNumber(r[2]), z = C.toNumber(r[3]);
-        if (fin(x) && fin(y) && fin(z)) pts.push({ x: x, y: y, z: z, desc: String(r[4] === undefined ? '' : r[4]) });
-      });
-      if (!pts.length) throw new Error('نقطه‌ی معتبری (شماره، E، N، Z) در فایل پیدا نشد.');
+      const abuf = await file.arrayBuffer(), rd = await readPointFile(file, abuf), pr = penzdParse(rd.rows, rd.delim);
+      if (!pr.pts.length) throw new Error('نقطه‌ی معتبری (شماره، E، N، Z) در فایل پیدا نشد.');
       const id = C.uid('ab');
-      cx.st.asbuilt.push({ id: id, name: file.name, date: new Date().toISOString(), layerId: '', src: 'penzd', pts: pts });
+      cx.st.asbuilt.push({ id: id, name: file.name, date: new Date().toISOString(), layerId: '~', tab: 'mt', src: 'penzd', size: abuf.byteLength, sha256: C.sha256Hex(new Uint8Array(abuf)), pts: pr.pts, skipped: pr.skipped.slice(0, 500) });
       if (which && S.mt.form) S.mt.form[which + 'Sel'] = 'f:' + id;
-      markDirty(); render(); toast(pts.length + ' نقطه از «' + file.name + '» خوانده شد.');
+      markDirty(); render(); toast(pr.pts.length + ' نقطه از «' + file.name + '» خوانده شد.');
     } catch (e) { toast('فایل خوانده نشد: ' + (e.message || 'خطای نامشخص'), 'err'); }
   }
 
@@ -5664,10 +5882,11 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       '<text x="' + (W / 2) + '" y="' + (H - 5) + '" font-size="7" text-anchor="middle" fill="' + RP.mut + '">' + 'ضخامت ' + C.fmt(rs.info.t * 100, 1) + ' cm • مجموع عرض ' + C.fmt(tot, 2) + ' m' + '</text></svg>';
   }
 
-  function printMaterials() {
+  async function printMaterials() {
     const cx = mtCtx(), p = cx.p;
     const ok = cx.mats.filter(function (m) { return C.matInfo(m, cx.layers, cx.secs).ok; });
     if (!ok.length) { toast('ابتدا یک ردیف مصالح معتبر تعریف کنید.', 'err'); return; }
+    if (!(await rptAsk())) return;
     const bd = function (t) { return '<bdi dir="ltr">' + esc(t) + '</bdi>'; };
     const cs = p.settings.coordSystem === 'UTM' ? 'UTM ' + p.settings.utmZone + (p.settings.hemisphere === 'S' ? 'S' : 'N') + ' / ' + p.settings.datum : (p.settings.coordSystem || '');
     const sel = mtSelMach(cx);
@@ -5710,8 +5929,795 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     const pa = $('#printArea'), oldTitle = document.title;
     pa.className = 'pt rp'; pa.innerHTML = h;
     document.title = slugFa(p.name) + '_' + slugFa(cx.st.name) + '_' + 'برآورد-مصالح';
+    if (!(await rptSignOld(pa, document.title))) { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; return; }
     window.print();
     setTimeout(function () { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; }, 1000);
+  }
+
+  /* ============================== قالب مشترک گزارش‌های جدولی (سربرگ، مشخصات، پایین هر صفحه) ============================== */
+  const rplEsc = esc;
+  const rplL = function (t) { return '<bdi dir="ltr">' + esc(t) + '</bdi>'; };
+  /** سربرگ سرمه‌ای و طلایی */
+  function rplCover(sub, p, stName, cs) {
+    return '<div class="rp-cover"><div class="rp-l"><div class="rp-brand">RoadStake</div><div class="rp-sub">' + esc(sub) + '</div></div>' +
+      '<div class="rp-title">' + esc(p.name) + '<small>خیابان: <b>' + esc(stName) + '</b></small></div>' +
+      '<div class="rp-r"><div>' + esc(new Date().toLocaleDateString('fa-IR')) + '</div><div dir="ltr">' + esc(cs) + '</div></div></div>';
+  }
+  /** کارت‌های مشخصات؛ هر مورد [برچسب، HTML مقدار، span(1..4)] */
+  function rplMeta(items) {
+    return '<div class="rpl-meta">' + items.map(function (m) { return '<div class="c' + (m[2] ? ' s' + m[2] : '') + '"><span>' + esc(m[0]) + '</span><b>' + m[1] + '</b></div>'; }).join('') + '</div>';
+  }
+  /** سلول جدا برای SHA-256 (لاتین، چپ‌به‌راست) */
+  function rplHash(label, hex) {
+    return '<div class="rpl-hash"><span>' + esc(label) + '</span><code dir="ltr">' + esc(hex) + '</code></div>';
+  }
+  /** پایین هر صفحه */
+  function rplFoot(parts, page, pages) {
+    return '<div class="rpl-pf"><span>' + parts.join(' • ') + '</span><span>صفحه ' + rplL(String(page)) + ' از ' + rplL(String(pages)) + '</span></div>';
+  }
+  const rplCs = function (p) { return p.settings.coordSystem === 'UTM' ? 'UTM ' + p.settings.utmZone + (p.settings.hemisphere === 'S' ? 'S' : 'N') + ' / ' + p.settings.datum : (p.settings.coordSystem || '—'); };
+  /** چاپ: HTML هر صفحه یک بلوک است (سربرگ فقط در صفحه‌ی اول). با «نسخه‌ی کارفرما» امضای دیجیتال و با «کادر امضا» کادر امضا پایین همه‌ی صفحه‌ها اضافه می‌شود */
+  async function rplPrint(pagesHtml, title) {
+    const o = S.rpoCur || {}, pa = $('#printArea'), oldTitle = document.title;
+    pa.className = 'pt rp rpl'; pa.innerHTML = pagesHtml;
+    const pages = pa.querySelectorAll('.rpl-pg'), N = pages.length;
+    let sg = null;
+    if (o.client) {
+      try { sg = await rptSign(rptTextOf(pages), N, title); }
+      catch (e) { pa.innerHTML = ''; pa.className = ''; toast('امضای دیجیتال انجام نشد: ' + (e.message || 'خطای نامشخص'), 'err'); return; }
+    }
+    const boxes = o.boxes ? sigCompact() : '';
+    pages.forEach(function (pg, k) {
+      const foot = pg.querySelector('.rpl-pf'), add = (sg && k === N - 1 ? rptFull(sg, N) : '') + (sg ? rptShort(sg, N, k + 1) : '') + boxes;
+      if (add && foot) foot.insertAdjacentHTML('beforebegin', '<div class="rpl-dec">' + add + '</div>');
+    });
+    document.title = title;
+    window.print();
+    setTimeout(function () { pa.innerHTML = ''; pa.className = ''; document.title = oldTitle; }, 1000);
+  }
+  /* ============================== نقاط برداشت از فایل (تب برداشت) ============================== */
+  S.sf = { src: 'newo', file: '', sort: 'file', cols: false, page: 0, raw: {}, cmp: null };
+  Object.defineProperty(S, 'sfPageKey', { get: function () { return S.sf.page; }, set: function (v) { S.sf.page = v; }, enumerable: false });
+  const SF_SORT = [['file', 'ترتیب فایل (پیش‌فرض)'], ['num', 'شماره‌ی نقطه'], ['name', 'نام نقطه'], ['desc', 'توضیحات (سپس نام)']];
+  const SF_PROJ_FAR = 100;   // نقطه‌ای که بیش از این (m) از محور فاصله دارد «دور از مسیر» است
+  const SF_MARGIN = 2;       // حاشیه‌ی هشدار «بیرون از محدوده‌ی خیابان» (m) از هر لبه و از ابتدا/انتها
+
+  /** ذخیره‌ی بایت‌های اصلی فایل‌ها (IndexedDB) برای خروجی بدون تغییر؛ جدا از داده‌ی پروژه‌ها */
+  const RAW = (function () {
+    let dbp = null;
+    function open() {
+      if (dbp) return dbp;
+      dbp = new Promise(function (res) {
+        try {
+          const rq = indexedDB.open('roadstake-raw', 2);
+          rq.onupgradeneeded = function () { const db0 = rq.result; if (!db0.objectStoreNames.contains('files')) db0.createObjectStore('files'); if (!db0.objectStoreNames.contains('keys')) db0.createObjectStore('keys'); };
+          rq.onsuccess = function () { res(rq.result); };
+          rq.onerror = function () { res(null); };
+          rq.onblocked = function () { res(null); };
+        } catch (e) { res(null); }
+      });
+      return dbp;
+    }
+    function tx(mode, fn, store) {
+      return open().then(function (db) {
+        if (!db) return null;
+        return new Promise(function (res) {
+          try {
+            const t = db.transaction(store || 'files', mode), rq = fn(t.objectStore(store || 'files'));
+            t.oncomplete = function () { res(rq && rq.result !== undefined ? rq.result : true); };
+            t.onerror = t.onabort = function () { res(null); };
+          } catch (e) { res(null); }
+        });
+      });
+    }
+    return {
+      put: function (id, buf) { return tx('readwrite', function (s) { return s.put(buf, id); }).then(function (r) { return r !== null; }); },
+      get: function (id) { return tx('readonly', function (s) { return s.get(id); }).then(function (r) { return r && r !== true ? r : null; }); },
+      has: function (id) { return tx('readonly', function (s) { return s.count(id); }).then(function (n) { return typeof n === 'number' && n > 0; }); },
+      del: function (id) { return tx('readwrite', function (s) { return s.delete(id); }); },
+      kget: function (id) { return tx('readonly', function (s) { return s.get(id); }, 'keys').then(function (r) { return r && r !== true ? r : null; }); },
+      kput: function (id, v) { return tx('readwrite', function (s) { return s.put(v, id); }, 'keys').then(function (r) { return r !== null; }); }
+    };
+  })();
+
+  const sfRaw = function (q) { return { n: q.n !== undefined ? q.n : '', xs: q.xs !== undefined ? q.xs : String(q.x), ys: q.ys !== undefined ? q.ys : String(q.y), zs: q.zs !== undefined ? q.zs : String(q.z), d: q.desc || '' }; };
+  const sfFileStr = function (f) { return f.pts.map(function (q) { const r = sfRaw(q); return [r.n, r.xs, r.ys, r.zs, r.d].join('|'); }).join('\n'); };
+  /** SHA-256 محتوای نقاط (متن اصلی هر ستون به ترتیب فایل)؛ برای فایل‌های قدیمی بدون هش بایت هم کار می‌کند */
+  const SF_CH = new WeakMap();
+  const sfContentHash = function (f) { if (f.csha256) return f.csha256; let h = SF_CH.get(f); if (!h) { h = C.sha256Text(sfFileStr(f)); SF_CH.set(f, h); } return h; };
+  /** کد کنترل: ۱۰ حرف اول SHA-256 بایت‌های فایل (در نبود آن، SHA-256 محتوای نقاط) */
+  const sfCode = function (f) { return C.controlCode(f.sha256 || sfContentHash(f)); };
+  const sfSize = function (n) { return n >= 1048576 ? C.fmt(n / 1048576, 2) + ' MB' : n >= 1024 ? C.fmt(n / 1024, 1) + ' KB' : n + ' B'; };
+
+  /** ردیف‌های فایل (شماره، E، N، Z، توضیحات) ← نقاط؛ متن اصلی هر مقدار بدون تغییر نگه داشته می‌شود */
+  function penzdParse(rows, delim) {
+    const pts = [], skipped = [], dl = delim || ',';
+    rows.forEach(function (r, i) {
+      const c = r.map(function (v) { return v === undefined || v === null ? '' : String(v).trim(); });
+      const x = C.toNumber(c[1]), y = C.toNumber(c[2]), z = C.toNumber(c[3]);
+      if (c.length >= 4 && fin(x) && fin(y) && fin(z)) pts.push({ n: c[0], xs: c[1], ys: c[2], zs: c[3], desc: c.slice(4).join(dl), x: x, y: y, z: z });
+      else skipped.push({ r: i + 1, t: c.join(dl) });
+    });
+    return { pts: pts, skipped: skipped };
+  }
+  async function readPointFile(file, buf0) {
+    const buf = buf0 || await file.arrayBuffer();
+    if (/\.xlsx$/i.test(file.name)) return { rows: await IO.readXlsx(new Uint8Array(buf)), delim: ',' };
+    if (/\.xls$/i.test(file.name)) throw new Error('فرمت .xls پشتیبانی نمی‌شود؛ به .xlsx یا CSV ذخیره کنید.');
+    let text = new TextDecoder('utf-8').decode(buf);
+    if (text.indexOf('�') >= 0) { try { text = new TextDecoder('windows-1256').decode(buf); } catch (e) { /* ignore */ } }
+    const pd = IO.parseDelimited(text);
+    return { rows: pd.rows, delim: pd.delimiter };
+  }
+
+  function svSrcBar() {
+    return '<div class="seg"><button class="btn' + (S.sf.src === 'newo' ? ' primary' : '') + '" data-act="sfSrc" data-v="newo">نیوو</button><button class="btn' + (S.sf.src === 'file' ? ' primary' : '') + '" data-act="sfSrc" data-v="file">فایل نقاط</button></div>';
+  }
+  function sfData() {
+    const p = P(), st = activeStreet(), layers = C.normalizeLayers(p.layers).layers, r = calc();
+    const files = st.asbuilt.filter(function (f) { return f.tab === 'sv'; });
+    let file = files.find(function (f) { return f.id === S.sf.file; }) || files[files.length - 1] || null;
+    S.sf.file = file ? file.id : '';
+    return { p: p, st: st, layers: layers, files: files, file: file, secs: r.sections || [] };
+  }
+  /** ردیف‌های نمایش/گزارش با ترتیب انتخابی؛ مقدار نقاط تغییر نمی‌کند */
+  function sfRows(f) {
+    const rows = []; let k = 0;
+    f.pts.forEach(function (q) { rows.push({ k: ++k, q: q, r: sfRaw(q) }); });
+    const col = new Intl.Collator('fa', { numeric: true });
+    const num = function (s) { const v = parseFloat(String(s).replace(/[^0-9.\-]/g, '')); return isFinite(v) ? v : Infinity; };
+    const so = S.sf.sort;
+    if (so === 'name') rows.sort(function (a, b) { return col.compare(a.r.n, b.r.n) || a.k - b.k; });
+    else if (so === 'num') rows.sort(function (a, b) { return num(a.r.n) - num(b.r.n) || a.k - b.k; });
+    else if (so === 'desc') rows.sort(function (a, b) { return col.compare(a.r.d, b.r.d) || col.compare(a.r.n, b.r.n) || a.k - b.k; });
+    return rows;
+  }
+  /** کیلومتراژ و فاصله‌ی عرضی محاسبه‌شده (فقط نمایش؛ نقطه‌ی جدیدی ساخته نمی‌شود) */
+  function sfProj(d, row) {
+    if (!d.secs.length) return { st: '—', off: '—' };
+    const pr = C.projectToAxis(d.secs, row.q.x, row.q.y);
+    if (!pr) return { st: '—', off: '—' };
+    if (!pr.inside) return { st: 'خارج از مسیر', off: '—' };
+    if (pr.dist > SF_PROJ_FAR) return { st: 'دور از مسیر', off: '—' };
+    return { st: stn(pr.station), off: (pr.offset > 0 ? '+' : '') + C.fmt(pr.offset, 3) };
+  }
+  /** تشخیص جابه‌جایی فایل نسبت به خط پروژه از روی نقاط (میانه) و نزدیک‌ترین لایه */
+  function sfDetect(d, f) {
+    if (!d.secs || d.secs.length < 2) return { ok: false, why: 'برای تشخیص لایه، محور و شیب عرضی خیابان لازم است.' };
+    const rows = C.compareSurvey(d.secs, f.pts.map(function (q) { return { x: q.x, y: q.y, z: q.z, layerId: '' }; }), d.layers, 10);
+    const dz = rows.filter(function (r) { return r.status !== 'out'; }).map(function (r) { return r.dz; });
+    if (!dz.length) return { ok: false, why: 'هیچ‌یک از نقاط فایل روی مسیر این خیابان نیفتاد؛ شاید فایل خیابان دیگری انتخاب شده است.' };
+    const det = C.detectLayerShift(dz, d.layers);
+    det.ok = true; det.inN = dz.length; det.totalN = f.pts.length;
+    return det;
+  }
+  /** نام و متن لایه‌ی مؤثر فایل (دستی یا تشخیص‌داده‌شده) */
+  function sfLayerInfo(d, f) {
+    const det = sfDetect(d, f), man = f.layerMan || '';
+    const cm = function (v) { return (v > 0 ? '+' : '') + C.fmt(v * 100, 1) + ' cm'; };
+    const ref = det.ok ? det.reference : null;      // پایین‌ترین گروه نقاط
+    const shift = ref ? cm(ref.median) : (det.ok ? cm(det.median) : '—');
+    if (man) {
+      const l = d.layers.find(function (x) { return x.id === man; });
+      const nm = man === '__proj' ? 'خط پروژه' : (l ? l.name : 'لایه‌ی حذف‌شده');
+      return { manual: true, name: nm, text: nm + ' (انتخاب دستی)', det: det, shift: shift };
+    }
+    if (!det.ok) return { name: 'نامشخص', text: 'نامشخص', det: det, shift: '—' };
+    if (ref && ref.layer) return { name: ref.layer.name, text: ref.layer.name, det: det, shift: shift };
+    return { name: 'نامشخص', text: 'نامشخص (به هیچ لایه‌ای نزدیک نیست)', det: det, shift: shift };
+  }
+  const sfOutside = function (d, f) { return d.secs && d.secs.length > 1 ? C.countOutside(d.secs, f.pts, SF_MARGIN) : null; };
+
+  /** بررسی ناهمزمان وجود فایل خام در IndexedDB این دستگاه */
+  let sfRawBusy = false;
+  async function sfRawCheck() {
+    if (sfRawBusy) return; sfRawBusy = true;
+    try {
+      const fl = activeStreet().asbuilt.filter(function (f) { return f.tab === 'sv'; });
+      let changed = false;
+      for (const f of fl) { const has = await RAW.has(f.id); if (S.sf.raw[f.id] !== has) { S.sf.raw[f.id] = has; changed = true; } }
+      if (changed && S.sf.src === 'file') render();
+    } finally { sfRawBusy = false; }
+  }
+
+  function svFilePage() {
+    const d = sfData(), F = S.sf, f = d.file;
+    let h = '<section class="card"><h2>فایل نقاط برداشت — خیابان «' + esc(d.st.name) + '»</h2>' +
+      '<p class="muted small">برای هر خیابان فایل جدا بارگذاری کنید (قالب PENZD: شماره، شرقی، شمالی، ارتفاع، توضیحات). نقاط دقیقاً مطابق فایل نگه داشته و نشان داده می‌شوند؛ هیچ نقطه‌ای اضافه، حذف یا تغییر نمی‌کند. لایه‌ی فایل از روی نقاط تشخیص داده می‌شود.</p>' +
+      '<div class="row" style="margin-top:8px"><label class="btn primary" style="flex:1;text-align:center">بارگذاری فایل نقاط<input type="file" id="sfFile" class="vh"></label></div></section>';
+    if (!f) return h + '<div class="msg info small">برای این خیابان هنوز فایلی بارگذاری نشده است.</div>';
+    setTimeout(sfRawCheck, 0);
+    // فایل‌های خیابان
+    h += '<section class="card"><h3>فایل‌های این خیابان</h3><div class="tbl-wrap"><table><thead><tr><th>فایل</th><th>تاریخ</th><th>نقاط</th><th>حجم</th><th>کد کنترل</th><th></th></tr></thead><tbody>';
+    d.files.forEach(function (x) {
+      const i = d.st.asbuilt.indexOf(x);
+      h += '<tr' + (x.id === f.id ? ' class="sel"' : '') + '><td>' + esc(x.name) + '</td><td class="n">' + esc(new Date(x.date).toLocaleDateString('fa-IR')) + '</td><td class="n">' + x.pts.length + '</td><td class="n" dir="ltr">' + (x.size ? esc(sfSize(x.size)) : '—') + '</td><td class="n" dir="ltr">' + esc(sfCode(x)) + '</td>' +
+        '<td style="white-space:nowrap">' + (x.id === f.id ? '' : '<button class="btn sm" data-act="sfSel" data-id="' + esc(x.id) + '">نمایش</button> ') + '<button class="btn icon danger sm" data-act="sfDel" data-i="' + i + '" aria-label="حذف فایل">×</button></td></tr>';
+    });
+    h += '</tbody></table></div></section>';
+    h += lkCard(d);
+
+    // مشخصات فایل انتخاب‌شده + SHA-256
+    const info = sfLayerInfo(d, f), det = info.det, out = sfOutside(d, f), hasRaw = !!F.raw[f.id];
+    h += '<section class="card"><h3>' + esc(f.name) + '</h3>';
+    h += '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256) — فایل' + (f.sha256 ? '' : ' (در دسترس نیست؛ این فایل با نسخه‌ی قدیمی بارگذاری شده است)') + '</span><code>' + esc(f.sha256 || '—') + '</code></div>' +
+      '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256) — نقاط (متن ستون‌ها به ترتیب فایل)</span><code>' + esc(sfContentHash(f)) + '</code></div>' +
+      '<p class="small">کد کنترل: <b class="num" dir="ltr">' + esc(sfCode(f)) + '</b> • ' + f.pts.length + ' نقطه' + (f.size ? ' • ' + esc(sfSize(f.size)) : '') + '</p>';
+    if (out && out.outside) h += '<div class="msg warn small">' + out.outside + ' نقطه‌ی این فایل بیرون از محدوده‌ی خیابان «' + esc(d.st.name) + '» است (عرض راه + ' + SF_MARGIN + ' متر از هر لبه، ' + SF_MARGIN + ' متر از ابتدا و انتها). شاید فایل خیابان دیگری انتخاب شده است. هیچ نقطه‌ای تغییر نکرده است.</div>';
+    if ((f.skipped || []).length) h += '<div class="msg warn small">' + f.skipped.length + ' ردیف فایل خوانده نشد (پایین همین کارت).</div>';
+    // لایه
+    h += '<h3 style="margin:10px 0 4px">لایه‌ی فایل</h3>';
+    if (!det.ok) h += '<div class="msg info small">' + esc(det.why) + '</div>';
+    else {
+      h += '<div class="tbl-wrap"><table><thead><tr><th>نقاط</th><th>جابه‌جایی میانه</th><th>لایه‌ی تشخیص‌داده‌شده</th><th>اختلاف با طرح</th></tr></thead><tbody>';
+      det.clusters.forEach(function (c, ci) {
+        h += '<tr' + (ci === 0 ? ' class="sel"' : '') + '><td class="n">' + c.n + '</td><td class="n" dir="ltr">' + (c.median > 0 ? '+' : '') + C.fmt(c.median * 100, 1) + ' cm</td><td>' + (c.layer ? esc(c.layer.name) : '<span class="muted">نامشخص' + (c.nearest ? ' (نزدیک‌ترین: ' + esc(c.nearest.name) + ')' : '') + '</span>') + '</td><td class="n" dir="ltr">' + (c.layer ? (c.diff > 0 ? '+' : '') + C.fmt(c.diff * 100, 1) + ' cm' : '—') + '</td></tr>';
+      });
+      h += '</tbody></table></div><p class="muted small">میانه‌ی اختلاف ارتفاع هر گروه از نقاط با خط پروژه (از ' + det.inN + ' نقطه‌ی روی مسیر)؛ ردیف نخست (پایین‌ترین گروه) مرجع تشخیص لایه است' + (det.ignored ? ' • ' + det.ignored + ' نقطه‌ی پرت در محاسبه نیامد' : '') + '. اگر لایه‌ی مناسبی نمی‌بینید، در تب «لایه‌ها» لایه‌ای نزدیک به این جابه‌جایی بسازید.</p>';
+    }
+    h += field('انتخاب لایه (اختیاری)', '<select class="inp" id="sfLayerMan"><option value=""' + (!f.layerMan ? ' selected' : '') + '>تشخیص خودکار</option><option value="__proj"' + (f.layerMan === '__proj' ? ' selected' : '') + '>خط پروژه</option>' +
+      d.layers.map(function (l) { return '<option value="' + esc(l.id) + '"' + (l.id === f.layerMan ? ' selected' : '') + '>' + esc(layerTag(l)) + '</option>'; }).join('') + '</select>');
+    h += '<p class="small">لایه‌ی مؤثر: <b>' + esc(info.text) + '</b></p>';
+    const sk = f.skipped || [];
+    if (sk.length) h += '<details class="card-d"><summary>ردیف‌هایی که خوانده نشد (' + sk.length + ')</summary><div class="small" style="direction:ltr;text-align:left">' + sk.slice(0, 100).map(function (s) { return 'ردیف ' + s.r + ': ' + esc(s.t); }).join('<br>') + (sk.length > 100 ? '<br>…' : '') + '</div></details>';
+    h += '</section>';
+
+    // جدول نقاط
+    const rows = sfRows(f), size = 40, pages = Math.max(1, Math.ceil(rows.length / size)); F.page = Math.min(F.page, pages - 1);
+    h += '<section class="card"><h3>نقاط (' + rows.length + ')</h3><div class="grid2">' +
+      field('ترتیب نمایش', '<select class="inp" id="sfSort">' + SF_SORT.map(function (x) { return '<option value="' + x[0] + '"' + (x[0] === F.sort ? ' selected' : '') + '>' + x[1] + '</option>'; }).join('') + '</select>') +
+      '</div><label class="chk" style="margin:6px 0"><input type="checkbox" id="sfCols"' + (F.cols ? ' checked' : '') + '> ستون‌های محاسبه‌شده (کیلومتراژ و فاصله از محور)</label>' +
+      '<div class="tbl-wrap"><table><thead><tr><th>#</th><th>نام/شماره</th><th>شرقی</th><th>شمالی</th><th>Z</th><th>توضیحات</th>' + (F.cols ? '<th>کیلومتراژ*</th><th>فاصله از محور*</th>' : '') + '</tr></thead><tbody>';
+    rows.slice(F.page * size, F.page * size + size).forEach(function (x) {
+      const pj = F.cols ? sfProj(d, x) : null;
+      h += '<tr><td class="n">' + x.k + '</td><td>' + esc(x.r.n) + '</td><td class="n" dir="ltr">' + esc(x.r.xs) + '</td><td class="n" dir="ltr">' + esc(x.r.ys) + '</td><td class="n" dir="ltr">' + esc(x.r.zs) + '</td><td>' + esc(x.r.d) + '</td>' +
+        (F.cols ? '<td class="n" dir="ltr">' + esc(pj.st) + '</td><td class="n" dir="ltr">' + esc(pj.off) + '</td>' : '') + '</tr>';
+    });
+    h += '</tbody></table></div>' + pager('sfPageKey', rows.length, size) + (F.cols ? '<p class="muted small">* ستون‌های محاسبه‌شده فقط از روی هر نقطه حساب می‌شوند و بخشی از فایل نیستند.</p>' : '') +
+      '<div class="row" style="margin-top:10px"><button class="btn primary grow" data-act="sfPdf">گزارش</button><button class="btn grow" data-act="sfExport"' + (hasRaw ? '' : ' title="فایل خام در این دستگاه نیست"') + '>خروجی فایل اصلی</button></div>' +
+      (hasRaw ? '<p class="muted small">خروجی دقیقاً همان بایت‌های فایل اولیه است (بدون هیچ تغییر) با همان نام و پسوند ورودی، به‌همراه فایل «نام‌فایل.sha256.txt».</p>' : '<div class="msg warn small">فایل خام این فایل در این دستگاه ذخیره نیست (مثلاً بعد از بازیابی پشتیبان). همان فایل را دوباره بارگذاری کنید تا بازیابی شود؛ اگر SHA-256 یکی باشد فایل تازه اضافه نمی‌شود.</div>') + '</section>';
+    h += cmpCard();
+    return h;
+  }
+
+  async function sfLoadFile(file) {
+    const d = sfData();
+    toast('در حال خواندن «' + file.name + '» …');
+    try {
+      const buf = await file.arrayBuffer(), hex = C.sha256Hex(new Uint8Array(buf));
+      const dup = d.st.asbuilt.find(function (x) { return x.tab === 'sv' && x.sha256 === hex; });
+      if (dup) {
+        S.sf.file = dup.id;
+        if (!(await RAW.has(dup.id))) { const ok = await RAW.put(dup.id, buf); S.sf.raw[dup.id] = ok; render(); toast(ok ? 'فایل خام همین فایل بازیابی شد (SHA-256 یکی است).' : 'ذخیره‌ی فایل خام در این مرورگر ممکن نشد.', ok ? undefined : 'err'); }
+        else { render(); toast('این فایل (با همان SHA-256) قبلاً بارگذاری شده است.'); }
+        return;
+      }
+      const rd = await readPointFile(file, buf), pr = penzdParse(rd.rows, rd.delim);
+      if (!pr.pts.length) throw new Error('نقطه‌ی معتبری (شماره، E، N، Z) در فایل پیدا نشد.');
+      const id = C.uid('ab');
+      const rec = { id: id, name: file.name, date: new Date().toISOString(), layerId: '', layerMan: '', tab: 'sv', src: 'penzd', size: buf.byteLength, sha256: hex, pts: pr.pts, skipped: pr.skipped.slice(0, 500) };
+      rec.csha256 = C.sha256Text(sfFileStr(rec));
+      d.st.asbuilt.push(rec);
+      const saved = await RAW.put(id, buf); S.sf.raw[id] = saved;
+      S.sf.file = id; S.sf.page = 0; markDirty(); render();
+      const out = sfOutside(d, rec);
+      const msgs = [pr.pts.length + ' نقطه خوانده شد'];
+      if (pr.skipped.length) msgs.push(pr.skipped.length + ' ردیف خوانده نشد');
+      if (out && out.outside) msgs.push('هشدار: ' + out.outside + ' نقطه بیرون از محدوده‌ی این خیابان است');
+      if (!saved) msgs.push('فایل خام در این مرورگر ذخیره نشد (خروجی فایل اصلی ممکن نیست)');
+      toast(msgs.join(' • ') + '.', (pr.skipped.length || (out && out.outside) || !saved) ? 'err' : undefined);
+    } catch (e) { toast('فایل خوانده نشد: ' + (e.message || 'خطای نامشخص'), 'err'); }
+  }
+
+  /** چند فایل با هم: اشتراک‌گذاری یک‌جا (اگر مرورگر بتواند) وگرنه دانلود پشت‌سرهم */
+  async function deliverMany(items) {
+    const files = items.map(function (it) { return new File([new Blob([it.data], { type: it.mime })], it.name, { type: it.mime }); });
+    if (S.exp.share && navigator.canShare && navigator.canShare({ files: files })) {
+      try { await navigator.share({ files: files, title: files[0].name }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    for (let i = 0; i < files.length; i++) {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(files[i]); a.download = files[i].name; document.body.appendChild(a); a.click();
+      const href = a.href; setTimeout(function () { URL.revokeObjectURL(href); a.remove(); }, 5000);
+      await new Promise(function (r) { setTimeout(r, 400); });
+    }
+  }
+
+  /** خروجی همان فایل اصلی (بایت‌به‌بایت) با همان نام و پسوند فایل ورودی + فایل SHA-256 کنارش */
+  async function sfExport() {
+    const d = sfData(), f = d.file;
+    if (!f) { toast('ابتدا فایل نقاط را بارگذاری کنید.', 'err'); return; }
+    const buf = await RAW.get(f.id);
+    if (!buf) { toast('فایل خام این فایل در این دستگاه نیست؛ همان فایل را دوباره بارگذاری کنید تا بازیابی شود.', 'err'); return; }
+    const bytes = new Uint8Array(buf), hex = C.sha256Hex(bytes);
+    if (f.sha256 && hex !== f.sha256) { toast('فایل خام ذخیره‌شده با اثرانگشت ثبت‌شده نمی‌خواند؛ خروجی انجام نشد.', 'err'); return; }
+    const info = sfLayerInfo(d, f), name = f.name, isX = /\.xlsx$/i.test(name);
+    const txt = hex + '  ' + name + '\n' +
+      '# SHA-256 of the delivered file; bytes are identical to the original input file\n' +
+      '# Project: ' + d.p.name + '\n# Street: ' + d.st.name + '\n# Layer: ' + info.text + '\n' +
+      '# Points: ' + f.pts.length + '\n# Size (bytes): ' + bytes.length + '\n# Exported: ' + new Date().toISOString() + '\n# App: RoadStake v' + APP_VERSION + '\n';
+    await deliverMany([{ name: name, data: bytes, mime: isX ? MIME.xlsx : (/\.csv$/i.test(name) ? 'text/csv' : MIME.txt) }, { name: name + '.sha256.txt', data: txt, mime: MIME.txt }]);
+    toast('«' + name + '» و فایل SHA-256 آماده شد.');
+  }
+
+  async function printSurveyFile() {
+    const d = sfData(), f = d.file;
+    if (!f) { toast('ابتدا فایل نقاط را بارگذاری کنید.', 'err'); return; }
+    if (!(await rptAsk())) return;
+    const p = d.p, info = sfLayerInfo(d, f), det = info.det, rows = sfRows(f), n = rows.length, cols = S.sf.cols;
+    const sk = f.skipped || [], code = sfCode(f);
+    const rng = function (key) { const v = f.pts.map(function (q) { return q[key]; }), a = Math.min.apply(null, v), b = Math.max.apply(null, v); return rplL(C.fmt(a, 3) + ' – ' + C.fmt(b, 3)); };
+    const meta = [['پروژه', esc(p.name)], ['خیابان', esc(d.st.name)], ['لایه‌ی نقاط', esc(info.text), 2], ['جابه‌جایی نسبت به خط پروژه', rplL(info.shift)],
+      ['نام فایل', rplL(f.name), 2], ['تاریخ بارگذاری فایل', esc(new Date(f.date).toLocaleDateString('fa-IR'))], ['حجم فایل', f.size ? rplL(sfSize(f.size)) : '—'],
+      ['تعداد نقاط', rplL(String(n))], ['بازه‌ی شرقی (E)', rng('x')], ['بازه‌ی شمالی (N)', rng('y')], ['بازه‌ی ارتفاع (Z)', rng('z')],
+      ['کد کنترل', rplL(code)]];
+    let top = rplCover('گزارش نقاط برداشت', p, d.st.name, rplCs(p)) + rplMeta(meta) +
+      rplHash('اثرانگشت دیجیتال (SHA-256) — فایل' + (f.sha256 ? '' : ' (فایل با نسخه‌ی قدیمی بارگذاری شده؛ اثرانگشت بایت‌ها در دسترس نیست)'), f.sha256 || '—');
+    // تشخیص لایه
+    if (det.ok) {
+      top += '<table class="pt-tbl rpl-det"><tbody><tr class="hd"><th>نقاط</th><th>جابه‌جایی میانه نسبت به خط پروژه</th><th>لایه‌ی تشخیص‌داده‌شده</th><th>اختلاف با لایه‌ی طرح</th></tr>' + det.clusters.map(function (c) {
+        return '<tr><td dir="ltr">' + c.n + '</td><td dir="ltr">' + (c.median > 0 ? '+' : '') + C.fmt(c.median * 100, 1) + ' cm</td><td>' + (c.layer ? esc(c.layer.name) : 'نامشخص' + (c.nearest ? ' (نزدیک‌ترین: ' + esc(c.nearest.name) + ')' : '')) + '</td><td dir="ltr">' + (c.layer ? (c.diff > 0 ? '+' : '') + C.fmt(c.diff * 100, 1) + ' cm' : '—') + '</td></tr>';
+      }).join('') + '</tbody></table>';
+    } else top += '<div class="rpl-note">تشخیص لایه انجام نشد: ' + esc(det.why) + (info.manual ? ' • لایه به‌صورت دستی انتخاب شده است.' : '') + '</div>';
+    top += '<div class="rpl-note">نقاط دقیقاً مطابق فایل ورودی و بدون هیچ تغییری چاپ شده‌اند.' + (cols ? ' ستون‌های ستاره‌دار محاسبه‌شده‌اند و بخشی از فایل نیستند.' : '') + '</div>';
+
+    const head = '<table class="pt-tbl pt-chunk"><tbody><tr class="hd"><th>#</th><th>نام/شماره</th><th>شرقی (E)</th><th>شمالی (N)</th><th>Z</th><th>توضیحات</th>' + (cols ? '<th>کیلومتراژ*</th><th>فاصله از محور*</th>' : '') + '</tr>';
+    const trs = rows.map(function (x, i) {
+      const pj = cols ? sfProj(d, x) : null;
+      return '<tr class="' + (i % 2 ? 'alt' : '') + '"><td dir="ltr">' + x.k + '</td><td>' + esc(x.r.n) + '</td><td dir="ltr">' + esc(x.r.xs) + '</td><td dir="ltr">' + esc(x.r.ys) + '</td><td dir="ltr"><b>' + esc(x.r.zs) + '</b></td><td>' + esc(x.r.d) + '</td>' +
+        (cols ? '<td dir="ltr">' + esc(pj.st) + '</td><td dir="ltr">' + esc(pj.off) + '</td>' : '') + '</tr>';
+    });
+    const skShow = sk.slice(0, 12);
+    const tail = (sk.length ? '<div class="rpl-note" style="direction:ltr;text-align:left"><b>' + rplL('Unread rows: ' + sk.length) + '</b><br>' + skShow.map(function (s) { return esc('row ' + s.r + ': ' + s.t); }).join('<br>') + (sk.length > skShow.length ? '<br>…' : '') + '</div>' : '');
+    const foot = function (k, N) { return rplFoot(['کد کنترل ' + rplL(code), esc(d.st.name), 'لایه: ' + esc(info.name)], k + 1, N); };
+    rplPrint(await rplFlow({ top: top, head: head, units: trs, tail: tail, foot: foot }), slugFa(p.name) + '_' + slugFa(d.st.name) + '_' + slugFa(info.name) + '_نقاط-برداشت');
+  }
+
+  /* ============================== امضای دیجیتال گزارش (کلید ECDSA همین دستگاه) ============================== */
+  const SIGK = (function () {
+    let cache;
+    const ALG = { name: 'ECDSA', namedCurve: 'P-256' }, SG = { name: 'ECDSA', hash: 'SHA-256' };
+    const ok = function () { return !!(window.crypto && crypto.subtle); };
+    const b64 = function (u) { let t = ''; for (let i = 0; i < u.length; i++) t += String.fromCharCode(u[i]); return btoa(t); };
+    const unb64 = function (t) { const x = atob(String(t).replace(/\s+/g, '')), u = new Uint8Array(x.length); for (let i = 0; i < x.length; i++) u[i] = x.charCodeAt(i); return u; };
+    const keyIdOf = function (spki) { return C.controlCode(C.sha256Hex(unb64(spki))); };
+    async function build(rec) {
+      const priv = await crypto.subtle.importKey('jwk', rec.jwk, ALG, true, ['sign']);
+      return { name: rec.name, created: rec.created, spki: rec.spki, keyId: keyIdOf(rec.spki), priv: priv };
+    }
+    async function load() {
+      if (cache !== undefined) return cache;
+      if (!ok()) return (cache = null);
+      const r = await RAW.kget('main');
+      cache = r && r.jwk ? await build(r).catch(function () { return null; }) : null;
+      return cache;
+    }
+    async function create(name) {
+      const kp = await crypto.subtle.generateKey(ALG, true, ['sign', 'verify']);
+      const jwk = await crypto.subtle.exportKey('jwk', kp.privateKey), spki = b64(new Uint8Array(await crypto.subtle.exportKey('spki', kp.publicKey)));
+      const rec = { name: name, created: new Date().toISOString(), spki: spki, jwk: jwk };
+      const saved = await RAW.kput('main', rec);
+      cache = await build(rec);
+      return { key: cache, saved: saved };
+    }
+    async function sign(msg) {
+      const k = await load(); if (!k) throw new Error('کلید امضا ساخته نشده است.');
+      return b64(new Uint8Array(await crypto.subtle.sign(SG, k.priv, new TextEncoder().encode(msg))));
+    }
+    async function verify(spki, sig, msg) {
+      const pub = await crypto.subtle.importKey('spki', unb64(spki), ALG, false, ['verify']);
+      return crypto.subtle.verify(SG, pub, unb64(sig), new TextEncoder().encode(msg));
+    }
+    async function pbk(pw, salt) {
+      const km = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']);
+      return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: 200000, hash: 'SHA-256' }, km, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+    }
+    async function exportBackup(pw) {
+      const r = await RAW.kget('main'); if (!r) throw new Error('کلیدی برای خروجی نیست.');
+      const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12)), k = await pbk(pw, salt);
+      const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, k, new TextEncoder().encode(JSON.stringify(r))));
+      return JSON.stringify({ app: 'roadstake-key', v: 1, keyId: keyIdOf(r.spki), name: r.name, created: r.created, spki: r.spki, kdf: 'PBKDF2-SHA256-200000', salt: b64(salt), iv: b64(iv), ct: b64(ct) }, null, 2);
+    }
+    async function importBackup(text, pw) {
+      let o; try { o = JSON.parse(text); } catch (e) { throw new Error('فایل کلید معتبر نیست.'); }
+      if (!o || o.app !== 'roadstake-key' || !o.ct) throw new Error('این فایل، پشتیبان کلید این برنامه نیست.');
+      let rec;
+      try { const k = await pbk(pw, unb64(o.salt)); rec = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: unb64(o.iv) }, k, unb64(o.ct)))); }
+      catch (e) { throw new Error('رمز اشتباه است یا فایل خراب است.'); }
+      if (!rec || rec.spki !== o.spki || !rec.jwk) throw new Error('محتوای فایل کلید با مشخصات آن نمی‌خواند.');
+      const built = await build(rec);
+      await RAW.kput('main', rec); cache = built; return built;
+    }
+    return { ok: ok, load: load, create: create, sign: sign, verify: verify, exportBackup: exportBackup, importBackup: importBackup, keyIdOf: keyIdOf };
+  })();
+  S.rpo = { client: false, boxes: false }; S.rpoCur = { client: false, boxes: false }; S.ky = { info: undefined };
+  async function keyRefresh() { try { S.ky.info = SIGK.ok() ? await SIGK.load() : null; } catch (e) { S.ky.info = null; } if (S.view === 'projects' || /projects/.test(location.hash) || !location.hash) render(); }
+
+  /** متن گزارش (برای اثرانگشت): فقط متن صفحه‌ها، بدون کادرهای افزوده */
+  const rptTextOf = function (pages) { return Array.prototype.map.call(pages, function (pg) { return pg.textContent.replace(/\s+/g, ' ').trim(); }).join('\n'); };
+  async function rptSign(text, N, title) {
+    const key = await SIGK.load(); if (!key) throw new Error('کلید امضا ساخته نشده است.');
+    const docHash = C.sha256Text('RS-DOC-1\n' + title + '\n' + N + '\n' + text), iso = new Date().toISOString(), payload = 'RS-SIG-1|' + docHash + '|' + N + '|' + iso;
+    return { docHash: docHash, payload: payload, iso: iso, sig: await SIGK.sign(payload), key: key };
+  }
+  const rptShort = function (s, N, k) {
+    return '<div class="rpl-dsl"><span>امضای دیجیتال • شناسه‌ی گزارش <bdi dir="ltr">' + esc(C.controlCode(s.docHash)) + '</bdi> • کلید <bdi dir="ltr">' + esc(s.key.keyId) + '</bdi> (' + esc(s.key.name) + ')</span><span>صفحه <bdi dir="ltr">' + k + '</bdi> از <bdi dir="ltr">' + N + '</bdi></span></div>';
+  };
+  const rptFull = function (s, N) {
+    return '<div class="rpl-dsf"><b>امضای دیجیتال گزارش — ' + esc(lkDate(s.iso)) + ' • ' + N + ' صفحه • ECDSA P-256 / SHA-256</b>' +
+      '<span>اثرانگشت دیجیتال (SHA-256) — کل گزارش</span><code dir="ltr">' + esc(s.docHash) + '</code>' +
+      '<span>متن امضاشده</span><code dir="ltr">' + esc(s.payload) + '</code>' +
+      '<span>امضا (Base64)</span><code dir="ltr">' + esc(s.sig) + '</code>' +
+      '<span>کلید عمومی (SPKI، Base64) — صاحب کلید: ' + esc(s.key.name) + ' • شناسه‌ی کلید <bdi dir="ltr">' + esc(s.key.keyId) + '</bdi></span><code dir="ltr">' + esc(s.key.spki) + '</code></div>';
+  };
+  /** کادر امضای فشرده برای پایین هر صفحه */
+  function sigCompact() {
+    const sg = (P().signers || []).filter(function (x) { return x.title || x.name; });
+    if (!sg.length) return '';
+    return '<div class="rpl-sgs" style="grid-template-columns:repeat(' + sg.length + ',1fr)">' + sg.map(function (x) { return '<div><b>' + esc(x.title) + '</b>' + esc(x.name) + '<i>امضا</i></div>'; }).join('') + '</div>';
+  }
+  /** گزارش‌های قالب قدیمی (غیر rpl): امضای دیجیتال یک‌بار در انتهای گزارش */
+  async function rptSignOld(pa, title) {
+    if (!(S.rpoCur && S.rpoCur.client)) return true;
+    try { const s = await rptSign(pa.textContent.replace(/\s+/g, ' ').trim(), 1, title); pa.insertAdjacentHTML('beforeend', rptFull(s, 1).replace('• 1 صفحه •', '•')); return true; }
+    catch (e) { toast('امضای دیجیتال انجام نشد: ' + (e.message || 'خطای نامشخص'), 'err'); return false; }
+  }
+
+  /** پنجره‌ی گزارش: «نسخه‌ی کارفرما» و «کادر امضا در همه‌ی صفحه‌ها»؛ null = انصراف */
+  async function rptAsk(o) {
+    o = o || {};
+    const sg = (P().signers || []).filter(function (x) { return x.title || x.name; }), can = SIGK.ok(), key = can ? await SIGK.load() : null;
+    const st = o.preset ? { client: can, boxes: sg.length > 0 } : { client: S.rpo.client && can, boxes: S.rpo.boxes && sg.length > 0 };
+    return new Promise(function (resolve) {
+      const m = $('#modal');
+      m.innerHTML = '<div class="box"><h3>گزارش</h3>' +
+        '<label class="chk"><input type="checkbox" id="rpoClient"' + (st.client ? ' checked' : '') + (can ? '' : ' disabled') + '> نسخه‌ی کارفرما (امضای دیجیتال)</label>' +
+        '<p class="muted small">شناسه‌ی گزارش و کلید در پایین هر صفحه؛ اثرانگشت، امضا و کلید عمومی کامل در صفحه‌ی آخر.' + (can ? '' : ' این مرورگر امضای دیجیتال را پشتیبانی نمی‌کند؛ برنامه را از آدرس https باز کنید.') + '</p>' +
+        '<div id="rpoOwnerRow" style="display:' + (st.client && !key ? 'block' : 'none') + '"><input class="inp" id="rpoOwner" placeholder="نام صاحب کلید (کلید همین حالا ساخته می‌شود)" autocomplete="off"></div>' +
+        (key ? '<p class="muted small">کلید: <b>' + esc(key.name) + '</b> • <span dir="ltr">' + esc(key.keyId) + '</span></p>' : '') +
+        '<label class="chk" style="margin-top:8px"><input type="checkbox" id="rpoBoxes"' + (st.boxes ? ' checked' : '') + (sg.length ? '' : ' disabled') + '> کادر امضا در همه‌ی صفحه‌ها</label>' +
+        (sg.length ? '' : '<p class="muted small">ابتدا امضاکننده‌ها را در تب «پروژه‌ها» تعریف کنید.</p>') +
+        '<p class="muted small">اگر هیچ‌کدام تیک نخورد، کادر امضایی چاپ نمی‌شود.</p>' +
+        '<div class="acts"><button class="btn" data-v="0">انصراف</button><button class="btn primary" data-v="1">تأیید</button></div></div>';
+      m.classList.add('on');
+      const done = function (v) { m.classList.remove('on'); m.innerHTML = ''; m.onclick = null; m.onchange = null; resolve(v); };
+      m.onchange = function (e) { if (e.target.id === 'rpoClient') { const r = $('#rpoOwnerRow', m); if (r) r.style.display = e.target.checked && !key ? 'block' : 'none'; } };
+      m.onclick = async function (e) {
+        const b = e.target.closest('[data-v]');
+        if (!b) { if (e.target === m) done(null); return; }
+        if (b.dataset.v === '0') { done(null); return; }
+        const client = !!$('#rpoClient', m).checked, boxes = !!$('#rpoBoxes', m).checked;
+        if (client && !key) {
+          const nm = ($('#rpoOwner', m).value || '').trim();
+          if (!nm) { toast('نام صاحب کلید را بنویسید.', 'err'); return; }
+          try { const r = await SIGK.create(nm); S.ky.info = r.key; if (!r.saved) toast('کلید ساخته شد ولی در این مرورگر ذخیره نشد؛ ماندگار نیست.', 'err'); }
+          catch (er) { toast('ساخت کلید انجام نشد: ' + (er.message || ''), 'err'); return; }
+        }
+        S.rpo = { client: client, boxes: boxes }; S.rpoCur = { client: client, boxes: boxes };
+        done({ client: client, boxes: boxes });
+      };
+    });
+  }
+
+  /* ---------- کارت کلید امضا (تب پروژه‌ها) ---------- */
+  function keyCard() {
+    let h = '<section class="card" id="keyCard"><h2>کلید امضای دیجیتال</h2><p class="muted small">گزارش‌های «نسخه‌ی کارفرما» با این کلید امضا می‌شوند. کلید روی همین دستگاه ساخته می‌شود و بیرون نمی‌رود، مگر با «خروجی کلید» رمزدار. این امضا گواهی رسمی (از سازمان گواهی‌دهنده) ندارد؛ فقط نشان می‌دهد صاحب این کلید گزارش را امضا کرده است.</p>';
+    if (!SIGK.ok()) return h + '<div class="msg warn small">این مرورگر امضای دیجیتال را پشتیبانی نمی‌کند (برنامه باید از آدرس https یا localhost باز شود).</div></section>';
+    if (S.ky.info === undefined) { setTimeout(keyRefresh, 0); return h + '<p class="muted small">در حال بررسی…</p></section>'; }
+    const k = S.ky.info;
+    if (k) h += '<div class="kv"><b>صاحب کلید</b><span>' + esc(k.name) + '</span><b>شناسه‌ی کلید</b><span dir="ltr">' + esc(k.keyId) + '</span><b>ساخته‌شده</b><span>' + esc(lkDate(k.created)) + '</span></div>' +
+      '<details class="card-d"><summary>کلید عمومی (برای بررسی امضا)</summary><div class="hashbox"><code>' + esc(k.spki) + '</code></div></details>';
+    else h += '<div class="msg info small">هنوز کلیدی ساخته نشده است.</div>';
+    h += '<div class="grid2" style="margin-top:6px">' + field('نام صاحب کلید', '<input class="inp" id="kyOwner" autocomplete="off" value="' + esc(k ? k.name : '') + '">') +
+      field('رمز (برای خروجی و بازیابی کلید)', '<input class="inp ltr" id="kyPw" type="password" dir="ltr" autocomplete="off">') + '</div>' +
+      '<div class="row" style="margin-top:6px"><button class="btn primary grow" data-act="kyNew">' + (k ? 'ساخت کلید جدید' : 'ساخت کلید') + '</button>' + (k ? '<button class="btn grow" data-act="kyExport">خروجی کلید (رمزدار)</button>' : '') + '</div>' +
+      '<div class="row" style="margin-top:6px"><label class="btn grow" style="text-align:center">بازیابی کلید از فایل<input type="file" id="kyFile" class="vh"></label></div></section>';
+    return h;
+  }
+  async function kyNew() {
+    const nm = ($('#kyOwner').value || '').trim(); if (!nm) { toast('نام صاحب کلید را بنویسید.', 'err'); return; }
+    if (S.ky.info && !(await ask('کلید جدید جای کلید فعلی را می‌گیرد و کلید قبلی از این دستگاه پاک می‌شود (مگر «خروجی کلید» گرفته باشید). امضاهای قبلی هنوز با کلید عمومی قبلی قابل بررسی‌اند.', { danger: true, ok: 'ساخت کلید جدید' }))) return;
+    try { const r = await SIGK.create(nm); S.ky.info = r.key; render(); toast(r.saved ? 'کلید ساخته شد؛ شناسه ' + r.key.keyId + '.' : 'کلید ساخته شد ولی ذخیره نشد.', r.saved ? undefined : 'err'); }
+    catch (e) { toast('ساخت کلید انجام نشد: ' + (e.message || ''), 'err'); }
+  }
+  async function kyExport() {
+    const pw = $('#kyPw').value; if (!pw || pw.length < 6) { toast('رمز دست‌کم ۶ نویسه باشد.', 'err'); return; }
+    try { const txt = await SIGK.exportBackup(pw), k = S.ky.info; deliver('roadstake-key-' + (k ? k.keyId : 'x') + '.json', txt, 'application/json'); toast('پشتیبان رمزدار کلید آماده شد. رمز را جای امنی نگه دارید.'); }
+    catch (e) { toast('خروجی کلید انجام نشد: ' + (e.message || ''), 'err'); }
+  }
+  async function kyImport(file) {
+    const pw = $('#kyPw') ? $('#kyPw').value : ''; if (!pw) { toast('اول رمز را بنویسید، بعد فایل را انتخاب کنید.', 'err'); return; }
+    try { const k = await SIGK.importBackup(await file.text(), pw); S.ky.info = k; render(); toast('کلید بازیابی شد؛ شناسه ' + k.keyId + '.'); }
+    catch (e) { toast(e.message || 'بازیابی انجام نشد.', 'err'); }
+  }
+
+  /* ---------- بررسی امضای گزارش ---------- */
+  function sgvCard() {
+    const v = S.lk.sgv, I = S.lk.sgvIn || {};
+    let h = '<h3 style="margin:12px 0 4px">بررسی امضای گزارش</h3><p class="muted small">سه مورد را از صفحه‌ی آخر گزارش (نسخه‌ی کارفرما) کپی کنید: «متن امضاشده»، «امضا» و «کلید عمومی». اگر کلید عمومی را خالی بگذارید، کلید همین دستگاه به کار می‌رود. این بررسی نشان می‌دهد امضا واقعاً با این کلید روی همین متن زده شده است.</p>' +
+      '<textarea class="inp ltr" id="sgvPayload" rows="2" dir="ltr" placeholder="RS-SIG-1|…">' + esc(I.payload || '') + '</textarea>' +
+      '<textarea class="inp ltr" id="sgvSig" rows="2" dir="ltr" placeholder="امضا (Base64)" style="margin-top:4px">' + esc(I.sig || '') + '</textarea>' +
+      '<textarea class="inp ltr" id="sgvKey" rows="2" dir="ltr" placeholder="کلید عمومی (Base64)" style="margin-top:4px">' + esc(I.key || '') + '</textarea>' +
+      '<div class="row" style="margin-top:6px"><button class="btn grow" data-act="sgVerify">بررسی امضا</button></div>';
+    if (v) h += '<div class="msg ' + (v.ok ? 'info' : 'err') + ' small" style="margin-top:6px">' + (v.ok ?
+      '<b style="color:#1b7a3d">امضا معتبر ✓</b> — کلید <span dir="ltr">' + esc(v.keyId) + '</span>' + (v.local ? ' (کلید همین دستگاه: ' + esc(v.local) + ')' : '') + (v.parsed ? ' • ' + esc(v.n) + ' صفحه • امضا شده در ' + esc(lkDate(v.date)) + '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256) — کل گزارش</span><code>' + esc(v.hash) + '</code></div>' : '') :
+      '<b style="color:#c62828">امضا نامعتبر ✗</b> — متن، امضا یا کلید با هم نمی‌خوانند، یا متن امضاشده دست‌کاری شده است.') + '</div>';
+    return h;
+  }
+  async function sgVerifyAct() {
+    const g = function (id) { return ($('#' + id).value || '').trim(); };
+    const payload = g('sgvPayload'), sig = g('sgvSig'); let key = g('sgvKey');
+    S.lk.sgvIn = { payload: payload, sig: sig, key: key };
+    const loc = SIGK.ok() ? await SIGK.load() : null;
+    if (!key && loc) key = loc.spki;
+    if (!payload || !sig || !key) { toast('متن امضاشده، امضا و کلید عمومی (یا کلید همین دستگاه) لازم است.', 'err'); return; }
+    let ok = false; try { ok = await SIGK.verify(key, sig, payload); } catch (e) { ok = false; }
+    const m = /^RS-SIG-1\|([0-9a-f]{64})\|(\d+)\|(.+)$/.exec(payload);
+    let kid = ''; try { kid = SIGK.keyIdOf(key); } catch (e) { /* ignore */ }
+    S.lk.sgv = { ok: ok, keyId: kid, local: loc && loc.spki === key ? loc.name : '', parsed: !!m, hash: m ? m[1] : '', n: m ? m[2] : '', date: m ? m[3] : '' };
+    render();
+  }
+
+  /* ============================== قفل نهایی، نسخه‌ها و بررسی اصالت ============================== */
+  S.lk = { verify: null };
+  const lkDate = function (iso) { try { const d = new Date(iso); return d.toLocaleDateString('fa-IR') + ' ساعت ' + d.toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit', hour12: false }); } catch (_) { return iso; } };
+  /** شناسه‌ی فایل‌های قفل‌شده ← شماره‌ی نسخه */
+  function lkLocked(st) { const m = {}; (st.locks || []).forEach(function (r) { r.files.forEach(function (f) { if (!m[f.id]) m[f.id] = r.no; }); }); return m; }
+  /* ---------- صفحه‌بندی با اندازه‌ی واقعی ----------
+     ردیف‌ها یکی‌یکی در یک صفحه‌ی آزمایشی (با همان استایل چاپ) چیده می‌شوند تا صفحه پر شود؛ فضای کادر امضا و امضای دیجیتال از پیش حساب می‌شود. */
+  let rplMCss;
+  function rplMeasureCss() {
+    if (rplMCss !== undefined) return rplMCss;
+    let out = '';
+    Array.prototype.forEach.call(document.styleSheets, function (ss) {
+      let rules; try { rules = ss.cssRules; } catch (e) { return; }
+      Array.prototype.forEach.call(rules || [], function (r) {
+        if (r.type === 4 && /print/.test(r.media.mediaText)) Array.prototype.forEach.call(r.cssRules, function (q) { if (q.type === 1) out += q.cssText + '\n'; });
+      });
+    });
+    return (rplMCss = out);
+  }
+  /** sp: {top, head, units:[html هر ردیف یا گروه ردیف‌های جدانشدنی], tail, foot(k,N)} ← HTML صفحه‌ها */
+  async function rplFlow(sp) {
+    try { await document.fonts.ready; } catch (e) { /* ignore */ }
+    const o = S.rpoCur || {}, pa = $('#printArea'), key = S.ky && S.ky.info;
+    const dummy = { iso: new Date().toISOString(), docHash: new Array(65).join('0'), sig: new Array(89).join('A'), key: { name: key ? key.name : 'نام صاحب کلید', keyId: 'XXXXX-XXXXX', spki: key ? key.spki : new Array(125).join('A') } };
+    dummy.payload = 'RS-SIG-1|' + dummy.docHash + '|99|' + dummy.iso;
+    const boxes = o.boxes ? sigCompact() : '';
+    const decN = (o.client ? rptShort(dummy, 99, 99) : '') + boxes, decL = (o.client ? rptFull(dummy, 99) : '') + decN;
+    const css = document.createElement('style'); css.textContent = rplMeasureCss(); document.head.appendChild(css);
+    const oldCls = pa.className, oldStyle = pa.getAttribute('style'), oldHtml = pa.innerHTML;
+    pa.className = 'pt rp rpl'; pa.setAttribute('style', 'display:block;position:absolute;left:-10000px;top:0;width:186mm;visibility:hidden');
+    const LIM = 268 / 25.4 * 96 - 8, U = sp.units || [];
+    const body = function (k, units, last) { return (k === 0 ? sp.top : '') + (units.length ? sp.head + units.join('') + '</tbody></table>' : '') + (last ? sp.tail : ''); };
+    const fits = function (k, units, last) {
+      pa.innerHTML = '<div class="rpl-pg' + (last ? ' last' : '') + '" style="min-height:0">' + body(k, units, last) + '<div class="rpl-dec">' + (last ? decL : decN) + '</div>' + sp.foot(k, 99) + '</div>';
+      return pa.firstChild.getBoundingClientRect().height <= LIM;
+    };
+    const pages = []; let html = '';
+    try {
+      let i = 0;
+      for (;;) {
+        const k = pages.length, take = [];
+        while (i < U.length) {
+          take.push(U[i]);
+          if (take.length > 1 && !fits(k, take, false)) { take.pop(); break; }
+          i++;
+        }
+        pages.push(take);
+        if (i >= U.length) break;
+      }
+      // صفحه‌ی آخر باید جای متن پایانی و امضای کامل را هم داشته باشد
+      let cur = pages.pop(), guard = 0;
+      for (;;) {
+        const k = pages.length, carry = [];
+        while (cur.length > 1 && !fits(k, cur, true)) carry.unshift(cur.pop());
+        pages.push(cur);
+        if (!carry.length || ++guard > 60) break;
+        cur = carry;
+      }
+      const N = pages.length;
+      pages.forEach(function (units, k) {
+        html += '<div class="rpl-pg' + (k === N - 1 ? ' last' : '') + '">' + body(k, units, k === N - 1) + sp.foot(k, N) + '</div>';
+      });
+    } finally {
+      css.remove(); pa.className = oldCls; if (oldStyle === null) pa.removeAttribute('style'); else pa.setAttribute('style', oldStyle); pa.innerHTML = oldHtml;
+    }
+    return html;
+  }
+  const lkHexStyle = 'font:9px/1.35 monospace;word-break:break-all;direction:ltr;text-align:left';
+
+  function lkCard(d) {
+    const st = d.st, locks = st.locks, locked = lkLocked(st), fresh = d.files.filter(function (f) { return !locked[f.id]; }), vr = C.verifyLocks(locks);
+    let h = '<section class="card" id="lkCard"><h3>قفل نهایی و صورت‌جلسه</h3><p class="muted small">پس از «قفل نهایی»، فهرست فایل‌ها با اثرانگشت دیجیتال هرکدام در یک «نسخه» ثبت می‌شود و فایل‌های قفل‌شده حذف نمی‌شوند. هر نسخه به اثرانگشت نسخه‌ی قبل وصل است؛ هر دست‌کاریِ بعدی در زنجیره دیده می‌شود. فایل تازه یا اصلاح‌شده در نسخه‌ی بعدی ثبت می‌شود. همه‌چیز روی همین دستگاه و بدون سرور است.</p>';
+    if (fresh.length) {
+      h += '<div class="grid2">' + field('تنظیم‌کننده (اختیاری)', '<input class="inp" id="lkBy" autocomplete="off">') + field('توضیح نسخه (اختیاری)', '<input class="inp" id="lkNote" autocomplete="off">') + '</div>' +
+        '<div class="row" style="margin-top:8px"><button class="btn primary grow" data-act="lkAdd">قفل نهایی ' + fresh.length + ' فایل (نسخه‌ی ' + (locks.length + 1) + ')</button></div>';
+    } else if (!locks.length) h += '<div class="msg info small">فایلی برای قفل وجود ندارد.</div>';
+    else h += '<div class="msg info small">همه‌ی فایل‌های این خیابان قفل شده‌اند. فایل جدید بارگذاری کنید تا نسخه‌ی بعد ساخته شود.</div>';
+    locks.slice().reverse().forEach(function (r) {
+      const i = locks.indexOf(r), v = vr[i], tot = r.files.reduce(function (a, f) { return a + f.n; }, 0);
+      h += '<details class="card-d"' + (i === locks.length - 1 ? ' open' : '') + '><summary><b>نسخه‌ی ' + r.no + '</b> • ' + esc(lkDate(r.date)) + ' • ' + r.files.length + ' فایل • کد کنترل <span dir="ltr">' + esc(C.controlCode(r.hash)) + '</span> • ' +
+        (v.ok ? '<span style="color:#1b7a3d">زنجیره سالم ✓</span>' : '<span style="color:#c62828">زنجیره مخدوش ✗</span>') + '</summary>';
+      if (!v.ok) h += '<div class="msg err small">' + esc(v.why) + '</div>';
+      h += '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256) — نسخه‌ی ' + r.no + '</span><code>' + esc(r.hash) + '</code></div>';
+      h += '<div class="tbl-wrap"><table><thead><tr><th>فایل</th><th>لایه</th><th>نقاط</th><th>کد کنترل</th></tr></thead><tbody>' + r.files.map(function (f) { return '<tr><td>' + esc(f.name) + '</td><td>' + esc(f.layer || '') + '</td><td class="n">' + f.n + '</td><td class="n" dir="ltr">' + esc(C.controlCode(f.sha256)) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+      if (r.by || r.note) h += '<p class="small muted">' + (r.by ? 'تنظیم‌کننده: ' + esc(r.by) + ' ' : '') + (r.note ? '• ' + esc(r.note) : '') + '</p>';
+      h += '<div class="row" style="margin-top:6px"><button class="btn primary grow" data-act="lkPdf" data-i="' + i + '">صورت‌جلسه (PDF)</button><button class="btn grow" data-act="lkZip" data-i="' + i + '">پرونده‌ی ZIP</button></div>';
+      if (r.receipts && r.receipts.length) h += '<div class="small" style="margin-top:6px"><b>رسیدهای ارسال</b><br>' + r.receipts.map(function (x) { return esc(lkDate(x.date)) + ' • ' + esc(x.to) + (x.note ? ' • ' + esc(x.note) : ''); }).join('<br>') + '</div>';
+      h += '<div class="grid2" style="margin-top:6px">' + field('رسید ارسال: گیرنده', '<input class="inp" id="lkTo_' + i + '" autocomplete="off" placeholder="مثلاً مشاور / کارفرما">') + field('توضیح (روش ارسال)', '<input class="inp" id="lkRn_' + i + '" autocomplete="off" placeholder="مثلاً ایمیل، پیام‌رسان">') + '</div>' +
+        '<div class="row" style="margin-top:6px"><button class="btn grow" data-act="lkRcpt" data-i="' + i + '">ثبت رسید ارسال</button></div></details>';
+    });
+    // بررسی اصالت
+    h += '<h3 style="margin:12px 0 4px">بررسی اصالت فایل</h3><p class="muted small">هر فایلی را انتخاب کنید؛ اگر بایت‌به‌بایت با یکی از فایل‌های قفل‌شده‌ی این پروژه یکی باشد، نسخه و تاریخ قفلش را نشان می‌دهد.</p>' +
+      '<div class="row"><label class="btn grow" style="text-align:center">انتخاب فایل برای بررسی<input type="file" id="lkVerify" class="vh"></label></div>';
+    const vf = S.lk.verify;
+    if (vf) {
+      h += '<div class="msg ' + (vf.hits.length ? 'info' : 'err') + ' small" style="margin-top:6px"><b>' + esc(vf.name) + '</b> • ' + esc(sfSize(vf.size)) + '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256)</span><code>' + esc(vf.hex) + '</code></div>';
+      if (vf.hits.length) h += vf.hits.map(function (x) { return '<div style="color:#1b7a3d"><b>مطابق ✓</b> — فایل «' + esc(x.fname) + '» در نسخه‌ی ' + x.no + ' خیابان «' + esc(x.street) + '»، قفل‌شده در ' + esc(lkDate(x.date)) + '، کد کنترل نسخه <span dir="ltr">' + esc(x.code) + '</span> • ' + (x.ok ? 'زنجیره‌ی نسخه‌ها سالم است.' : '<span style="color:#c62828">زنجیره‌ی این خیابان مخدوش است!</span>') + (x.fname !== vf.name ? ' • نام فایل با نام ثبت‌شده فرق دارد (در اثرانگشت فایل اثری ندارد).' : '') + '</div>'; }).join('');
+      else h += '<div style="color:#c62828"><b>نامطابق ✗</b> — این فایل با هیچ فایل قفل‌شده‌ی این پروژه یکی نیست.' + (vf.nameHits.length ? ' فایلی با همین نام در نسخه‌ی ' + vf.nameHits.map(function (x) { return x.no; }).join('، ') + ' هست ولی محتوایش فرق دارد (علت را با «مقایسه با فایل کارفرما» ببینید).' : '') + '</div>';
+      h += '</div>';
+    }
+    h += sgvCard();
+    return h + '</section>';
+  }
+
+  async function lkVerifyFile(file) {
+    const buf = new Uint8Array(await file.arrayBuffer()), hex = C.sha256Hex(buf), hits = [], nameHits = [];
+    (P().streets || []).forEach(function (st) {
+      const lk = st.locks || [], vr = C.verifyLocks(lk);
+      lk.forEach(function (r, ri) {
+        r.files.forEach(function (f) {
+          if (f.sha256 === hex) hits.push({ fname: f.name, no: r.no, street: st.name, date: r.date, code: C.controlCode(r.hash), ok: vr[ri].ok });
+          else if (f.name === file.name) nameHits.push({ no: r.no });
+        });
+      });
+    });
+    S.lk.verify = { name: file.name, size: buf.length, hex: hex, hits: hits, nameHits: nameHits };
+    render();
+  }
+
+  async function lkAdd() {
+    const d = sfData(), st = d.st, locked = lkLocked(st), fresh = d.files.filter(function (f) { return !locked[f.id]; });
+    if (!fresh.length) { toast('فایل بدون قفل وجود ندارد.', 'err'); return; }
+    const bad = fresh.filter(function (f) { return !f.sha256; });
+    if (bad.length) { toast('فایل «' + bad[0].name + '» اثرانگشت ندارد (با نسخه‌ی قدیمی بارگذاری شده). آن را حذف و دوباره بارگذاری کنید.', 'err'); return; }
+    if (!(await ask('این ' + fresh.length + ' فایل قفل نهایی شود؟<br>' + fresh.map(function (f) { return esc(f.name); }).join('<br>') + '<br><br>پس از قفل، این فایل‌ها حذف نمی‌شوند و هر تغییرِ بعدی در نسخه‌ی تازه ثبت می‌شود.', { ok: 'قفل نهایی' }))) return;
+    const g = function (id) { const el = $('#' + id); return el ? el.value.trim() : ''; };
+    const last = st.locks[st.locks.length - 1];
+    const rec = { id: C.uid('lk'), no: st.locks.length + 1, date: new Date().toISOString(), project: d.p.name, street: st.name, prev: last ? last.hash : '', by: g('lkBy'), note: g('lkNote'), receipts: [],
+      files: fresh.map(function (f) { return { id: f.id, name: f.name, size: f.size || 0, sha256: f.sha256, csha256: f.csha256 || '', n: f.pts.length, layer: sfLayerInfo(d, f).name }; }) };
+    rec.hash = C.lockHash(rec);
+    st.locks.push(rec); markDirty(); render();
+    toast('نسخه‌ی ' + rec.no + ' قفل شد؛ کد کنترل ' + C.controlCode(rec.hash) + '.');
+  }
+
+  function lkRcpt(i) {
+    const st = activeStreet(), r = st.locks[i]; if (!r) return;
+    const g = function (id) { const el = $('#' + id); return el ? el.value.trim() : ''; };
+    const to = g('lkTo_' + i); if (!to) { toast('گیرنده را بنویسید.', 'err'); return; }
+    (r.receipts || (r.receipts = [])).push({ date: new Date().toISOString(), to: to, note: g('lkRn_' + i) });
+    markDirty(); render(); toast('رسید ارسال ثبت شد.');
+  }
+
+  async function printLock(i) {
+    const d = sfData(), r = d.st.locks[i]; if (!r) return;
+    if (!(await rptAsk({ preset: true }))) return;
+    const p = d.p, vr = C.verifyLocks(d.st.locks)[i], code = C.controlCode(r.hash), tot = r.files.reduce(function (a, f) { return a + f.n; }, 0);
+    const meta = [['پروژه', esc(r.project)], ['خیابان', esc(r.street)], ['شماره‌ی نسخه', rplL(String(r.no))], ['تاریخ و ساعت قفل', esc(lkDate(r.date))], ['تعداد فایل‌ها', rplL(String(r.files.length))], ['مجموع نقاط', rplL(String(tot))],
+      ['کد کنترل نسخه', rplL(code)], ['کد کنترل نسخه‌ی قبل', rplL(r.prev ? C.controlCode(r.prev) : '—')]];
+    if (r.by) meta.push(['تنظیم‌کننده', esc(r.by), 2]);
+    const top = rplCover('صورت‌جلسه‌ی تحویل فایل‌های نقاط برداشت', p, r.street, rplCs(p)) + rplMeta(meta) + rplHash('اثرانگشت دیجیتال (SHA-256) — نسخه‌ی ' + r.no, r.hash) +
+      (vr.ok ? '' : '<div class="rpl-note" style="color:#c62828"><b>هشدار:</b> ' + esc(vr.why) + '</div>') + (r.note ? '<div class="rpl-note">توضیح: ' + esc(r.note) + '</div>' : '') +
+      '<div class="rpl-note">طرفین با امضای این صورت‌جلسه تأیید می‌کنند فایل‌های فهرست‌شده در جدول زیر با همین نام، حجم و اثرانگشت دیجیتال (SHA-256) تحویل و دریافت شد. اثرانگشت هر فایل از بایت‌های آن ساخته می‌شود و تغییر حتی یک نویسه آن را عوض می‌کند. اثرانگشت نسخه نیز نام، حجم، تعداد نقاط و اثرانگشت همه‌ی فایل‌ها و اتصال به نسخه‌ی قبل را در بر می‌گیرد. هر ویرایش بعدی در نسخه‌ی تازه ثبت می‌شود.</div>';
+    const head = '<table class="pt-tbl pt-chunk"><tbody><tr class="hd"><th>#</th><th>نام فایل</th><th>لایه</th><th>نقاط</th><th>حجم</th><th>کد کنترل</th><th>اثرانگشت دیجیتال (SHA-256)</th></tr>';
+    const trs = r.files.map(function (f, k) {
+      return '<tr class="' + (k % 2 ? 'alt' : '') + '"><td dir="ltr">' + (k + 1) + '</td><td>' + rplL(f.name) + '</td><td>' + esc(f.layer || '') + '</td><td dir="ltr">' + f.n + '</td><td dir="ltr">' + (f.size ? esc(sfSize(f.size)) : '—') + '</td><td dir="ltr">' + esc(C.controlCode(f.sha256)) + '</td><td style="' + lkHexStyle + '">' + esc(f.sha256) + '</td></tr>';
+    });
+    const rc = r.receipts || [];
+    const tail = (rc.length ? '<div class="rpl-note"><b>رسیدهای ارسال</b><br>' + rc.map(function (x) { return esc(lkDate(x.date)) + ' • ' + esc(x.to) + (x.note ? ' • ' + esc(x.note) : ''); }).join('<br>') + '</div>' : '') + '';
+    const foot = function (k, N) { return rplFoot(['کد کنترل نسخه ' + rplL(code), esc(r.street), 'نسخه‌ی ' + rplL(String(r.no))], k + 1, N); };
+    rplPrint(await rplFlow({ top: top, head: head, units: trs, tail: tail, foot: foot }), slugFa(r.project) + '_' + slugFa(r.street) + '_صورت‌جلسه-نسخه' + r.no);
+  }
+
+  async function lkZip(i) {
+    const d = sfData(), st = d.st, r = st.locks[i]; if (!r) return;
+    const files = [], miss = [], used = {};
+    for (const f of r.files) {
+      const buf = await RAW.get(f.id); let ok = false;
+      if (buf) ok = C.sha256Hex(new Uint8Array(buf)) === f.sha256;
+      if (!ok) { miss.push(f.name); continue; }
+      let nm = f.name; if (used[nm]) nm = f.sha256.slice(0, 8) + '_' + nm; used[nm] = 1;
+      files.push({ name: 'files/' + nm, data: new Uint8Array(buf), sha: f.sha256 });
+    }
+    if (miss.length && !(await ask('فایل خام این فایل‌ها در این دستگاه نیست و در ZIP نمی‌آید:<br>' + miss.map(esc).join('<br>') + '<br>ادامه می‌دهید؟', { ok: 'ادامه' }))) return;
+    const chain = st.locks.slice(0, i + 1), vr = C.verifyLocks(chain);
+    const readme = 'RoadStake v' + APP_VERSION + ' - lock package\nProject: ' + r.project + '\nStreet: ' + r.street + '\nVersion: ' + r.no + '\nLocked: ' + r.date + '\nVersion SHA-256: ' + r.hash + '\nControl code: ' + C.controlCode(r.hash) + '\nChain valid: ' + vr.every(function (x) { return x.ok; }) + '\n\n' +
+      'files/            the original files, byte-for-byte\nSHA256SUMS.txt    check with: sha256sum -c SHA256SUMS.txt\nlock.json         the chain of versions (version hash = SHA-256 of the canonical text below)\n\nCanonical text of this version:\n' + C.lockCanon(r) + (miss.length ? '\nMissing raw files (not included): ' + miss.join(', ') + '\n' : '');
+    const zip = IO.zipStore(files.map(function (x) { return { name: x.name, data: x.data }; }).concat([
+      { name: 'SHA256SUMS.txt', data: files.map(function (x) { return x.sha + '  ' + x.name; }).join('\n') + '\n' },
+      { name: 'lock.json', data: JSON.stringify({ app: 'RoadStake', version: APP_VERSION, chain: chain }, null, 2) },
+      { name: 'README.txt', data: readme }]));
+    deliver(slugFa(r.project) + '_' + slugFa(r.street) + '_نسخه' + r.no + '.zip', zip, MIME.zip);
+    toast('پرونده‌ی ZIP نسخه‌ی ' + r.no + ' آماده شد (' + files.length + ' فایل).');
+  }
+
+  /* ============================== مقایسه با فایل کارفرما ============================== */
+  const CMP_KIND_FA = {
+    bom: 'نویسه‌ی نامرئی ابتدای فایل (BOM) در یکی هست و در دیگری نیست (اغلب بعد از ذخیره در ویندوز یا اکسل).',
+    eol: 'پایان خط‌ها فرق دارد (ویندوز CRLF یا لینوکس/مک LF).',
+    trail: 'فاصله‌ی اضافه در انتهای بعضی خط‌ها فرق دارد.',
+    endnl: 'تعداد خط‌های خالیِ انتهای فایل فرق دارد.'
+  };
+  async function sfCompare(file) {
+    const d = sfData(); if (!d.file) { toast('ابتدا فایل نقاط را بارگذاری کنید.', 'err'); return; }
+    toast('در حال مقایسه…');
+    try {
+      const buf = await file.arrayBuffer(), bytes = new Uint8Array(buf), hex = C.sha256Hex(bytes);
+      const res = { name: file.name, size: bytes.length, hex: hex, date: new Date().toISOString(), causes: [], listing: [], match: false };
+      const same = d.files.find(function (x) { return x.sha256 === hex; });
+      const lockHit = []; (d.st.locks || []).forEach(function (r) { r.files.forEach(function (f) { if (f.sha256 === hex) lockHit.push(r.no); }); });
+      if (same) {
+        res.match = true; res.target = { id: same.id, name: same.name, sha256: same.sha256, size: same.size || 0, n: same.pts.length };
+        if (same.name !== file.name) res.causes.push('نام دو فایل فرق دارد ولی بایت‌ها یکی است؛ نام فایل در اثرانگشت اثری ندارد.');
+        if (lockHit.length) res.causes.push('این فایل در نسخه‌ی ' + lockHit.join('، ') + ' قفل نهایی ثبت شده است.');
+      } else {
+        const target = d.files.find(function (x) { return x.name === file.name; }) || d.file;
+        res.target = { id: target.id, name: target.name, sha256: target.sha256 || '', size: target.size || 0, n: target.pts.length };
+        const isX = function (n) { return /\.xlsx$/i.test(n); };
+        const rd = await readPointFile(file, buf), pr = penzdParse(rd.rows, rd.delim);
+        res.theirsN = pr.pts.length; res.theirsSkipped = pr.skipped.length;
+        const cmp = C.comparePointSets(target.pts, pr.pts); res.cmp = cmp;
+        let td = null;
+        const raw = await RAW.get(target.id);
+        if (raw && !isX(file.name) && !isX(target.name)) { const dec = new TextDecoder('utf-8', { ignoreBOM: true }); td = C.textDiffKinds(dec.decode(new Uint8Array(raw)), dec.decode(bytes)); }
+        else if (!raw) res.causes.push('فایل خامِ ما در این دستگاه نیست؛ مقایسه فقط روی نقاط خوانده‌شده انجام شد، نه روی متن فایل.');
+        if (td && td.kinds.length) td.kinds.forEach(function (k) { res.causes.push(CMP_KIND_FA[k]); });
+        if (cmp.nA !== cmp.nB) res.causes.push('تعداد نقاط فرق دارد: فایل ما ' + cmp.nA + '، فایل کارفرما ' + cmp.nB + '.');
+        if (cmp.missing.length) { res.causes.push(cmp.missing.length + ' نقطه در فایل ما هست و در فایل کارفرما نیست.'); cmp.missing.slice(0, 25).forEach(function (q) { res.listing.push(['فقط در فایل ما', q.n, '', q.xs + ' , ' + q.ys + ' , ' + q.zs, '']); }); }
+        if (cmp.extra.length) { res.causes.push(cmp.extra.length + ' نقطه در فایل کارفرما هست و در فایل ما نیست.'); cmp.extra.slice(0, 25).forEach(function (q) { res.listing.push(['فقط در فایل کارفرما', q.n, '', '', q.xs + ' , ' + q.ys + ' , ' + q.zs]); }); }
+        if (cmp.changed.length) { res.causes.push('مختصات ' + cmp.changed.length + ' نقطه فرق دارد.'); cmp.changed.slice(0, 40).forEach(function (c) { res.listing.push(['مختصات متفاوت', c.n, c.fields.join('، '), c.a.xs + ' , ' + c.a.ys + ' , ' + c.a.zs, c.b.xs + ' , ' + c.b.ys + ' , ' + c.b.zs]); }); }
+        if (cmp.orderDiff) res.causes.push('نقاط یکی است ولی ترتیب نقاط در دو فایل فرق دارد.');
+        if (cmp.formatOnly) res.causes.push('شکل نوشتن عدد در ' + cmp.formatOnly + ' نقطه فرق دارد (مثلاً 100.50 و 100.5)؛ مقدارها یکی است ولی متن فرق دارد.');
+        if (cmp.descDiff) res.causes.push('توضیحات ' + cmp.descDiff + ' نقطه فرق دارد.');
+        if (pr.skipped.length) res.causes.push(pr.skipped.length + ' ردیف فایل کارفرما خوانده نشد (قالب یا ستون نامعتبر).');
+        if (cmp.identical && !(td && td.kinds.length)) res.causes.push('نقاط و ترتیبشان یکی است ولی متن فایل‌ها فرق دارد (مثلاً سرستون، توضیح بالای فایل، جداکننده یا قالب فایل).');
+        if (td && td.kinds.length && cmp.identical) res.causes.unshift('نقاط دقیقاً یکی است و فقط شکل ظاهری فایل فرق دارد؛ اثرانگشت با کوچک‌ترین تغییر ظاهری عوض می‌شود.');
+        if (target.name !== file.name) res.causes.push('نام دو فایل هم فرق دارد (نام در اثرانگشت اثری ندارد).');
+        if (target.sha256 === '') res.causes.push('فایل ما اثرانگشت بایت ندارد (نسخه‌ی قدیمی بارگذاری).');
+      }
+      S.sf.cmp = res; render();
+    } catch (e) { toast('مقایسه انجام نشد: ' + (e.message || 'خطای نامشخص'), 'err'); }
+  }
+
+  function cmpCard() {
+    let h = '<section class="card" id="cmpCard"><h3>مقایسه با فایل کارفرما</h3><p class="muted small">فایلی را که کارفرما یا مشاور دارد انتخاب کنید. اگر بایت‌به‌بایت با فایل ما یکی باشد «مطابق» است؛ وگرنه علت تفاوت (ظاهری یا در نقاط) اعلام می‌شود. فایل هیچ‌جا تغییر نمی‌کند.</p>' +
+      '<div class="row"><label class="btn grow" style="text-align:center">انتخاب فایل کارفرما<input type="file" id="cmpFile" class="vh"></label></div>';
+    const c = S.sf.cmp;
+    if (c) {
+      h += '<div class="msg ' + (c.match ? 'info' : 'err') + ' small" style="margin-top:6px"><b style="color:' + (c.match ? '#1b7a3d' : '#c62828') + '">' + (c.match ? 'مطابق ✓' : 'نامطابق ✗') + '</b> — فایل کارفرما «' + esc(c.name) + '» با فایل ما «' + esc(c.target.name) + '»' +
+        '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256) — فایل کارفرما</span><code>' + esc(c.hex) + '</code></div>' +
+        '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256) — فایل ما</span><code>' + esc(c.target.sha256 || '—') + '</code></div>' +
+        (c.causes.length ? '<ul style="margin:6px 18px 0">' + c.causes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '') + '</div>';
+      if (c.listing.length) h += '<div class="tbl-wrap"><table><thead><tr><th>نوع</th><th>نام نقطه</th><th>فیلد</th><th>فایل ما (E , N , Z)</th><th>فایل کارفرما (E , N , Z)</th></tr></thead><tbody>' + c.listing.map(function (x) { return '<tr><td>' + esc(x[0]) + '</td><td>' + esc(x[1]) + '</td><td>' + esc(x[2]) + '</td><td class="n" dir="ltr">' + esc(x[3]) + '</td><td class="n" dir="ltr">' + esc(x[4]) + '</td></tr>'; }).join('') + '</tbody></table></div>';
+      h += '<div class="row" style="margin-top:8px"><button class="btn primary grow" data-act="cmpPdf">گزارش مقایسه (PDF)</button></div>';
+    }
+    return h + '</section>';
+  }
+
+  async function printCompare() {
+    const d = sfData(), c = S.sf.cmp; if (!c) return;
+    if (!(await rptAsk())) return;
+    const p = d.p, code = C.controlCode(c.hex);
+    const meta = [['پروژه', esc(p.name)], ['خیابان', esc(d.st.name)], ['فایل ما', rplL(c.target.name), 2], ['فایل کارفرما', rplL(c.name), 2], ['نتیجه', c.match ? '<span style="color:#1b7a3d">مطابق</span>' : '<span style="color:#c62828">نامطابق</span>'],
+      ['تاریخ مقایسه', esc(lkDate(c.date))], ['نقاط فایل ما', rplL(String(c.target.n))], ['نقاط فایل کارفرما', c.theirsN !== undefined ? rplL(String(c.theirsN)) : rplL(String(c.target.n))], ['کد کنترل فایل کارفرما', rplL(code)]];
+    const top = rplCover('گزارش مقایسه‌ی فایل با فایل کارفرما', p, d.st.name, rplCs(p)) + rplMeta(meta) +
+      rplHash('اثرانگشت دیجیتال (SHA-256) — فایل ما', c.target.sha256 || '—') + rplHash('اثرانگشت دیجیتال (SHA-256) — فایل کارفرما', c.hex) +
+      (c.causes.length ? '<div class="rpl-note"><b>' + (c.match ? 'نکته‌ها' : 'علت‌های تفاوت') + '</b><ul style="margin:4px 18px 0">' + c.causes.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' : '') +
+      (c.match ? '<div class="rpl-note">دو فایل بایت‌به‌بایت یکی هستند.</div>' : '');
+    const head = '<table class="pt-tbl pt-chunk"><tbody><tr class="hd"><th>نوع</th><th>نام نقطه</th><th>فیلد</th><th>فایل ما (E , N , Z)</th><th>فایل کارفرما (E , N , Z)</th></tr>';
+    const trs = c.listing.map(function (x, k) { return '<tr class="' + (k % 2 ? 'alt' : '') + '"><td>' + esc(x[0]) + '</td><td>' + esc(x[1]) + '</td><td>' + esc(x[2]) + '</td><td dir="ltr">' + esc(x[3]) + '</td><td dir="ltr">' + esc(x[4]) + '</td></tr>'; });
+    const foot = function (k, N) { return rplFoot(['مقایسه با فایل کارفرما', esc(d.st.name), 'کد کنترل ' + rplL(code)], k + 1, N); };
+    rplPrint(await rplFlow({ top: top, head: head, units: trs, tail: '', foot: foot }), slugFa(p.name) + '_' + slugFa(d.st.name) + '_مقایسه-با-فایل-کارفرما');
   }
 
   /* ============================== رویدادها ============================== */
@@ -5738,6 +6744,13 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       markDirty(); return;
     }
     if (el.dataset.rp === 'map') { S.rpMap = el.checked; return; }
+    if (el.id === 'sfLayerMan') { const d0 = sfData(); if (d0.file) { d0.file.layerMan = el.value; markDirty(); render(); } return; }
+    if (el.id === 'sfSort') { S.sf.sort = el.value; S.sf.page = 0; render(); return; }
+    if (el.id === 'sfCols') { S.sf.cols = el.checked; render(); return; }
+    if (el.id === 'kyFile') { const f = el.files && el.files[0]; el.value = ''; if (f) kyImport(f); return; }
+    if (el.id === 'lkVerify') { const f = el.files && el.files[0]; el.value = ''; if (f) lkVerifyFile(f); return; }
+    if (el.id === 'cmpFile') { const f = el.files && el.files[0]; el.value = ''; if (f) sfCompare(f); return; }
+    if (el.id === 'sfFile') { const f = el.files && el.files[0]; el.value = ''; if (f) sfLoadFile(f); return; }
     if (el.dataset.mcf) {
       const F = S.mt.mcForm, k = el.dataset.mcf;
       if (k === 'type') { F.type = el.value; render(); } else if (k === 'newName') F.newName = el.value; else F.cap = el.value.trim();
@@ -5981,6 +6994,24 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       }
       case 'backup': backupOf(b.dataset.id); break;
       case 'backupAll': backupAll(); break;
+      case 'sfSrc': S.sf.src = b.dataset.v === 'file' ? 'file' : 'newo'; render(); break;
+      case 'sfPdf': printSurveyFile(); break;
+      case 'sfDel': {
+        const i = parseInt(b.dataset.i, 10), ab = activeStreet().asbuilt, f = ab[i]; if (!f) break;
+        { const lv = lkLocked(activeStreet())[f.id]; if (lv) { toast('این فایل در نسخه‌ی ' + lv + ' قفل نهایی شده و حذف نمی‌شود.', 'err'); break; } }
+        if (await ask('فایل «' + esc(f.name) + '» (' + f.pts.length + ' نقطه) حذف شود؟ نسخه‌ی خام ذخیره‌شده‌ی آن هم از این دستگاه پاک می‌شود و برگشت‌پذیر نیست؛ اثرانگشت دیجیتال را (در صورت نیاز) از گزارش یا فایل اکسپورت‌شده نگه دارید.', { danger: true, ok: 'حذف' })) { ab.splice(i, 1); RAW.del(f.id); delete S.sf.raw[f.id]; if (S.sf.file === f.id) S.sf.file = ''; S.sf.page = 0; markDirty(); render(); }
+        break;
+      }
+      case 'sfSel': S.sf.file = b.dataset.id; S.sf.page = 0; render(); break;
+      case 'sfExport': sfExport(); break;
+      case 'lkAdd': lkAdd(); break;
+      case 'kyNew': kyNew(); break;
+      case 'kyExport': kyExport(); break;
+      case 'sgVerify': sgVerifyAct(); break;
+      case 'lkPdf': printLock(parseInt(b.dataset.i, 10)); break;
+      case 'lkZip': lkZip(parseInt(b.dataset.i, 10)); break;
+      case 'lkRcpt': lkRcpt(parseInt(b.dataset.i, 10)); break;
+      case 'cmpPdf': printCompare(); break;
       case 'mcAdd': {
         const F = S.mt.mcForm, cap = C.toNumber(F.cap);
         if (!fin(cap) || cap <= 0) { toast('ظرفیت ماشین را به متر مکعب وارد کنید.', 'err'); break; }
@@ -6025,9 +7056,14 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
         if (F.rows === '0' && !(fin(rw) && rw > 0)) { toast('عرض هر ردیف را وارد کنید.', 'err'); break; }
         const sf = function (sel, des) { return sel.indexOf('f:') === 0 ? { layer: des || '', file: sel.slice(2) } : { layer: sel, file: '' }; };
         const T = sf(F.topSel, F.topDes), B = sf(F.botSel, F.botDes);
-        const mat = { id: C.uid('mt'), name: name, top: T.layer, bot: B.layer, topFile: T.file, botFile: B.file, swell: sw, rows: parseInt(F.rows, 10), rowW: fin(rw) && rw > 0 ? rw : 5, zigzag: F.zigzag };
+        const pst = function (t) { t = String(t || '').trim(); if (t === '') return null; const v = C.parseStation(t); return fin(v) ? v : NaN; };
+        const rf = pst(F.from), rt = pst(F.to);
+        if (Number.isNaN(rf) || Number.isNaN(rt)) { toast('کیلومتراژ «از/تا» نامعتبر است (مثلاً 0+200).', 'err'); break; }
+        if (rf !== null && rt !== null && rt <= rf) { toast('«تا» باید بزرگ‌تر از «از» باشد.', 'err'); break; }
+        const mat = { id: C.uid('mt'), name: name, top: T.layer, bot: B.layer, topFile: T.file, botFile: B.file, swell: sw, rows: parseInt(F.rows, 10), rowW: fin(rw) && rw > 0 ? rw : 5, zigzag: F.zigzag, from: rf, to: rt };
         const inf = C.matInfo(mat, C.normalizeLayers(p.layers).layers, calc().sections || []);
         if (!inf.ok) { toast(inf.warn || 'دو سطح معتبر نیستند.', 'err'); break; }
+        if (inf.clipped) toast('بخشی از بازه بیرون از مسیر بود؛ به ابتدا/انتهای مسیر بریده شد (' + stLabel(inf.lo) + ' تا ' + stLabel(inf.hi) + ').', 'info');
         const eix = S.mt.editMat ? activeStreet().mats.findIndex(function (x) { return x.id === S.mt.editMat; }) : -1;
         if (eix >= 0) { mat.id = activeStreet().mats[eix].id; activeStreet().mats[eix] = mat; } else activeStreet().mats.push(mat);
         S.mt.editMat = ''; S.mt.form = mtNewForm(); markDirty(); render(); toast(eix >= 0 ? 'مصالح ویرایش شد.' : '«' + name + '» به فهرست مصالح اضافه شد.');
@@ -6036,8 +7072,15 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       case 'mtEdit': {
         const m = activeStreet().mats[parseInt(b.dataset.i, 10)]; if (!m) break;
         S.mt.editMat = m.id;
-        S.mt.form = { name: m.name, topSel: m.topFile ? 'f:' + m.topFile : m.top, botSel: m.botFile ? 'f:' + m.botFile : m.bot, topDes: m.top, botDes: m.bot, swell: String(m.swell), rows: String(m.rows), rowW: String(m.rowW), zigzag: !!m.zigzag };
+        S.mt.form = { name: m.name, topSel: m.topFile ? 'f:' + m.topFile : m.top, botSel: m.botFile ? 'f:' + m.botFile : m.bot, topDes: m.top, botDes: m.bot, swell: String(m.swell), rows: String(m.rows), rowW: String(m.rowW), zigzag: !!m.zigzag, from: fin(m.from) ? C.formatStation(m.from, 3) : '', to: fin(m.to) ? C.formatStation(m.to, 3) : '' };
         render(); { const el = $('#mtForm'); if (el) el.scrollIntoView({ block: 'start' }); }
+        break;
+      }
+      case 'mtApplyRange': {
+        const m = activeStreet().mats[parseInt(b.dataset.i, 10)]; if (!m) break;
+        const cx2 = mtCtx(), av = mtActual(m, C.matInfo(m, cx2.layers, cx2.secs, { ignoreRange: true }), cx2);
+        if (!av || !av.ok || av.lo === undefined) { toast('بازه‌ی فایل مشخص نیست.', 'err'); break; }
+        m.from = av.lo; m.to = av.hi; markDirty(); render(); toast('بازه‌ی «' + (m.name || '—') + '» برابر بازه‌ی فایل شد: ' + stLabel(av.lo) + ' تا ' + stLabel(av.hi));
         break;
       }
       case 'mtCancel': S.mt.editMat = ''; S.mt.form = mtNewForm(); render(); break;
@@ -6538,7 +7581,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     route();
   })();
 
-  window.__RS = { S: S, calc: calc, render: render };
+  window.__RS = { S: S, calc: calc, render: render, printTable: printTable };
 })();
 
 </script>
