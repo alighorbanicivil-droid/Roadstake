@@ -483,7 +483,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
 @media print {
   #printArea.rpl { page: rpl; }
   @page rpl { size: A4; margin: 12mm 12mm 12mm; @bottom-center { content: none; } }
-  #printArea.rpl .rpl-pg { display: flex; flex-direction: column; min-height: 268mm; break-after: page; box-sizing: border-box; }
+  #printArea.rpl .rpl-pg { display: flex; flex-direction: column; min-height: 256mm; break-after: page; box-sizing: border-box; }
   #printArea.rpl .rpl-pg.last { break-after: auto; }
   #printArea.rpl .rp-cover { padding: 7pt 12pt; margin-bottom: 5pt; }
   #printArea.rpl .rpl-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3pt; margin-bottom: 4pt; break-inside: avoid; }
@@ -1438,8 +1438,8 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     bps.push(hi);
     const steps = []; let v = 0;
     for (let i = 1; i < bps.length; i++) {
-      const s0 = bps[i - 1], s1 = bps[i], a = widthsAt(secs, s0), b = widthsAt(secs, s1);
-      const w0 = a.wL + a.wR, w1 = b.wL + b.wR, len = s1 - s0, vol = t * (w0 + w1) / 2 * len;
+      const s0 = bps[i - 1], s1 = bps[i], a = widthsAt(secs, s0), b = widthsAt(secs, s1), tt = typeof t === 'function' ? t((s0 + s1) / 2) : t;
+      const w0 = a.wL + a.wR, w1 = b.wL + b.wR, len = s1 - s0, vol = tt * (w0 + w1) / 2 * len;
       steps.push({ s0: s0, s1: s1, w0: w0, w1: w1, len: len, vol: vol, v0: v, v1: v + vol });
       v += vol;
     }
@@ -1509,7 +1509,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
    * هرجا تعداد ردیف عوض شود بازه‌ی جدید شروع می‌شود و هر بازه برنامه‌ی تخلیه‌ی خودش را دارد.
    */
   function dumpZones(secs, info, cap, swell, spec, zigzag) {
-    const lo = info.lo, hi = info.hi, t = info.t;
+    const lo = info.lo, hi = info.hi, t = info.tf || info.t;
     const auto = !(spec && spec.rows > 0), rowW = spec && spec.rowW > 0 ? spec.rowW : 5, TOL = 0.05;
     const tot = function (s) { const w = widthsAt(secs, s); return w.wL + w.wR; };
     const rowsFor = function (w) { return Math.max(1, Math.ceil((w - TOL) / rowW - 1e-9)); };
@@ -1551,6 +1551,47 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     });
     out.all.sort(function (a, b) { return a.station - b.station || a.row - b.row; });
     if (gaps.length) { out.min = Math.min.apply(null, gaps); out.max = Math.max.apply(null, gaps); out.avg = gaps.reduce(function (a, b) { return a + b; }, 0) / gaps.length; }
+    return out;
+  }
+
+  /**
+   * تخلیه بر مبنای حجم عملیاتی: ضخامت هر مقطع از فایل برداشت (thick = [{station,t}]) و بین مقطع‌ها خطی است.
+   * فقط بازه‌های پیوسته‌ی دارای داده برنامه می‌گیرند (همان بازه‌ی «حجم عملیاتی»). ضخامت منفی صفر گرفته می‌شود (neg = true).
+   */
+  function dumpZonesOps(secs, info, cap, swell, spec, zigzag, thick) {
+    const out = { ok: false, zones: [], total: 0, loose: 0, all: [], min: NaN, max: NaN, avg: NaN, lo: NaN, hi: NaN, neg: false, blocks: 0, ops: true };
+    const th = {}; (thick || []).forEach(function (q) { th[q.station] = q.t; });
+    const runs = []; let cur = null;
+    for (let i = 0; i < secs.length; i++) {
+      const has = Object.prototype.hasOwnProperty.call(th, secs[i].station);
+      if (has) { if (!cur) { cur = []; runs.push(cur); } cur.push(secs[i].station); } else cur = null;
+    }
+    const gaps = [];
+    runs.forEach(function (run) {
+      if (run.length < 2) return;
+      const lo = run[0], hi = run[run.length - 1];
+      const tf = function (s) {
+        let i = 1; while (i < run.length - 1 && run[i] < s) i++;
+        const a = run[i - 1], b = run[i], k = (s - a) / Math.max(b - a, 1e-12), v = th[a] + (th[b] - th[a]) * k;
+        if (v < 0) { out.neg = true; return 0; }
+        return v;
+      };
+      const ze = dumpZones(secs, { lo: lo, hi: hi, t: info.t, tf: tf }, cap, swell, spec, zigzag);
+      if (!ze.ok) return;
+      out.blocks++;
+      const base = out.zones.length;
+      ze.zones.forEach(function (z) { out.zones.push(z); });
+      ze.all.forEach(function (l) { out.all.push({ zone: l.zone + base, row: l.row, k: l.k, station: l.station, offset: l.offset, vol: l.vol }); });
+      out.total += ze.total; out.loose += ze.loose;
+      out.lo = Number.isFinite(out.lo) ? Math.min(out.lo, lo) : lo; out.hi = Number.isFinite(out.hi) ? Math.max(out.hi, hi) : hi;
+      if (Number.isFinite(ze.min)) { gaps.push(ze); }
+    });
+    out.ok = out.zones.length > 0;
+    out.all.sort(function (a, b) { return a.station - b.station || a.row - b.row; });
+    if (gaps.length) {
+      out.min = Math.min.apply(null, gaps.map(function (g) { return g.min; })); out.max = Math.max.apply(null, gaps.map(function (g) { return g.max; }));
+      let n = 0, sum = 0; gaps.forEach(function (g) { const c = g.all.length; n += c; sum += g.avg * c; }); out.avg = n ? sum / n : NaN;
+    }
     return out;
   }
 
@@ -1668,6 +1709,15 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     }
     secs.forEach(function (s, i) { if (th[i] !== null) out.thick.push({ station: s.station, t: th[i] }); });
     for (let i = 1; i < secs.length; i++) if (th[i - 1] !== null && th[i] !== null) { if (out.lo === undefined) out.lo = secs[i - 1].station; out.hi = secs[i].station; }
+    // آمار ضخامت واقعی (میانگین وزنی بر طول بازه‌های دارای داده، کمترین، بیشترین) و ضخامت طرح برای مقایسه
+    out.tDesign = info.t;
+    if (out.covered > 0) {
+      let wsum = 0;
+      for (let i = 1; i < secs.length; i++) if (th[i - 1] !== null && th[i] !== null) wsum += (th[i - 1] + th[i]) / 2 * (secs[i].station - secs[i - 1].station);
+      out.tAvg = wsum / out.covered;
+      out.tMin = Math.min.apply(null, out.thick.map(function (q) { return q.t; }));
+      out.tMax = Math.max.apply(null, out.thick.map(function (q) { return q.t; }));
+    }
     out.ok = out.covered > 0; out.diff = out.actual - out.design; out.pct = out.design > 0 ? out.diff / out.design * 100 : NaN;
     return out;
   }
@@ -2127,7 +2177,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     computeSetup: computeSetup, staffReading: staffReading, setupCovers: setupCovers, buildReadings: buildReadings,
     buildPointRows: buildPointRows, buildNewoRows: buildNewoRows,
     sortSetups: sortSetups, analyzeSetups: analyzeSetups, surveyPoint: surveyPoint, surveyStats: surveyStats,
-    utmToLatLon: utmToLatLon, surfOffset: surfOffset, matInfo: matInfo, widthsAt: widthsAt, matVolume: matVolume, lockCanon: lockCanon, lockHash: lockHash, verifyLocks: verifyLocks, textDiffKinds: textDiffKinds, comparePointSets: comparePointSets, stationAtVolume: stationAtVolume, dumpPlan: dumpPlan, dumpZones: dumpZones, sectionProfile: sectionProfile, designZAt: designZAt, projectToAxis: projectToAxis, compareSurvey: compareSurvey, meanDevBySection: meanDevBySection, actualVolume: actualVolume, groupCrossModels: groupCrossModels, mergeGroupsByMode: mergeGroupsByMode, migrateSlopeRows: migrateSlopeRows,
+    utmToLatLon: utmToLatLon, surfOffset: surfOffset, matInfo: matInfo, widthsAt: widthsAt, matVolume: matVolume, lockCanon: lockCanon, lockHash: lockHash, verifyLocks: verifyLocks, textDiffKinds: textDiffKinds, comparePointSets: comparePointSets, stationAtVolume: stationAtVolume, dumpPlan: dumpPlan, dumpZones: dumpZones, dumpZonesOps: dumpZonesOps, sectionProfile: sectionProfile, designZAt: designZAt, projectToAxis: projectToAxis, compareSurvey: compareSurvey, meanDevBySection: meanDevBySection, actualVolume: actualVolume, groupCrossModels: groupCrossModels, mergeGroupsByMode: mergeGroupsByMode, migrateSlopeRows: migrateSlopeRows,
     modelFromFalls: modelFromFalls, modeDirs: modeDirs, autoSections: autoSections, interpolateAxisPoint: interpolateAxisPoint, generatePegs: generatePegs, normalizeMids: normalizeMids, midCovers: midCovers, sideKeys: sideKeys,
     sha256Hex: sha256Hex, sha256Text: sha256Text, controlCode: controlCode, outsideStreet: outsideStreet, countOutside: countOutside, detectLayerShift: detectLayerShift, median: median,
     MODES: MODES, MODE_FA: MODE_FA
@@ -2879,6 +2929,12 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
               receipts: Array.isArray(r.receipts) ? r.receipts.slice(0, 50).map(function (x) { return { date: str(x && x.date), to: str(x && x.to), note: str(x && x.note), what: str(x && x.what).slice(0, 200), ack: str(x && x.ack) }; }) : [] };
           });
         }
+        if (Array.isArray(s.pdfs)) {
+          const hx2 = function (v) { return /^[0-9a-f]{64}$/.test(str(v)) ? str(v) : ''; };
+          o.pdfs = s.pdfs.filter(function (x) { return x && hx2(x.hash); }).slice(-60).map(function (x) {
+            return { id: String(x.id || C.uid('pd')), date: str(x.date), title: str(x.title).slice(0, 200), n: Math.max(1, Math.round(num(x.n) || 1)), hash: hx2(x.hash), payload: str(x.payload).slice(0, 400), sig: str(x.sig).slice(0, 400), keyId: str(x.keyId).slice(0, 40), name: str(x.name).slice(0, 200), spki: str(x.spki).slice(0, 400), lock: Math.max(0, Math.round(num(x.lock) || 0)) };
+          });
+        }
         if (s.staked && typeof s.staked === 'object' && !Array.isArray(s.staked)) {
           o.staked = {};
           Object.keys(s.staked).forEach(function (k) { if (Array.isArray(s.staked[k])) o.staked[k] = s.staked[k].map(String).filter(function (v) { return /^-?\d+$/.test(v); }); });
@@ -3035,7 +3091,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   const PAGE_SIZE = 50;       // ردیف در هر صفحه‌ی جدول نقاط
   const TABLE_STATIONS = 30;  // مقطع در هر صفحه‌ی جدول سه‌نقطه‌ای
 
-  const APP_VERSION = '1.22.0';
+  const APP_VERSION = '1.22.1';
   const S = {
     project: null, dirty: false, rev: 0, calc: null, calcRev: -1,
     page: 'projects', imp: null, ptPage: 0, tPage: 0, stakeIdx: 0, rawBad: {},
@@ -5678,6 +5734,27 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     av.n = rows.filter(function (r) { return r.status !== 'out'; }).length; av.nAll = rows.length;
     return av;
   }
+  /** بار طرح (همان بازه‌ی دارای داده، با ضخامت طرح) و اختلاف با بار عملیاتی */
+  function mtLoadCmpCells(zd, zo) {
+    if (!zd || !zd.ok) return '<td class="n">—</td><td class="n">—</td>';
+    const d = zo.total - zd.total;
+    return '<td class="n">' + esc(mtLoadsTxt(zd)) + '</td><td class="n" style="color:' + (d >= 0 ? '#1b7a3d' : '#c62828') + '">' + (d > 0 ? '+' : '') + d + '</td>';
+  }
+  /** سلول‌های ضخامت: طرح، واقعی (میانگین)، کمترین–بیشترین، اختلاف (cm) */
+  function mtThkCells(av) {
+    const cm = function (v) { return C.fmt(v * 100, 1); }, d = av.tAvg - av.tDesign, col = d >= 0 ? '#1b7a3d' : '#c62828';
+    return '<td class="n">' + cm(av.tDesign) + ' cm</td><td class="n"><b>' + cm(av.tAvg) + ' cm</b></td><td class="n" dir="ltr">' + cm(av.tMin) + ' – ' + cm(av.tMax) + '</td><td class="n" style="color:' + col + '">' + (d > 0 ? '+' : '') + cm(d) + ' cm</td>';
+  }
+  /** جدول کیلومتراژی ضخامت طرح و واقعی؛ کمبود (واقعی < طرح) با رنگ قرمز */
+  function mtThkTable(av, cls, up, dn) {
+    const cm = function (v) { return C.fmt(v * 100, 1); };
+    let h = '<table class="' + (cls || '') + '"><thead><tr><th>کیلومتراژ</th><th>ضخامت طرح (cm)</th><th>ضخامت واقعی (cm)</th><th>اختلاف (cm)</th></tr></thead><tbody>';
+    av.thick.forEach(function (q) {
+      const d = q.t - av.tDesign;
+      h += '<tr><td dir="ltr">' + esc(stn(q.station)) + '</td><td dir="ltr">' + cm(av.tDesign) + '</td><td dir="ltr"><b>' + cm(q.t) + '</b></td><td dir="ltr" style="color:' + (d >= 0 ? (up || '#1b7a3d') : (dn || '#c62828')) + '">' + (d > 0 ? '+' : '') + cm(d) + (d < -0.0005 ? ' ▼' : '') + '</td></tr>';
+    });
+    return h + '</tbody></table>';
+  }
   /** نتیجه‌ی محاسبه‌ی یک ردیف مصالح */
   function mtResult(mat, cx) {
     const info = C.matInfo(mat, cx.layers, cx.secs);
@@ -5686,7 +5763,15 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     res.vol = C.matVolume(cx.secs, info.lo, info.hi, info.t);
     res.loose = res.vol.total * mat.swell;
     cx.machines.forEach(function (m) { res.mach[m.id] = C.dumpZones(cx.secs, info, m.cap, mat.swell, { rows: mat.rows, rowW: mat.rowW }, mat.zigzag); });
-    res.actual = mtActual(mat, C.matInfo(mat, cx.layers, cx.secs, { ignoreRange: true }), cx);
+    const info0 = C.matInfo(mat, cx.layers, cx.secs, { ignoreRange: true });
+    res.actual = mtActual(mat, info0, cx);
+    res.machDesign = res.mach; res.basis = 'design'; res.machOps = null;
+    if (res.actual && res.actual.ok) {
+      res.machOps = {}; res.machCmp = {};
+      cx.machines.forEach(function (m) { res.machCmp[m.id] = C.dumpZonesOps(cx.secs, info0, m.cap, mat.swell, { rows: mat.rows, rowW: mat.rowW }, mat.zigzag, res.actual.thick.map(function (q) { return { station: q.station, t: info0.t }; })); });
+      cx.machines.forEach(function (m) { res.machOps[m.id] = C.dumpZonesOps(cx.secs, info0, m.cap, mat.swell, { rows: mat.rows, rowW: mat.rowW }, mat.zigzag, res.actual.thick); });
+      if ((S.mt.basis || 'ops') === 'ops') { res.mach = res.machOps; res.basis = 'ops'; }
+    }
     return res;
   }
   const mtNum = function (v) { return C.fmt(v, 1); };
@@ -5776,15 +5861,18 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     });
     h += '<tr class="sum"><td colspan="3"><b>جمع</b></td><td class="n"><b>' + mtM3(tc) + '</b></td><td></td><td class="n"><b>' + mtM3(tl) + '</b></td><td></td></tr></tbody></table></div>';
     if (results.some(function (rs) { return rs.actual; })) {
-      h += '<h3 style="margin:12px 0 4px">حجم محاسباتی و حجم عملیاتی (از نقاط برداشت)</h3><div class="tbl-wrap"><table><thead><tr><th>مصالح</th><th>بازه‌ی دارای داده</th><th>حجم محاسباتی (همان بازه)</th><th>حجم عملیاتی</th><th>اختلاف</th><th></th></tr></thead><tbody>';
+      h += '<h3 style="margin:12px 0 4px">حجم محاسباتی و حجم عملیاتی (از نقاط برداشت)</h3><div class="tbl-wrap"><table><thead><tr><th>مصالح</th><th>بازه‌ی دارای داده</th><th>ضخامت طرح</th><th>ضخامت واقعی (میانگین)</th><th>کمترین – بیشترین</th><th>اختلاف ضخامت</th><th>حجم محاسباتی (همان بازه)</th><th>حجم عملیاتی</th><th>اختلاف</th><th></th></tr></thead><tbody>';
       results.forEach(function (rs) {
         const av = rs.actual;
         if (!av) return;
         h += '<tr><td>' + esc(rs.mat.name || '—') + '</td>' + (av.ok ?
-          '<td class="n">' + mtNum(av.covered) + ' از ' + mtNum(rs.info.hi - rs.info.lo) + ' ' + unitL() + '</td><td class="n">' + mtM3(av.design) + '</td><td class="n"><b>' + mtM3(av.actual) + '</b></td><td class="n" style="color:' + (av.diff >= 0 ? '#1b7a3d' : '#c62828') + '">' + (av.diff > 0 ? '+' : '') + mtM3(av.diff) + ' (' + (av.diff > 0 ? '+' : '') + C.fmt(av.pct, 1) + '٪)</td>' :
-          '<td colspan="4" class="muted">نقاط فایل روی مسیر نیفتاد یا هر دو سر بازه داده ندارد (' + av.n + ' از ' + av.nAll + ' نقطه روی مسیر)</td>') + '<td class="nw">' + (av.ok && av.lo !== undefined ? '<button class="btn sm" data-act="mtApplyRange" data-i="' + cx.mats.indexOf(rs.mat) + '" title="بازه‌ی طرح این ردیف را برابر بازه‌ی فایل برداشت می‌کند">اعمال بازه‌ی فایل</button>' : '') + '</td></tr>';
+          '<td class="n">' + mtNum(av.covered) + ' از ' + mtNum(rs.info.hi - rs.info.lo) + ' ' + unitL() + '</td>' + mtThkCells(av) + '<td class="n">' + mtM3(av.design) + '</td><td class="n"><b>' + mtM3(av.actual) + '</b></td><td class="n" style="color:' + (av.diff >= 0 ? '#1b7a3d' : '#c62828') + '">' + (av.diff > 0 ? '+' : '') + mtM3(av.diff) + ' (' + (av.diff > 0 ? '+' : '') + C.fmt(av.pct, 1) + '٪)</td>' :
+          '<td colspan="8" class="muted">نقاط فایل روی مسیر نیفتاد یا هر دو سر بازه داده ندارد (' + av.n + ' از ' + av.nAll + ' نقطه روی مسیر)</td>') + '<td class="nw">' + (av.ok && av.lo !== undefined ? '<button class="btn sm" data-act="mtApplyRange" data-i="' + cx.mats.indexOf(rs.mat) + '" title="بازه‌ی طرح این ردیف را برابر بازه‌ی فایل برداشت می‌کند">اعمال بازه‌ی فایل</button>' : '') + '</td></tr>';
       });
-      h += '</tbody></table></div><p class="muted small">سطحی که فایل ندارد مطابق طرح فرض می‌شود؛ فقط بازه‌هایی حساب می‌شوند که در هر دو سر داده دارند.</p>';
+      h += '</tbody></table></div><p class="muted small">سطحی که فایل ندارد مطابق طرح فرض می‌شود؛ فقط بازه‌هایی حساب می‌شوند که در هر دو سر داده دارند. ضخامت واقعی = ضخامت طرح + اختلاف ارتفاع فایل نسبت به طرح در هر مقطع.</p>';
+      results.forEach(function (rs) {
+        if (rs.actual && rs.actual.ok && rs.actual.thick.length) h += '<details class="card-d"><summary>ضخامت در هر کیلومتراژ — ' + esc(rs.mat.name || '—') + '</summary><div class="tbl-wrap">' + mtThkTable(rs.actual) + '</div></details>';
+      });
     }
     h += '</section>';
     if (!ok.length) return h;
@@ -5797,11 +5885,13 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       field('مصالح', '<select class="inp" id="mtMat">' + ok.map(function (m) { return '<option value="' + esc(m.id) + '"' + (m.id === S.mt.mat ? ' selected' : '') + '>' + esc(m.name || '—') + '</option>'; }).join('') + '</select>') +
       field('ماشین', '<select class="inp" id="mtMach">' + cx.machines.map(function (m) { return '<option value="' + esc(m.id) + '"' + (m.id === S.mt.mach ? ' selected' : '') + '>' + esc(mcName(m)) + '</option>'; }).join('') + '</select>') + '</div>' +
       '<p class="muted small">ردیف‌ها: ' + esc(mtRowsTxt(m0)) + (m0.zigzag && (m0.rows !== 1) ? ' • زیگزاگ' : '') + '</p>' +
-      '<div class="tbl-wrap"><table><thead><tr><th>ماشین</th><th>بار (هر ردیف × ردیف = کل)</th><th>فاصله‌ی بارها (حداقل / حداکثر / میانگین)</th></tr></thead><tbody>';
+      (rs0.machOps ? field('مبنای تخلیه', '<select class="inp" id="mtBasis"><option value="ops"' + (rs0.basis === 'ops' ? ' selected' : '') + '>حجم عملیاتی (از فایل نقاط)</option><option value="design"' + (rs0.basis === 'design' ? ' selected' : '') + '>حجم محاسباتی (طرح)</option></select>') +
+        (rs0.basis === 'ops' ? '<p class="muted small">تخلیه فقط برای بازه‌ی دارای داده‌ی فایل (' + esc(stLabel(rs0.mach[(cx.machines[0] || {}).id] && rs0.mach[cx.machines[0].id].lo)) + ' تا ' + esc(stLabel(rs0.mach[(cx.machines[0] || {}).id] && rs0.mach[cx.machines[0].id].hi)) + ') و با ضخامت واقعی هر مقطع است.' + (cx.machines.some(function (m) { const z = rs0.mach[m.id]; return z && z.neg; }) ? ' <b style="color:#c62828">در بعضی مقطع‌ها ضخامت واقعی منفی شد و صفر گرفته شد.</b>' : '') + '</p>' : '') : '') +
+      '<div class="tbl-wrap"><table><thead><tr><th>ماشین</th><th>بار (هر ردیف × ردیف = کل)</th>' + (rs0.basis === 'ops' ? '<th>بار طرح (همان بازه)</th><th>اختلاف</th>' : '') + '<th>فاصله‌ی بارها (حداقل / حداکثر / میانگین)</th></tr></thead><tbody>';
     cx.machines.forEach(function (m) {
       const ze = rs0.mach[m.id];
       h += '<tr' + (m.id === S.mt.mach ? ' class="sel"' : '') + '><td>' + esc(mcName(m)) + '</td>' + (ze && ze.ok ?
-        '<td class="n"><b>' + esc(mtLoadsTxt(ze)) + '</b></td><td class="n">' + (isFinite(ze.min) ? C.fmt(ze.min, 1) + ' / ' + C.fmt(ze.max, 1) + ' / ' + C.fmt(ze.avg, 1) : '—') + ' ' + unitL() + '</td>' : '<td colspan="2" class="muted">ظرفیت نامعتبر</td>') + '</tr>';
+        '<td class="n"><b>' + esc(mtLoadsTxt(ze)) + '</b></td>' + (rs0.basis === 'ops' ? mtLoadCmpCells(rs0.machCmp[m.id], ze) : '') + '<td class="n">' + (isFinite(ze.min) ? C.fmt(ze.min, 1) + ' / ' + C.fmt(ze.max, 1) + ' / ' + C.fmt(ze.avg, 1) : '—') + ' ' + unitL() + '</td>' : '<td colspan="' + (rs0.basis === 'ops' ? 4 : 2) + '" class="muted">ظرفیت نامعتبر</td>') + '</tr>';
     });
     h += '</tbody></table></div>';
     const ze0 = mach ? rs0.mach[mach.id] : null;
@@ -5843,7 +5933,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
 
   /* ---------- گزارش مصالح (همه‌ی ماشین‌های فهرست) ---------- */
   function mtStripSVG(info, ze, W) {
-    const lo = info.lo, hi = info.hi, L = Math.max(hi - lo, 1e-9);
+    const lo = ze.ops && Number.isFinite(ze.lo) ? ze.lo : info.lo, hi = ze.ops && Number.isFinite(ze.hi) ? ze.hi : info.hi, L = Math.max(hi - lo, 1e-9);
     const maxRows = Math.max.apply(null, ze.zones.map(function (z) { return z.rows; }));
     const H = 36 + Math.min(maxRows, 8) * 13, padL = 36, padR = 8, padT = 8, padB = 16, pw = W - padL - padR, ph = H - padT - padB;
     const X = function (s) { return padL + (s - lo) / L * pw; };
@@ -5904,11 +5994,11 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     const sumRows = results.map(function (rs) {
       tc += rs.vol.total; tl += rs.loose;
       const av = rs.actual && rs.actual.ok ? rs.actual : null; if (av) anyAct = true;
-      return '<tr><td>' + esc(rs.mat.name || '—') + '</td><td>' + bd(C.fmt(rs.info.t * 100, 1) + ' cm') + '</td><td>' + bd(stLabel(rs.info.lo) + ' → ' + stLabel(rs.info.hi)) + '</td><td>' + bd(C.fmt(rs.vol.total, 1)) + '</td><td>' + bd(C.fmt(rs.mat.swell, 3)) + '</td><td><b>' + bd(C.fmt(rs.loose, 1)) + '</b></td>' +
+      return '<tr><td>' + esc(rs.mat.name || '—') + '</td><td>' + bd(C.fmt(rs.info.t * 100, 1) + ' cm') + '</td><td>' + (av ? bd(C.fmt(av.tAvg * 100, 1) + ' cm') : '—') + '</td><td>' + bd(stLabel(rs.info.lo) + ' → ' + stLabel(rs.info.hi)) + '</td><td>' + bd(C.fmt(rs.vol.total, 1)) + '</td><td>' + bd(C.fmt(rs.mat.swell, 3)) + '</td><td><b>' + bd(C.fmt(rs.loose, 1)) + '</b></td>' +
         '<td>' + (av ? bd(C.fmt(av.actual, 1)) : '—') + '</td><td' + (av ? ' style="color:' + (av.diff >= 0 ? RP.up : RP.dn) + '"' : '') + '>' + (av ? bd(sg(av.diff, 1) + ' (' + sg(av.pct, 1) + '%)') : '—') + '</td></tr>';
     }).join('');
-    h += '<div class="rp-box"><h3>خلاصه‌ی مصالح <small>(حجم‌ها m³)</small></h3><table class="mt-t"><thead><tr><th>مصالح</th><th>ضخامت</th><th>بازه</th><th>حجم محاسباتی</th><th>ضریب</th><th>حجم غیرمتراکم</th><th>حجم عملیاتی</th><th>اختلاف</th></tr></thead><tbody>' + sumRows +
-      '<tr class="sum"><td colspan="3">جمع</td><td>' + bd(C.fmt(tc, 1)) + '</td><td></td><td>' + bd(C.fmt(tl, 1)) + '</td><td colspan="2"></td></tr></tbody></table>' +
+    h += '<div class="rp-box"><h3>خلاصه‌ی مصالح <small>(حجم‌ها m³)</small></h3><table class="mt-t"><thead><tr><th>مصالح</th><th>ضخامت طرح</th><th>ضخامت واقعی (میانگین)</th><th>بازه</th><th>حجم محاسباتی</th><th>ضریب</th><th>حجم غیرمتراکم</th><th>حجم عملیاتی</th><th>اختلاف</th></tr></thead><tbody>' + sumRows +
+      '<tr class="sum"><td colspan="4">جمع</td><td>' + bd(C.fmt(tc, 1)) + '</td><td></td><td>' + bd(C.fmt(tl, 1)) + '</td><td colspan="2"></td></tr></tbody></table>' +
       '<div class="rp-note">حجم محاسباتی = حجم بین دو لایه از روی طرح. حجم عملیاتی = حجم از نقاط برداشت' + (anyAct ? ' (فقط بازه‌ی دارای داده؛ اختلاف نسبت به حجم محاسباتیِ همان بازه)' : '') + '.</div></div>';
     h += '<div class="rp-box"><h3>تعداد سرویس ماشین‌ها <small>(بار در هر ردیف × تعداد ردیف = کل بارها)</small></h3><table class="mt-t"><thead><tr><th>ماشین</th>' + results.map(function (rs) { return '<th>' + esc(rs.mat.name || '—') + '</th>'; }).join('') + '</tr></thead><tbody>' +
       mOrd.map(function (m) { return '<tr' + (m === sel ? ' class="on"' : '') + '><td>' + mcNameH(m) + '</td>' + results.map(function (rs) { return '<td>' + bd(mtLoadsTxt(rs.mach[m.id])) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
@@ -5917,10 +6007,13 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       h += '<div class="mt-mat"><div class="rp-box"><h3>' + esc(m.name || '—') + ' <small>' + bd(stLabel(rs.info.lo)) + ' تا ' + bd(stLabel(rs.info.hi)) + ' • ضخامت ' + bd(C.fmt(rs.info.t * 100, 1) + ' cm') + ' • ردیف‌ها: ' + esc(mtRowsTxt(m)) + (m.zigzag && m.rows !== 1 ? ' زیگزاگ' : '') + '</small></h3>' +
                 '<div class="rp-g" style="grid-template-columns:repeat(' + (av ? 5 : 3) + ',1fr)"><div class="gh">حجم محاسباتی</div><div class="gh">ضریب تورم</div><div class="gh">حجم غیرمتراکم</div>' + (av ? '<div class="gh">حجم عملیاتی (بازه‌ی دارای داده)</div><div class="gh">اختلاف حجم محاسباتی و عملیاتی</div>' : '') +
         '<div class="gc">' + bd(C.fmt(rs.vol.total, 1) + ' m³') + '</div><div class="gc">' + bd(C.fmt(m.swell, 3)) + '</div><div class="gc"><b>' + bd(C.fmt(rs.loose, 1) + ' m³') + '</b></div>' +
-        (av ? '<div class="gc">' + bd(C.fmt(av.actual, 1) + ' m³ (محاسباتیِ همان بازه: ' + C.fmt(av.design, 1) + ')') + '</div><div class="gc" style="color:' + (av.diff >= 0 ? RP.up : RP.dn) + '"><b>' + bd(sg(av.diff, 1) + ' m³ (' + sg(av.pct, 1) + '%)') + '</b></div>' : '') + '</div></div>';
+        (av ? '<div class="gc">' + bd(C.fmt(av.actual, 1) + ' m³ (محاسباتیِ همان بازه: ' + C.fmt(av.design, 1) + ')') + '</div><div class="gc" style="color:' + (av.diff >= 0 ? RP.up : RP.dn) + '"><b>' + bd(sg(av.diff, 1) + ' m³ (' + sg(av.pct, 1) + '%)') + '</b></div>' : '') + '</div>' +
+        (av ? '<div class="rp-g" style="grid-template-columns:repeat(4,1fr);margin-top:4px"><div class="gh">ضخامت طرح</div><div class="gh">ضخامت واقعی (میانگین)</div><div class="gh">کمترین – بیشترین</div><div class="gh">اختلاف ضخامت</div>' +
+          '<div class="gc">' + bd(C.fmt(av.tDesign * 100, 1) + ' cm') + '</div><div class="gc"><b>' + bd(C.fmt(av.tAvg * 100, 1) + ' cm') + '</b></div><div class="gc">' + bd(C.fmt(av.tMin * 100, 1) + ' – ' + C.fmt(av.tMax * 100, 1) + ' cm') + '</div><div class="gc" style="color:' + (av.tAvg >= av.tDesign ? RP.up : RP.dn) + '"><b>' + bd(sg((av.tAvg - av.tDesign) * 100, 1) + ' cm') + '</b></div></div>' +
+          '<details open><summary class="rp-note">ضخامت در هر کیلومتراژ</summary>' + mtThkTable(av, 'mt-t', RP.up, RP.dn) + '</details>' : '') + '</div>';
       mOrd.forEach(function (mc) {
         const ze = rs.mach[mc.id];
-        h += '<div class="rp-box mt-mb"><div class="mt-mh">' + mcIcon(mc.icon, { w: 40 }) + '<div><b>' + mcNameH(mc) + '</b><span>' + (ze && ze.ok ? 'بار: <b>' + bd(mtLoadsTxt(ze)) + '</b> • فاصله‌ی بارها (حداقل/حداکثر/میانگین): ' + bd(C.fmt(ze.min, 1) + ' / ' + C.fmt(ze.max, 1) + ' / ' + C.fmt(ze.avg, 1) + ' m') : 'ظرفیت نامعتبر') + '</span></div></div>';
+        h += '<div class="rp-box mt-mb">' + (rs.basis === 'ops' ? '<div class="rp-note">مبنا: حجم عملیاتی (ضخامت واقعی از فایل نقاط) • فقط بازه‌ی دارای داده: ' + bd(stLabel(ze && ze.lo)) + ' تا ' + bd(stLabel(ze && ze.hi)) + (ze && ze.neg ? ' • ضخامت منفی صفر گرفته شد' : '') + '</div>' : '') + '<div class="mt-mh">' + mcIcon(mc.icon, { w: 40 }) + '<div><b>' + mcNameH(mc) + '</b><span>' + (ze && ze.ok ? 'بار: <b>' + bd(mtLoadsTxt(ze)) + '</b> • فاصله‌ی بارها (حداقل/حداکثر/میانگین): ' + bd(C.fmt(ze.min, 1) + ' / ' + C.fmt(ze.max, 1) + ' / ' + C.fmt(ze.avg, 1) + ' m') : 'ظرفیت نامعتبر') + '</span></div></div>';
         if (ze && ze.ok) h += mtStripSVG(rs.info, ze, 700) + mtZoneTable(ze, 'mt-t');
         h += '</div>';
       });
@@ -6338,7 +6431,16 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   async function rptSign(text, N, title) {
     const key = await SIGK.load(); if (!key) throw new Error('کلید امضا ساخته نشده است.');
     const docHash = C.sha256Text('RS-DOC-1\n' + title + '\n' + N + '\n' + text), iso = new Date().toISOString(), payload = 'RS-SIG-2|' + docHash + '|' + N + '|' + iso + '|' + String(key.name || '').replace(/\|/g, '/');
-    return { docHash: docHash, payload: payload, iso: iso, sig: await SIGK.sign(payload), key: key };
+    const sig = await SIGK.sign(payload);
+    try {
+      const st = activeStreet(); if (st) {
+        const pd = st.pdfs || (st.pdfs = []);
+        pd.push({ id: C.uid('pd'), date: iso, title: String(title || '').slice(0, 200), n: N, hash: docHash, payload: payload, sig: sig, keyId: key.keyId, name: key.name, spki: key.spki, lock: (st.locks || []).length });
+        if (pd.length > 60) pd.splice(0, pd.length - 60);
+        markDirty();
+      }
+    } catch (e) { /* ثبت PDF اختیاری است */ }
+    return { docHash: docHash, payload: payload, iso: iso, sig: sig, key: key };
   }
   const rptShort = function (s, N, k) {
     return '<div class="rpl-dsl"><span>امضای دیجیتال • شناسه‌ی گزارش <bdi dir="ltr">' + esc(C.controlCode(s.docHash)) + '</bdi> • کلید <bdi dir="ltr">' + esc(s.key.keyId) + '</bdi> (' + esc(s.key.name) + ')</span><span>صفحه <bdi dir="ltr">' + k + '</bdi> از <bdi dir="ltr">' + N + '</bdi></span></div>';
@@ -6488,7 +6590,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     const css = document.createElement('style'); css.textContent = rplMeasureCss(); document.head.appendChild(css);
     const oldCls = pa.className, oldStyle = pa.getAttribute('style'), oldHtml = pa.innerHTML;
     pa.className = 'pt rp rpl'; pa.setAttribute('style', 'display:block;position:absolute;left:-10000px;top:0;width:186mm;visibility:hidden');
-    const LIM = 268 / 25.4 * 96 - 8, U = sp.units || [];
+    const LIM = 256 / 25.4 * 96 - 8, U = sp.units || [];
     const body = function (k, units, last) { return (k === 0 ? sp.top : '') + (units.length ? sp.head + units.join('') + '</tbody></table>' : '') + (last ? sp.tail : ''); };
     const fits = function (k, units, last) {
       pa.innerHTML = '<div class="rpl-pg' + (last ? ' last' : '') + '" style="min-height:0">' + body(k, units, last) + '<div class="rpl-dec">' + (last ? decL : decN) + '</div>' + sp.foot(k, 99) + '</div>';
@@ -6594,7 +6696,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
 
   /* ---------- رسید متنی تحویل (با تیک موارد) ---------- */
   const RO_ITEMS = [['project', 'پروژه', 1], ['street', 'خیابان و شماره‌ی نسخه', 1], ['date', 'تاریخ و ساعت قفل', 1], ['counts', 'تعداد فایل‌ها و مجموع نقاط', 1], ['layers', 'لایه‌ها', 1], ['code', 'کد کنترل نسخه', 1],
-    ['prevCode', 'کد کنترل نسخه‌ی قبلی', 0], ['files', 'فهرست فایل‌ها (نام، لایه، نقاط، حجم)', 0], ['fileHash', 'SHA-256 هر فایل', 0], ['hash', 'اثرانگشت SHA-256 نسخه', 1], ['guide', 'راهنمای بررسی', 0], ['sign', 'امضای دیجیتال', 0]];
+    ['prevCode', 'کد کنترل نسخه‌ی قبلی', 0], ['files', 'فهرست فایل‌ها (نام، لایه، نقاط، حجم)', 0], ['fileHash', 'SHA-256 هر فایل', 0], ['hash', 'اثرانگشت SHA-256 نسخه', 1], ['doc', 'مشخصات PDF گزارش (عنوان، صفحه، زمان، اثرانگشت)', 1], ['guide', 'راهنمای بررسی', 0], ['sign', 'امضای دیجیتال همان PDF', 0]];
   function lkRO() {
     if (!S.lk.ro) {
       const o = {}; RO_ITEMS.forEach(function (x) { o[x[0]] = !!x[2]; });
@@ -6606,7 +6708,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     return o;
   }
   const lkLayerOf = function (f) { return f.layer || 'نامشخص'; };
-  function lkRcptText(r, o) {
+  function lkRcptText(r, o, pdf) {
     const tot = r.files.reduce(function (a, f) { return a + f.n; }, 0), L = ['رسید تحویل نقاط برداشت — RoadStake', ''];
     if (o.project) L.push('پروژه: ' + r.project);
     const ln = [];
@@ -6628,19 +6730,23 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       });
     }
     if (o.hash || o.sign) L.push('', 'اثرانگشت دیجیتال (SHA-256) نسخه:', r.hash);
+    if (o.doc && pdf) L.push('', 'سند: ' + (pdf.title || 'گزارش') + ' • ' + pdf.n + ' صفحه • ' + lkDate(pdf.date), 'اثرانگشت گزارش (SHA-256): ' + pdf.hash, 'کد کنترل گزارش: ' + C.controlCode(pdf.hash));
     if (o.guide) L.push('', 'راهنما: فایل دریافتی را در برنامه، بخش «بررسی اصالت فایل» بارگذاری کنید.', 'اگر SHA-256 فایل با یکی از موارد بالا یکی باشد، فایل همان است که تحویل شده است.');
     return L.join('\n').replace(/\n{3,}/g, '\n\n').replace(/\n+$/, '');
   }
-  async function lkRcptSigned(r, o) {
-    const key = await SIGK.load(); if (!key) throw new Error('کلید امضا ساخته نشده است؛ در تب «پروژه‌ها» کلید بسازید.');
-    const iso = new Date().toISOString(), payload = 'RS-RCPT-1|' + r.hash + '|' + r.no + '|' + iso + '|' + String(key.name || '').replace(/\|/g, '/'), sig = await SIGK.sign(payload);
-    return lkRcptText(r, o) + '\n\n— امضای دیجیتال —\nصاحب کلید: ' + key.name + ' • شناسه‌ی کلید: ' + key.keyId + '\nمتن امضاشده:\n' + payload + '\nامضا (Base64):\n' + sig + '\nکلید عمومی (Base64):\n' + key.spki;
+  /** امضای همان PDF عیناً (بدون امضای تازه) */
+  function lkPdfSigText(pdf) {
+    return '\n\n— امضای دیجیتال همان PDF —\nصاحب کلید: ' + pdf.name + ' • شناسه‌ی کلید: ' + pdf.keyId + '\nمتن امضاشده:\n' + pdf.payload + '\nامضا (Base64):\n' + pdf.sig + '\nکلید عمومی (Base64):\n' + pdf.spki;
+  }
+  function lkPdfOf(r, i) {
+    const list = (activeStreet().pdfs || []), pick = (S.lk.pdf || {})[i];
+    return list.find(function (x) { return x.id === pick; }) || list.slice().reverse().find(function (x) { return x.lock === r.no; }) || list[list.length - 1] || null;
   }
   const lkWhat = function (o) { return RO_ITEMS.filter(function (x) { return o[x[0]]; }).map(function (x) { return x[1]; }).join('، '); };
   function lkRcptUI(r, i) {
     const o = lkRO(), rin = (S.lk.rin || {})[i] || {}, sg = (P().signers || []).filter(function (x) { return x.title || x.name; });
     if (S.ky.info === undefined) setTimeout(keyRefresh, 0);
-    const hasKey = !!S.ky.info;
+    const pdfs = (activeStreet().pdfs || []), pdf = lkPdfOf(r, i), hasKey = pdfs.length > 0;
     let h = '';
     if (r.receipts && r.receipts.length) {
       h += '<div class="small" style="margin-top:8px"><b>رسیدهای ارسال</b></div><div class="tbl-wrap"><table><thead><tr><th>تاریخ</th><th>گیرنده</th><th>تأیید گیرنده</th></tr></thead><tbody>' + r.receipts.map(function (x, j) {
@@ -6650,11 +6756,12 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     h += '<div class="small" style="margin-top:8px"><b>رسید متنی تحویل نقاط برداشت</b> — موارد داخل رسید:</div><div class="rc-opts">' +
       RO_ITEMS.map(function (x) {
         const dis = x[0] === 'sign' && !hasKey;
-        return '<label class="chk"><input type="checkbox" data-lkro="' + x[0] + '" data-i="' + i + '"' + (o[x[0]] && !dis ? ' checked' : '') + (dis ? ' disabled' : '') + '> ' + esc(x[1]) + (dis ? ' <span class="muted small">(ابتدا در تب «پروژه‌ها» کلید بسازید)</span>' : '') + '</label>';
+        return '<label class="chk"><input type="checkbox" data-lkro="' + x[0] + '" data-i="' + i + '"' + (o[x[0]] && !dis ? ' checked' : '') + (dis ? ' disabled' : '') + '> ' + esc(x[1]) + (dis ? ' <span class="muted small">(ابتدا یک گزارش PDF امضادار بگیرید)</span>' : '') + '</label>';
       }).join('') + '</div>' +
+      (pdfs.length ? field('PDF مربوط به رسید', '<select class="inp" data-lkpdf="' + i + '">' + pdfs.slice().reverse().map(function (x) { return '<option value="' + esc(x.id) + '"' + (pdf && x.id === pdf.id ? ' selected' : '') + '>' + esc((x.title || 'گزارش') + ' • ' + x.n + ' صفحه • ' + lkDate(x.date) + ' • ' + C.controlCode(x.hash)) + '</option>'; }).join('') + '</select>') : '<div class="msg info small">هنوز PDF امضادار ثبت نشده است؛ بعد از گرفتن گزارش PDF با امضای دیجیتال، مشخصات و امضای همان در رسید قرار می‌گیرد.</div>') +
       '<div class="grid2">' + field('گیرنده', '<input class="inp" id="lkTo_' + i + '" list="lkWho" autocomplete="off" placeholder="مثلاً ناظر / کارفرما" value="' + esc(rin.to || '') + '">') + field('توضیح (اختیاری)', '<input class="inp" id="lkRn_' + i + '" autocomplete="off" placeholder="مثلاً ارسال با پیام‌رسان" value="' + esc(rin.note || '') + '">') + '</div>' +
       '<datalist id="lkWho">' + sg.map(function (x) { return '<option value="' + esc((x.title ? x.title + ' ' : '') + x.name) + '">'; }).join('') + '</datalist>' +
-      '<textarea class="inp" rows="8" readonly dir="auto" style="margin-top:4px;font-size:12px">' + esc(lkRcptText(r, o) + (o.sign && hasKey ? '\n\n— امضای دیجیتال هنگام ارسال افزوده می‌شود —' : '')) + '</textarea>' +
+      '<textarea class="inp" rows="8" readonly dir="auto" style="margin-top:4px;font-size:12px">' + esc(lkRcptText(r, o, pdf) + (o.sign && pdf ? lkPdfSigText(pdf) : '')) + '</textarea>' +
       '<div class="row" style="margin-top:6px"><button class="btn primary grow" data-act="lkRShare" data-i="' + i + '">اشتراک‌گذاری رسید</button><button class="btn grow" data-act="lkRCopy" data-i="' + i + '">کپی رسید</button></div>' +
       '<div class="row" style="margin-top:6px"><button class="btn grow" data-act="lkRcpt" data-i="' + i + '">فقط ثبت ارسال (بدون متن)</button></div>';
     return h;
@@ -6670,13 +6777,14 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     const to = g('lkTo_' + i), note = g('lkRn_' + i), o = Object.assign({}, lkRO());
     if (!to) { toast('گیرنده را بنویسید.', 'err'); return; }
     if (!Object.keys(o).some(function (k) { return o[k]; })) { toast('دست‌کم یک مورد را تیک بزنید.', 'err'); return; }
-    let text;
-    try { text = o.sign ? await lkRcptSigned(r, Object.assign(o, { hash: true })) : lkRcptText(r, o); } catch (e) { toast(e.message || 'ساخت رسید انجام نشد.', 'err'); return; }
+    const pdf = lkPdfOf(r, i);
+    if (o.sign && !pdf) { toast('برای امضا، ابتدا یک گزارش PDF امضادار بگیرید.', 'err'); return; }
+    const text = lkRcptText(r, o, pdf) + (o.sign && pdf ? lkPdfSigText(pdf) : '');
     let done = false;
     if (how === 'share' && navigator.share) { try { await navigator.share({ title: 'رسید تحویل نقاط برداشت', text: text }); done = true; } catch (e) { if (e && e.name === 'AbortError') return; } }
     if (!done) done = await lkCopyText(text);
     if (!done) { await ask('متن رسید را کپی کنید:<br><textarea class="inp" rows="9" readonly dir="auto" style="width:100%;font-size:12px">' + esc(text) + '</textarea>', { ok: 'بستن', noCancel: true }); }
-    (r.receipts || (r.receipts = [])).push({ date: new Date().toISOString(), to: to, note: note, what: lkWhat(o).slice(0, 200), ack: '' });
+    (r.receipts || (r.receipts = [])).push({ date: new Date().toISOString(), to: to, note: note, what: (lkWhat(o) + (pdf && (o.doc || o.sign) ? ' • PDF: ' + C.controlCode(pdf.hash) : '')).slice(0, 200), ack: '' });
     S.lk.rin = S.lk.rin || {}; S.lk.rin[i] = {};
     markDirty(); render(); toast(how === 'share' && navigator.share ? 'رسید ارسال و ثبت شد.' : 'رسید کپی و ثبت شد.');
   }
@@ -6837,6 +6945,11 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     if (el.id === 'sfLayerMan') { const d0 = sfData(); if (d0.file) { d0.file.layerMan = el.value; markDirty(); render(); } return; }
     if (el.id === 'sfSort') { S.sf.sort = el.value; S.sf.page = 0; render(); return; }
     if (el.id === 'sfCols') { S.sf.cols = el.checked; render(); return; }
+    if (el.dataset.lkpdf !== undefined) {
+      const i = el.dataset.lkpdf, g = function (id) { const e2 = $('#' + id); return e2 ? e2.value.trim() : ''; };
+      (S.lk.rin || (S.lk.rin = {}))[i] = { to: g('lkTo_' + i), note: g('lkRn_' + i) };
+      (S.lk.pdf || (S.lk.pdf = {}))[i] = el.value; render(); return;
+    }
     if (el.dataset.lkro !== undefined) {
       const i = el.dataset.i, g = function (id) { const e2 = $('#' + id); return e2 ? e2.value.trim() : ''; }, o = lkRO(), k = el.dataset.lkro;
       (S.lk.rin || (S.lk.rin = {}))[i] = { to: g('lkTo_' + i), note: g('lkRn_' + i) };
@@ -6878,6 +6991,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       markDirty(); render(); return;
     }
     if (el.id === 'mtMat') { S.mt.mat = el.value; S.mt.page = 0; render(); return; }
+    if (el.id === 'mtBasis') { S.mt.basis = el.value; S.mt.page = 0; render(); return; }
     if (el.id === 'mtMach') { S.mt.mach = el.value; S.mt.page = 0; render(); return; }
     if (el.dataset.tx) {
       const k = el.dataset.tx;
