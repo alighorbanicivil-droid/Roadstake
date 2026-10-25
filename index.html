@@ -1678,8 +1678,9 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   /** متن استانداردِ یک نسخه‌ی قفل؛ SHA-256 همین متن، اثرانگشت نسخه است. فایل‌ها به ترتیب نام و SHA-256 مرتب می‌شوند. */
   function lockCanon(rec) {
     const fl = (rec.files || []).slice().sort(function (a, b) { return a.sha256 < b.sha256 ? -1 : a.sha256 > b.sha256 ? 1 : (a.name < b.name ? -1 : a.name > b.name ? 1 : 0); });
-    return 'RS-LOCK-1\nproject:' + rec.project + '\nstreet:' + rec.street + '\nversion:' + rec.no + '\ndate:' + rec.date + '\nprev:' + (rec.prev || '-') + '\n' +
-      fl.map(function (f) { return 'file:' + f.sha256 + '|' + f.size + '|' + f.n + '|' + f.name; }).join('\n') + '\n';
+    const v2 = rec.v === 2;   // نسخه‌ی ۲: لایه‌ی هر فایل هم در اثرانگشت می‌آید
+    return (v2 ? 'RS-LOCK-2' : 'RS-LOCK-1') + '\nproject:' + rec.project + '\nstreet:' + rec.street + '\nversion:' + rec.no + '\ndate:' + rec.date + '\nprev:' + (rec.prev || '-') + '\n' +
+      fl.map(function (f) { return 'file:' + f.sha256 + '|' + f.size + '|' + f.n + '|' + (v2 ? String(f.layer || '').replace(/\|/g, '/') + '|' : '') + f.name; }).join('\n') + '\n';
   }
   function lockHash(rec) { return sha256Text(lockCanon(rec)); }
   /** بررسی زنجیره: هر نسخه باید اثرانگشتش درست و به نسخه‌ی قبلی وصل باشد */
@@ -2873,9 +2874,9 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
         if (Array.isArray(s.locks)) {
           const hx = function (v) { return /^[0-9a-f]{64}$/.test(str(v)) ? str(v) : ''; };
           o.locks = s.locks.filter(function (r) { return r && Array.isArray(r.files); }).map(function (r) {
-            return { id: String(r.id || C.uid('lk')), no: Math.max(1, Math.round(num(r.no) || 1)), date: str(r.date), project: str(r.project), street: str(r.street), prev: hx(r.prev), hash: hx(r.hash), by: str(r.by), note: str(r.note),
+            return { id: String(r.id || C.uid('lk')), v: num(r.v) === 2 ? 2 : 1, no: Math.max(1, Math.round(num(r.no) || 1)), date: str(r.date), project: str(r.project), street: str(r.street), prev: hx(r.prev), hash: hx(r.hash), by: str(r.by), note: str(r.note),
               files: r.files.filter(function (f) { return f && typeof f === 'object'; }).map(function (f) { return { id: str(f.id), name: str(f.name), size: num(f.size) > 0 ? Math.round(num(f.size)) : 0, sha256: hx(f.sha256), csha256: hx(f.csha256), n: Math.max(0, Math.round(num(f.n) || 0)), layer: str(f.layer) }; }),
-              receipts: Array.isArray(r.receipts) ? r.receipts.slice(0, 50).map(function (x) { return { date: str(x && x.date), to: str(x && x.to), note: str(x && x.note) }; }) : [] };
+              receipts: Array.isArray(r.receipts) ? r.receipts.slice(0, 50).map(function (x) { return { date: str(x && x.date), to: str(x && x.to), note: str(x && x.note), what: str(x && x.what).slice(0, 200), ack: str(x && x.ack) }; }) : [] };
           });
         }
         if (s.staked && typeof s.staked === 'object' && !Array.isArray(s.staked)) {
@@ -3034,7 +3035,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   const PAGE_SIZE = 50;       // ردیف در هر صفحه‌ی جدول نقاط
   const TABLE_STATIONS = 30;  // مقطع در هر صفحه‌ی جدول سه‌نقطه‌ای
 
-  const APP_VERSION = '1.21.1';
+  const APP_VERSION = '1.22.0';
   const S = {
     project: null, dirty: false, rev: 0, calc: null, calcRev: -1,
     page: 'projects', imp: null, ptPage: 0, tPage: 0, stakeIdx: 0, rawBad: {},
@@ -6336,7 +6337,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   const rptTextOf = function (pages) { return Array.prototype.map.call(pages, function (pg) { return pg.textContent.replace(/\s+/g, ' ').trim(); }).join('\n'); };
   async function rptSign(text, N, title) {
     const key = await SIGK.load(); if (!key) throw new Error('کلید امضا ساخته نشده است.');
-    const docHash = C.sha256Text('RS-DOC-1\n' + title + '\n' + N + '\n' + text), iso = new Date().toISOString(), payload = 'RS-SIG-1|' + docHash + '|' + N + '|' + iso;
+    const docHash = C.sha256Text('RS-DOC-1\n' + title + '\n' + N + '\n' + text), iso = new Date().toISOString(), payload = 'RS-SIG-2|' + docHash + '|' + N + '|' + iso + '|' + String(key.name || '').replace(/\|/g, '/');
     return { docHash: docHash, payload: payload, iso: iso, sig: await SIGK.sign(payload), key: key };
   }
   const rptShort = function (s, N, k) {
@@ -6434,12 +6435,12 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
   function sgvCard() {
     const v = S.lk.sgv, I = S.lk.sgvIn || {};
     let h = '<h3 style="margin:12px 0 4px">بررسی امضای گزارش</h3><p class="muted small">سه مورد را از صفحه‌ی آخر گزارش (نسخه‌ی کارفرما) کپی کنید: «متن امضاشده»، «امضا» و «کلید عمومی». اگر کلید عمومی را خالی بگذارید، کلید همین دستگاه به کار می‌رود. این بررسی نشان می‌دهد امضا واقعاً با این کلید روی همین متن زده شده است.</p>' +
-      '<textarea class="inp ltr" id="sgvPayload" rows="2" dir="ltr" placeholder="RS-SIG-1|…">' + esc(I.payload || '') + '</textarea>' +
+      '<textarea class="inp ltr" id="sgvPayload" rows="2" dir="ltr" placeholder="RS-SIG-2|… یا RS-RCPT-1|…">' + esc(I.payload || '') + '</textarea>' +
       '<textarea class="inp ltr" id="sgvSig" rows="2" dir="ltr" placeholder="امضا (Base64)" style="margin-top:4px">' + esc(I.sig || '') + '</textarea>' +
       '<textarea class="inp ltr" id="sgvKey" rows="2" dir="ltr" placeholder="کلید عمومی (Base64)" style="margin-top:4px">' + esc(I.key || '') + '</textarea>' +
       '<div class="row" style="margin-top:6px"><button class="btn grow" data-act="sgVerify">بررسی امضا</button></div>';
     if (v) h += '<div class="msg ' + (v.ok ? 'info' : 'err') + ' small" style="margin-top:6px">' + (v.ok ?
-      '<b style="color:#1b7a3d">امضا معتبر ✓</b> — کلید <span dir="ltr">' + esc(v.keyId) + '</span>' + (v.local ? ' (کلید همین دستگاه: ' + esc(v.local) + ')' : '') + (v.parsed ? ' • ' + esc(v.n) + ' صفحه • امضا شده در ' + esc(lkDate(v.date)) + '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256) — کل گزارش</span><code>' + esc(v.hash) + '</code></div>' : '') :
+      '<b style="color:#1b7a3d">امضا معتبر ✓</b> — کلید <span dir="ltr">' + esc(v.keyId) + '</span>' + (v.local ? ' (کلید همین دستگاه: ' + esc(v.local) + ')' : '') + (v.name ? ' • صاحب کلید (داخل متن امضاشده): <b>' + esc(v.name) + '</b>' : (v.kind === 'RS-SIG-1' ? ' • (قالب قدیمی؛ اسم داخل متن امضاشده نیست)' : '')) + (v.parsed ? ' • ' + (v.kind === 'RS-RCPT-1' ? 'رسید تحویل نسخه‌ی ' + esc(v.n) : esc(v.n) + ' صفحه') + ' • امضا شده در ' + esc(lkDate(v.date)) + '<div class="hashbox"><span>اثرانگشت دیجیتال (SHA-256) — ' + (v.kind === 'RS-RCPT-1' ? 'نسخه' : 'کل گزارش') + '</span><code>' + esc(v.hash) + '</code></div>' : '') :
       '<b style="color:#c62828">امضا نامعتبر ✗</b> — متن، امضا یا کلید با هم نمی‌خوانند، یا متن امضاشده دست‌کاری شده است.') + '</div>';
     return h;
   }
@@ -6451,9 +6452,9 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     if (!key && loc) key = loc.spki;
     if (!payload || !sig || !key) { toast('متن امضاشده، امضا و کلید عمومی (یا کلید همین دستگاه) لازم است.', 'err'); return; }
     let ok = false; try { ok = await SIGK.verify(key, sig, payload); } catch (e) { ok = false; }
-    const m = /^RS-SIG-1\|([0-9a-f]{64})\|(\d+)\|(.+)$/.exec(payload);
+    const m = /^(RS-SIG-1|RS-SIG-2|RS-RCPT-1)\|([0-9a-f]{64})\|(\d+)\|([^|]+)(?:\|(.*))?$/.exec(payload);
     let kid = ''; try { kid = SIGK.keyIdOf(key); } catch (e) { /* ignore */ }
-    S.lk.sgv = { ok: ok, keyId: kid, local: loc && loc.spki === key ? loc.name : '', parsed: !!m, hash: m ? m[1] : '', n: m ? m[2] : '', date: m ? m[3] : '' };
+    S.lk.sgv = { ok: ok, keyId: kid, local: loc && loc.spki === key ? loc.name : '', parsed: !!m, kind: m ? m[1] : '', hash: m ? m[2] : '', n: m ? m[3] : '', date: m ? m[4] : '', name: m && m[5] ? m[5] : '' };
     render();
   }
 
@@ -6481,7 +6482,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     try { await document.fonts.ready; } catch (e) { /* ignore */ }
     const o = S.rpoCur || {}, pa = $('#printArea'), key = S.ky && S.ky.info;
     const dummy = { iso: new Date().toISOString(), docHash: new Array(65).join('0'), sig: new Array(89).join('A'), key: { name: key ? key.name : 'نام صاحب کلید', keyId: 'XXXXX-XXXXX', spki: key ? key.spki : new Array(125).join('A') } };
-    dummy.payload = 'RS-SIG-1|' + dummy.docHash + '|99|' + dummy.iso;
+    dummy.payload = 'RS-SIG-2|' + dummy.docHash + '|99|' + dummy.iso + '|' + dummy.key.name;
     const boxes = o.boxes ? sigCompact() : '';
     const decN = (o.client ? rptShort(dummy, 99, 99) : '') + boxes, decL = (o.client ? rptFull(dummy, 99) : '') + decN;
     const css = document.createElement('style'); css.textContent = rplMeasureCss(); document.head.appendChild(css);
@@ -6543,9 +6544,8 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       h += '<div class="tbl-wrap"><table><thead><tr><th>فایل</th><th>لایه</th><th>نقاط</th><th>کد کنترل</th></tr></thead><tbody>' + r.files.map(function (f) { return '<tr><td>' + esc(f.name) + '</td><td>' + esc(f.layer || '') + '</td><td class="n">' + f.n + '</td><td class="n" dir="ltr">' + esc(C.controlCode(f.sha256)) + '</td></tr>'; }).join('') + '</tbody></table></div>';
       if (r.by || r.note) h += '<p class="small muted">' + (r.by ? 'تنظیم‌کننده: ' + esc(r.by) + ' ' : '') + (r.note ? '• ' + esc(r.note) : '') + '</p>';
       h += '<div class="row" style="margin-top:6px"><button class="btn primary grow" data-act="lkPdf" data-i="' + i + '">صورت‌جلسه (PDF)</button><button class="btn grow" data-act="lkZip" data-i="' + i + '">پرونده‌ی ZIP</button></div>';
-      if (r.receipts && r.receipts.length) h += '<div class="small" style="margin-top:6px"><b>رسیدهای ارسال</b><br>' + r.receipts.map(function (x) { return esc(lkDate(x.date)) + ' • ' + esc(x.to) + (x.note ? ' • ' + esc(x.note) : ''); }).join('<br>') + '</div>';
-      h += '<div class="grid2" style="margin-top:6px">' + field('رسید ارسال: گیرنده', '<input class="inp" id="lkTo_' + i + '" autocomplete="off" placeholder="مثلاً مشاور / کارفرما">') + field('توضیح (روش ارسال)', '<input class="inp" id="lkRn_' + i + '" autocomplete="off" placeholder="مثلاً ایمیل، پیام‌رسان">') + '</div>' +
-        '<div class="row" style="margin-top:6px"><button class="btn grow" data-act="lkRcpt" data-i="' + i + '">ثبت رسید ارسال</button></div></details>';
+      h += lkRcptUI(r, i);
+      h += '</details>';
     });
     // بررسی اصالت
     h += '<h3 style="margin:12px 0 4px">بررسی اصالت فایل</h3><p class="muted small">هر فایلی را انتخاب کنید؛ اگر بایت‌به‌بایت با یکی از فایل‌های قفل‌شده‌ی این پروژه یکی باشد، نسخه و تاریخ قفلش را نشان می‌دهد.</p>' +
@@ -6584,18 +6584,108 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     if (!(await ask('این ' + fresh.length + ' فایل قفل نهایی شود؟<br>' + fresh.map(function (f) { return esc(f.name); }).join('<br>') + '<br><br>پس از قفل، این فایل‌ها حذف نمی‌شوند و هر تغییرِ بعدی در نسخه‌ی تازه ثبت می‌شود.', { ok: 'قفل نهایی' }))) return;
     const g = function (id) { const el = $('#' + id); return el ? el.value.trim() : ''; };
     const last = st.locks[st.locks.length - 1];
-    const rec = { id: C.uid('lk'), no: st.locks.length + 1, date: new Date().toISOString(), project: d.p.name, street: st.name, prev: last ? last.hash : '', by: g('lkBy'), note: g('lkNote'), receipts: [],
+    const rec = { id: C.uid('lk'), v: 2, no: st.locks.length + 1, date: new Date().toISOString(), project: d.p.name, street: st.name, prev: last ? last.hash : '', by: g('lkBy'), note: g('lkNote'), receipts: [],
       files: fresh.map(function (f) { return { id: f.id, name: f.name, size: f.size || 0, sha256: f.sha256, csha256: f.csha256 || '', n: f.pts.length, layer: sfLayerInfo(d, f).name }; }) };
     rec.hash = C.lockHash(rec);
     st.locks.push(rec); markDirty(); render();
     toast('نسخه‌ی ' + rec.no + ' قفل شد؛ کد کنترل ' + C.controlCode(rec.hash) + '.');
   }
 
+
+  /* ---------- رسید متنی تحویل (با تیک موارد) ---------- */
+  const RO_ITEMS = [['project', 'پروژه', 1], ['street', 'خیابان و شماره‌ی نسخه', 1], ['date', 'تاریخ و ساعت قفل', 1], ['counts', 'تعداد فایل‌ها و مجموع نقاط', 1], ['layers', 'لایه‌ها', 1], ['code', 'کد کنترل نسخه', 1],
+    ['prevCode', 'کد کنترل نسخه‌ی قبلی', 0], ['files', 'فهرست فایل‌ها (نام، لایه، نقاط، حجم)', 0], ['fileHash', 'SHA-256 هر فایل', 0], ['hash', 'اثرانگشت SHA-256 نسخه', 1], ['guide', 'راهنمای بررسی', 0], ['sign', 'امضای دیجیتال', 0]];
+  function lkRO() {
+    if (!S.lk.ro) {
+      const o = {}; RO_ITEMS.forEach(function (x) { o[x[0]] = !!x[2]; });
+      try { const sv = JSON.parse(localStorage.getItem('roadstake:rcptOpts') || 'null'); if (sv && typeof sv === 'object') RO_ITEMS.forEach(function (x) { if (typeof sv[x[0]] === 'boolean') o[x[0]] = sv[x[0]]; }); } catch (e) { /* ignore */ }
+      S.lk.ro = o;
+    }
+    const o = S.lk.ro;
+    if (o.fileHash) o.files = true;
+    return o;
+  }
+  const lkLayerOf = function (f) { return f.layer || 'نامشخص'; };
+  function lkRcptText(r, o) {
+    const tot = r.files.reduce(function (a, f) { return a + f.n; }, 0), L = ['رسید تحویل نقاط برداشت — RoadStake', ''];
+    if (o.project) L.push('پروژه: ' + r.project);
+    const ln = [];
+    if (o.street) ln.push('خیابان: ' + r.street + ' • نسخه ' + r.no);
+    if (o.counts) ln.push(r.files.length + ' فایل • ' + tot + ' نقطه');
+    if (ln.length) L.push(ln.join(' • '));
+    if (o.layers && !o.files) {
+      const by = {}, ord = []; r.files.forEach(function (f) { const k = lkLayerOf(f); if (!(k in by)) { by[k] = 0; ord.push(k); } by[k] += f.n; });
+      if (ord.length === 1) L.push('لایه: ' + ord[0]); else { L.push('لایه‌ها:'); ord.forEach(function (k) { L.push('  ' + k + ': ' + by[k] + ' نقطه'); }); }
+    }
+    if (o.date) L.push('تاریخ قفل: ' + lkDate(r.date));
+    if (o.code) L.push('کد کنترل: ' + C.controlCode(r.hash));
+    if (o.prevCode) L.push('نسخه‌ی قبلی: ' + (r.prev ? C.controlCode(r.prev) : 'ندارد (نسخه‌ی نخست)'));
+    if (o.files) {
+      L.push('', 'فایل‌ها (' + r.files.length + '):');
+      r.files.forEach(function (f, k) {
+        L.push((k + 1) + ') ' + f.name + (o.layers ? ' • لایه‌ی ' + lkLayerOf(f) : '') + ' • ' + f.n + ' نقطه' + (f.size ? ' • ' + sfSize(f.size) : ''));
+        if (o.fileHash) L.push('   SHA-256: ' + f.sha256);
+      });
+    }
+    if (o.hash || o.sign) L.push('', 'اثرانگشت دیجیتال (SHA-256) نسخه:', r.hash);
+    if (o.guide) L.push('', 'راهنما: فایل دریافتی را در برنامه، بخش «بررسی اصالت فایل» بارگذاری کنید.', 'اگر SHA-256 فایل با یکی از موارد بالا یکی باشد، فایل همان است که تحویل شده است.');
+    return L.join('\n').replace(/\n{3,}/g, '\n\n').replace(/\n+$/, '');
+  }
+  async function lkRcptSigned(r, o) {
+    const key = await SIGK.load(); if (!key) throw new Error('کلید امضا ساخته نشده است؛ در تب «پروژه‌ها» کلید بسازید.');
+    const iso = new Date().toISOString(), payload = 'RS-RCPT-1|' + r.hash + '|' + r.no + '|' + iso + '|' + String(key.name || '').replace(/\|/g, '/'), sig = await SIGK.sign(payload);
+    return lkRcptText(r, o) + '\n\n— امضای دیجیتال —\nصاحب کلید: ' + key.name + ' • شناسه‌ی کلید: ' + key.keyId + '\nمتن امضاشده:\n' + payload + '\nامضا (Base64):\n' + sig + '\nکلید عمومی (Base64):\n' + key.spki;
+  }
+  const lkWhat = function (o) { return RO_ITEMS.filter(function (x) { return o[x[0]]; }).map(function (x) { return x[1]; }).join('، '); };
+  function lkRcptUI(r, i) {
+    const o = lkRO(), rin = (S.lk.rin || {})[i] || {}, sg = (P().signers || []).filter(function (x) { return x.title || x.name; });
+    if (S.ky.info === undefined) setTimeout(keyRefresh, 0);
+    const hasKey = !!S.ky.info;
+    let h = '';
+    if (r.receipts && r.receipts.length) {
+      h += '<div class="small" style="margin-top:8px"><b>رسیدهای ارسال</b></div><div class="tbl-wrap"><table><thead><tr><th>تاریخ</th><th>گیرنده</th><th>تأیید گیرنده</th></tr></thead><tbody>' + r.receipts.map(function (x, j) {
+        return '<tr><td class="n">' + esc(lkDate(x.date)) + '</td><td>' + esc(x.to) + (x.note ? '<div class="muted small">' + esc(x.note) + '</div>' : '') + (x.what ? '<div class="muted small">موارد: ' + esc(x.what) + '</div>' : '') + '</td><td>' + (x.ack ? '<span style="color:#1b7a3d">✓ ' + esc(lkDate(x.ack)) + '</span>' : '<button class="btn sm" data-act="lkAck" data-i="' + i + '" data-j="' + j + '">تأیید شد</button>') + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
+    }
+    h += '<div class="small" style="margin-top:8px"><b>رسید متنی تحویل نقاط برداشت</b> — موارد داخل رسید:</div><div class="rc-opts">' +
+      RO_ITEMS.map(function (x) {
+        const dis = x[0] === 'sign' && !hasKey;
+        return '<label class="chk"><input type="checkbox" data-lkro="' + x[0] + '" data-i="' + i + '"' + (o[x[0]] && !dis ? ' checked' : '') + (dis ? ' disabled' : '') + '> ' + esc(x[1]) + (dis ? ' <span class="muted small">(ابتدا در تب «پروژه‌ها» کلید بسازید)</span>' : '') + '</label>';
+      }).join('') + '</div>' +
+      '<div class="grid2">' + field('گیرنده', '<input class="inp" id="lkTo_' + i + '" list="lkWho" autocomplete="off" placeholder="مثلاً ناظر / کارفرما" value="' + esc(rin.to || '') + '">') + field('توضیح (اختیاری)', '<input class="inp" id="lkRn_' + i + '" autocomplete="off" placeholder="مثلاً ارسال با پیام‌رسان" value="' + esc(rin.note || '') + '">') + '</div>' +
+      '<datalist id="lkWho">' + sg.map(function (x) { return '<option value="' + esc((x.title ? x.title + ' ' : '') + x.name) + '">'; }).join('') + '</datalist>' +
+      '<textarea class="inp" rows="8" readonly dir="auto" style="margin-top:4px;font-size:12px">' + esc(lkRcptText(r, o) + (o.sign && hasKey ? '\n\n— امضای دیجیتال هنگام ارسال افزوده می‌شود —' : '')) + '</textarea>' +
+      '<div class="row" style="margin-top:6px"><button class="btn primary grow" data-act="lkRShare" data-i="' + i + '">اشتراک‌گذاری رسید</button><button class="btn grow" data-act="lkRCopy" data-i="' + i + '">کپی رسید</button></div>' +
+      '<div class="row" style="margin-top:6px"><button class="btn grow" data-act="lkRcpt" data-i="' + i + '">فقط ثبت ارسال (بدون متن)</button></div>';
+    return h;
+  }
+  async function lkCopyText(text) {
+    try { await navigator.clipboard.writeText(text); return true; } catch (e) { /* fallback */ }
+    try { const ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return !!ok; } catch (e) { return false; }
+  }
+  /** ارسال یا کپی رسید و ثبت آن در «رسیدهای ارسال» */
+  async function lkRcptSend(i, how) {
+    const r = activeStreet().locks[i]; if (!r) return;
+    const g = function (id) { const el = $('#' + id); return el ? el.value.trim() : ''; };
+    const to = g('lkTo_' + i), note = g('lkRn_' + i), o = Object.assign({}, lkRO());
+    if (!to) { toast('گیرنده را بنویسید.', 'err'); return; }
+    if (!Object.keys(o).some(function (k) { return o[k]; })) { toast('دست‌کم یک مورد را تیک بزنید.', 'err'); return; }
+    let text;
+    try { text = o.sign ? await lkRcptSigned(r, Object.assign(o, { hash: true })) : lkRcptText(r, o); } catch (e) { toast(e.message || 'ساخت رسید انجام نشد.', 'err'); return; }
+    let done = false;
+    if (how === 'share' && navigator.share) { try { await navigator.share({ title: 'رسید تحویل نقاط برداشت', text: text }); done = true; } catch (e) { if (e && e.name === 'AbortError') return; } }
+    if (!done) done = await lkCopyText(text);
+    if (!done) { await ask('متن رسید را کپی کنید:<br><textarea class="inp" rows="9" readonly dir="auto" style="width:100%;font-size:12px">' + esc(text) + '</textarea>', { ok: 'بستن', noCancel: true }); }
+    (r.receipts || (r.receipts = [])).push({ date: new Date().toISOString(), to: to, note: note, what: lkWhat(o).slice(0, 200), ack: '' });
+    S.lk.rin = S.lk.rin || {}; S.lk.rin[i] = {};
+    markDirty(); render(); toast(how === 'share' && navigator.share ? 'رسید ارسال و ثبت شد.' : 'رسید کپی و ثبت شد.');
+  }
+
   function lkRcpt(i) {
     const st = activeStreet(), r = st.locks[i]; if (!r) return;
     const g = function (id) { const el = $('#' + id); return el ? el.value.trim() : ''; };
     const to = g('lkTo_' + i); if (!to) { toast('گیرنده را بنویسید.', 'err'); return; }
-    (r.receipts || (r.receipts = [])).push({ date: new Date().toISOString(), to: to, note: g('lkRn_' + i) });
+    (r.receipts || (r.receipts = [])).push({ date: new Date().toISOString(), to: to, note: g('lkRn_' + i), what: '', ack: '' });
     markDirty(); render(); toast('رسید ارسال ثبت شد.');
   }
 
@@ -6614,7 +6704,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       return '<tr class="' + (k % 2 ? 'alt' : '') + '"><td dir="ltr">' + (k + 1) + '</td><td>' + rplL(f.name) + '</td><td>' + esc(f.layer || '') + '</td><td dir="ltr">' + f.n + '</td><td dir="ltr">' + (f.size ? esc(sfSize(f.size)) : '—') + '</td><td dir="ltr">' + esc(C.controlCode(f.sha256)) + '</td><td style="' + lkHexStyle + '">' + esc(f.sha256) + '</td></tr>';
     });
     const rc = r.receipts || [];
-    const tail = (rc.length ? '<div class="rpl-note"><b>رسیدهای ارسال</b><br>' + rc.map(function (x) { return esc(lkDate(x.date)) + ' • ' + esc(x.to) + (x.note ? ' • ' + esc(x.note) : ''); }).join('<br>') + '</div>' : '') + '';
+    const tail = (rc.length ? '<div class="rpl-note"><b>رسیدهای ارسال</b><br>' + rc.map(function (x) { return esc(lkDate(x.date)) + ' • ' + esc(x.to) + (x.note ? ' • ' + esc(x.note) : '') + (x.ack ? ' • تأیید گیرنده: ' + esc(lkDate(x.ack)) : ''); }).join('<br>') + '</div>' : '') + '';
     const foot = function (k, N) { return rplFoot(['کد کنترل نسخه ' + rplL(code), esc(r.street), 'نسخه‌ی ' + rplL(String(r.no))], k + 1, N); };
     rplPrint(await rplFlow({ top: top, head: head, units: trs, tail: tail, foot: foot }), slugFa(r.project) + '_' + slugFa(r.street) + '_صورت‌جلسه-نسخه' + r.no);
   }
@@ -6747,6 +6837,13 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     if (el.id === 'sfLayerMan') { const d0 = sfData(); if (d0.file) { d0.file.layerMan = el.value; markDirty(); render(); } return; }
     if (el.id === 'sfSort') { S.sf.sort = el.value; S.sf.page = 0; render(); return; }
     if (el.id === 'sfCols') { S.sf.cols = el.checked; render(); return; }
+    if (el.dataset.lkro !== undefined) {
+      const i = el.dataset.i, g = function (id) { const e2 = $('#' + id); return e2 ? e2.value.trim() : ''; }, o = lkRO(), k = el.dataset.lkro;
+      (S.lk.rin || (S.lk.rin = {}))[i] = { to: g('lkTo_' + i), note: g('lkRn_' + i) };
+      o[k] = el.checked; if (k === 'files' && !el.checked) o.fileHash = false; if (k === 'fileHash' && el.checked) o.files = true;
+      try { localStorage.setItem('roadstake:rcptOpts', JSON.stringify(o)); } catch (e2) { /* ignore */ }
+      render(); return;
+    }
     if (el.id === 'kyFile') { const f = el.files && el.files[0]; el.value = ''; if (f) kyImport(f); return; }
     if (el.id === 'lkVerify') { const f = el.files && el.files[0]; el.value = ''; if (f) lkVerifyFile(f); return; }
     if (el.id === 'cmpFile') { const f = el.files && el.files[0]; el.value = ''; if (f) sfCompare(f); return; }
@@ -7011,6 +7108,9 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
       case 'lkPdf': printLock(parseInt(b.dataset.i, 10)); break;
       case 'lkZip': lkZip(parseInt(b.dataset.i, 10)); break;
       case 'lkRcpt': lkRcpt(parseInt(b.dataset.i, 10)); break;
+      case 'lkRShare': lkRcptSend(parseInt(b.dataset.i, 10), 'share'); break;
+      case 'lkRCopy': lkRcptSend(parseInt(b.dataset.i, 10), 'copy'); break;
+      case 'lkAck': { const r = activeStreet().locks[parseInt(b.dataset.i, 10)], x = r && r.receipts[parseInt(b.dataset.j, 10)]; if (x) { x.ack = new Date().toISOString(); markDirty(); render(); toast('تأیید گیرنده ثبت شد.'); } break; }
       case 'cmpPdf': printCompare(); break;
       case 'mcAdd': {
         const F = S.mt.mcForm, cap = C.toNumber(F.cap);
@@ -7581,7 +7681,7 @@ tr.ab-high td:last-child { color: #1b7a3d; } tr.ab-low td:last-child { color: #c
     route();
   })();
 
-  window.__RS = { S: S, calc: calc, render: render, printTable: printTable };
+  window.__RS = { S: S, calc: calc, render: render, printTable: printTable, lkRcptText: lkRcptText };
 })();
 
 </script>
