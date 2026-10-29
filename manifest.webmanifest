@@ -1,6 +1,6 @@
 {
-  "name": "RoadStake",
-  "short_name": "RoadStake",
+  "name": "RoadStake UI",
+  "short_name": "RS UI",
   "description": "محاسبه مختصات محور و لبه‌های مسیر، شیب عرضی و قرائت شاخص نیوو",
   "lang": "fa",
   "dir": "rtl",
@@ -8,8 +8,8 @@
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0a1c2b",
-  "theme_color": "#0a1c2b",
+  "background_color": "#0b2a43",
+  "theme_color": "#0b2a43",
   "icons": [
     {
       "src": "icon-192.png",
